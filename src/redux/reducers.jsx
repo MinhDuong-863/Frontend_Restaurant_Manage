@@ -1,10 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
 // Import reducer từ slice
-import userSlice from './action/userSlice';
-
+import authenSlice from './action/authenSlice';
 
 const reducers = combineReducers({
-    user: userSlice
+    authen: authenSlice,
 });
 
 export default reducers;

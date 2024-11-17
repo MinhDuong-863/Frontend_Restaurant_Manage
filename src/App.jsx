@@ -1,17 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import { ConfigProvider, Spin } from 'antd';
-import { Outlet } from 'react-router-dom';
+import Home from './pages/Home/home';
+import { PATHS } from "./constant/path";
+import { Routes, Route } from "react-router-dom";
 
 const App = () => {
   // const [count, setCount] = useState(0)
 
   return (
-    <ConfigProvider>
-      <Outlet />
-    </ConfigProvider>
+    <Routes>
+      <Route path={PATHS.HOME.HOMEPAGE} element={<Home/>}/>
+    </Routes>
   )
 }
 
