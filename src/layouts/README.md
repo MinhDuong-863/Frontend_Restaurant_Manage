@@ -1,0 +1,1 @@
+chứa các thành phần layout như: header, footer, sider
