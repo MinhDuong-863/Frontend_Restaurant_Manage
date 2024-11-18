@@ -10,6 +10,9 @@ import { ConfigProvider } from 'antd';
 import InformationPage from './pages/Staff/InformationPage.jsx';
 import CalendarPage from './pages/Staff/CalendarPage.jsx';
 import SendMailPage from './pages/Staff/SendMailPage.jsx';
+import ManagerDashboard from './pages/Manager/DashBoard.jsx';
+import ManageStaff from './pages/Manager/ManageStaff.jsx';
+import ManageIngredient from './pages/Manager/ManageIngredient.jsx';
 const App = () => {
   // const [count, setCount] = useState(0)
 
@@ -34,6 +37,14 @@ const App = () => {
 
         </Route>
         <Route path={PATHS.MANAGER.DASHBOARD} element={<ManagerLayout />} >
+
+      </Route>
+      <Route path={PATHS.MANAGER.BASE} element={<ManagerLayout />}>
+        <Route index element={<ManagerDashboard />} />
+        <Route path="dashboard" element={<ManagerDashboard />} />
+        <Route path="staff" element={<ManageStaff />} />
+        <Route path="ingredient" element={<ManageIngredient/>} />
+      </Route>
 
         </Route>
       </Routes>
