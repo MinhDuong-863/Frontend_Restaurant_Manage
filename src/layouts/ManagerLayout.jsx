@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import { GoPeople } from "react-icons/go";
 import { FaUserCheck } from "react-icons/fa6";
-import { Button, Layout, Menu, theme } from 'antd';
+import { Button, Image, Layout, Menu, theme } from 'antd';
 import styles from './ManagerLayout.module.scss'; // Import file SCSS
 import { Outlet } from 'react-router-dom';
 
@@ -55,7 +55,10 @@ const ManagerLayout = () => {
     return (
         <Layout>
             <Sider theme='light' trigger={null} collapsible collapsed={collapsed}>
-                <div className={styles['demo-logo-vertical']} />
+                <div className={styles['demo-logo-vertical']} > <Image preview={false}
+                    width={"70%"}
+                    src="https://res.cloudinary.com/utejobhub/image/upload/v1731935499/cnpm/qaii6wychx5fvndgappu.svg"
+                /></div>
                 <Menu
                     theme="light"
                     mode="inline"
