@@ -10,7 +10,7 @@ import {
 import { GoPeople } from "react-icons/go";
 import { FaUserCheck } from "react-icons/fa6";
 import { Button, Layout, Menu, theme } from 'antd';
-import styles from './AdminLayout.module.scss'; // Import file SCSS
+import styles from './StaffLayout.module.scss'; // Import file SCSS
 import { Outlet } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
@@ -46,7 +46,7 @@ const items = [
         label: 'Đăng xuất',
     }
 ];
-const AdminLayout = () => {
+const StaffLayout = () => {
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer, borderRadiusLG },
@@ -88,4 +88,4 @@ const AdminLayout = () => {
     );
 };
 
-export default AdminLayout;
+export default StaffLayout;
