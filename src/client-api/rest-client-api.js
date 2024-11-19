@@ -6,6 +6,7 @@ class RestClient {
     token = null;
 
     async config(url) {
+
         // Cấu hình axios với URL cơ bản
         this.client = axios.create({
             baseURL: url,
@@ -16,6 +17,7 @@ class RestClient {
 
         // Thiết lập interceptor để thêm token vào mỗi yêu cầu
         this.client.interceptors.request.use(
+
             config => {
                 if (this.token) {
                     config.headers['Authorization'] = `Bearer ${this.token}`;
@@ -45,14 +47,10 @@ class RestClient {
                             return axiosInstance(originalRequest);
                         }
                         else {
-                            localToken.remove();
-                            localUser.remove();
                             window.location.href = PATHS.HOME.LOGIN;
                             message.error(res?.data?.EM || "Có lỗi xảy ra");
                         }
                     } catch (error) {
-                        localToken.remove();
-                        localUser.remove();
                         window.location.href = PATHS.HOME.LOGIN;
                         message.error("Có lỗi xảy ra");
                     }
@@ -70,6 +68,26 @@ class RestClient {
     }
 
     // Phương thức đăng nhập để lấy token
+    async authenticate(credentials) {
+        try {
+            const response = await this.client.post('/login', credentials);
+            console.log(response);
+            return response;
+        } catch (error) {
+            console.error('Error in AUTHENTICATION:', error);
+            throw error;
+        }
+    }
+    async logout() {
+        try {
+            const response = await this.client.post('/users/logout');
+            console.log(response);
+            return response;
+        } catch (error) {
+            console.error('Error in AUTHENTICATION:', error);
+            throw error;
+        }
+    }
     async authenticate(credentials) {
         try {
             const response = await this.client.post('/login', credentials);
@@ -144,7 +162,8 @@ class RestClient {
         }
     }
 
-    service(path) {
+    service(path, token = null) {
+        this.token = token
         this.path = path;
         return this;
     }

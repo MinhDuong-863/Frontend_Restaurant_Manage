@@ -9,12 +9,15 @@
 }
 
 .header-layout {
-    padding   : 0 !important;
     background: $bg-color;
     position  : sticky;
     top       : 0;
     z-index   : 2;
     width     : 100%;
+
+    .user-name {
+        font-weight: 600;
+    }
 
     .custom-header-button {
         font-size: 16px;

@@ -18,6 +18,7 @@ const Login = () => {
                 console.log(response);
                 if (response.EC === 0) {
                     // set token vào redux, refresh token vào cookies
+                    console.log(response.DT.accessToken, response.DT.user);
                     dispatch(login({ token: response.DT.accessToken, user: response.DT.user }));
                     // document.cookie = `refreshToken=${response.data.DT.refreshToken}`;
                     message.success('Đăng nhập thành công');

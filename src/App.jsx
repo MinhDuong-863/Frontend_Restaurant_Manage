@@ -7,6 +7,7 @@ import AdminLayout from './layouts/AdminLayout.jsx';
 import StaffLayout from './layouts/StaffLayout.jsx';
 import ManagerLayout from './layouts/ManagerLayout.jsx';
 import { ConfigProvider } from 'antd';
+import InformationPage from './pages/Staff/InformationPage.jsx';
 const App = () => {
   // const [count, setCount] = useState(0)
 
@@ -22,9 +23,9 @@ const App = () => {
         <Route path={PATHS.HOME.HOMEPAGE} element={<Home />} />
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
         <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminLayout />} >
-
         </Route>
-        <Route path={PATHS.STAFF.DASHBOARD} element={<StaffLayout />} >
+        <Route path={PATHS.STAFF.INFORMATION} element={<StaffLayout />} >
+          <Route index element={<InformationPage />} />
 
 
         </Route>

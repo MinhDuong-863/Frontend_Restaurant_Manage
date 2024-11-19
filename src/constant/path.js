@@ -9,7 +9,8 @@ export const PATHS = {
         // REPORT: "/admin/report",
     },
     STAFF: {
-        DASHBOARD: "/staff",
+        // DASHBOARD: "/staff/information",
+        INFORMATION: "/staff/information",
         // ORDER: "/staff/order",
         // FOOD: "/staff/food",
         // CATEGORY: "/staff/category",
@@ -24,6 +25,6 @@ export const PATHS = {
     HOME: {
         HOMEPAGE: "/",
         LOGIN: "/login",
-        LOGOUT: "/logout",
+        LOGOUT: "/user/logout",
     }
 }

@@ -18,12 +18,12 @@ const { Header, Sider, Content } = Layout;
 const siderStyle = {
     overflow: 'auto',
     height: '100vh',
-    position: 'fixed',
+    position: 'sticky',
     insetInlineStart: 0,
     top: 0,
     bottom: 0,
     scrollbarWidth: 'thin',
-    scrollbarGutter: 'stable',
+    scrollbarColor: 'unset',
 };
 const items = [
     {
@@ -77,7 +77,7 @@ const ManagerLayout = () => {
                     items={items}
                 />
             </Sider>
-            <Layout style={{ marginInlineStart: 200, scrollbarWidth: "thin" }}>
+            <Layout style={{ marginInlineStart: 0, scrollbarWidth: "thin" }}>
                 <Header
                     className={styles['header-layout']}
                 >

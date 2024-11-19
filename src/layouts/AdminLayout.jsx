@@ -18,12 +18,12 @@ const { Header, Sider, Content } = Layout;
 const siderStyle = {
     overflow: 'auto',
     height: '100vh',
-    position: 'fixed',
+    position: 'sticky',
     insetInlineStart: 0,
     top: 0,
     bottom: 0,
     scrollbarWidth: 'thin',
-    scrollbarGutter: 'stable',
+    scrollbarColor: 'unset',
 };
 const items = [
     {
@@ -65,7 +65,7 @@ const AdminLayout = () => {
 
     return (
         <Layout>
-            <Sider style={siderStyle} theme='light' trigger={null} collapsible collapsed={collapsed}>
+            <Sider width={215} style={siderStyle} theme='light' trigger={null} collapsible collapsed={collapsed}>
                 <div className={styles['demo-logo-vertical']} > <Image preview={false}
                     width={"80%"}
                     src="https://res.cloudinary.com/dup39fo44/image/upload/v1731979004/Restaurant-Management/kngprvirnnw6znrbkgz0.svg"
@@ -77,7 +77,7 @@ const AdminLayout = () => {
                     items={items}
                 />
             </Sider>
-            <Layout style={{ marginInlineStart: 200, scrollbarWidth: "thin" }}>
+            <Layout style={{ marginInlineStart: 0, scrollbarWidth: "thin" }}>
                 <Header
                     className={styles['header-layout']}
                 >
