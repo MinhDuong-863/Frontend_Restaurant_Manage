@@ -56,8 +56,8 @@ const AdminLayout = () => {
         <Layout>
             <Sider theme='light' trigger={null} collapsible collapsed={collapsed}>
                 <div className={styles['demo-logo-vertical']} > <Image preview={false}
-                    width={"70%"}
-                    src="https://res.cloudinary.com/utejobhub/image/upload/v1731935499/cnpm/qaii6wychx5fvndgappu.svg"
+                    width={"80%"}
+                    src="https://res.cloudinary.com/dup39fo44/image/upload/v1731979004/Restaurant-Management/kngprvirnnw6znrbkgz0.svg"
                 /></div>
                 <Menu
                     theme="light"
