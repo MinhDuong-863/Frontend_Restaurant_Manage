@@ -27,7 +27,7 @@ const Login = () => {
                         naviagte(PATHS.ADMIN.DASHBOARD);
                     }
                     else if (response.DT.user.role === 'staff') {
-                        naviagte(PATHS.STAFF.DASHBOARD);
+                        naviagte(PATHS.STAFF.INFORMATION);
                     }
                     else if (response.DT.user.role === 'manager') {
                         naviagte(PATHS.MANAGER.DASHBOARD);

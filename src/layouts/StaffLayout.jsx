@@ -111,8 +111,8 @@ const StaffLayout = () => {
         <Layout>
             <Sider style={siderStyle} width={215} theme='light' trigger={null} collapsible collapsed={collapsed}>
                 <div className={styles['demo-logo-vertical']} > <Image preview={false}
-                    width={"80%"}
-                    src="https://res.cloudinary.com/dup39fo44/image/upload/v1731979004/Restaurant-Management/kngprvirnnw6znrbkgz0.svg"
+                    width={"100%"}
+                    src="https://res.cloudinary.com/dup39fo44/image/upload/v1732023125/image/qp96r8yjyefqhm4zah3g.png"
                 /></div>
                 <Menu
                     theme="light"
@@ -124,7 +124,7 @@ const StaffLayout = () => {
                     items={items}
                 />
             </Sider>
-            <Layout style={{ marginInlineStart: 0, scrollbarWidth: "thin" }}>
+            <Layout style={{ marginInlineStart: 0 }}>
                 <Header
                     className={styles['header-layout']}
                 >
@@ -143,7 +143,6 @@ const StaffLayout = () => {
                 </Header>
                 <Content
                     style={{
-                        overflow: 'initial',
                         background: colorBgContainer,
                         borderRadius: borderRadiusLG,
                     }}

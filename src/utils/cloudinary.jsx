@@ -44,6 +44,31 @@ export const uploadToCloudinary = async (file, folder, onProgress) => {
         throw error;  // Ném lỗi để xử lý ở nơi gọi
     }
 };
+export const deleteImageFromCloudinaryByLink = async (link) => {
+    const publicId = "image" + "/" + link.split('/').pop().split('.')[0];
+    const timestamp = Math.floor(Date.now() / 1000);
+    const signature = generateSignatureDelete(publicId, timestamp);
+    try {
+        const response = await axios.post(
+            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/destroy`,
+            {
+                public_id: publicId,
+                api_key: CLOUDINARY_API_KEY,
+                timestamp: timestamp,
+                signature: signature,
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Lỗi khi xóa ảnh cũ từ Cloudinary:", error.response?.data || error.message);
+        throw error;
+    }
+};
 // Hàm xóa ảnh từ Cloudinary
 const deleteImageFromCloudinary = async (publicId) => {
     const timestamp = Math.floor(Date.now() / 1000);

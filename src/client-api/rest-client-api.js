@@ -1,5 +1,7 @@
+import { message } from 'antd';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { PATHS } from '../constant/path';
 
 class RestClient {
     path = '';
@@ -142,9 +144,9 @@ class RestClient {
         }
     }
 
-    async patch(objectId, data) {
+    async put(objectId, data) {
         try {
-            const response = await this.client.patch(`${this.path}/${objectId}`, data);
+            const response = await this.client.put(`${this.path}/${objectId}`, data);
             return response;
         } catch (error) {
             console.error('Error in PATCH:', error);

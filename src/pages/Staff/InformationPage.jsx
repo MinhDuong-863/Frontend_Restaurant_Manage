@@ -1,14 +1,41 @@
-import { Avatar, Button, Card, Col, Flex, Form, Input, Row, Typography } from "antd";
+import { Avatar, Button, Card, Col, Flex, Form, Input, message, Row, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import clientApi from "../../client-api/rest-client-api.js";
+import { useDispatch, useSelector } from "react-redux";
+import { setInformation } from "../../redux/action/authenSlice.jsx";
+import UploadImage from "../../components/UploadImage.jsx";
+import { deleteImageFromCloudinaryByLink } from "../../utils/cloudinary.jsx";
 const { Title, Text } = Typography;
 const InformationPage = () => {
     const inforUser = useSelector(state => state.authen.user);
+    const dispatch = useDispatch();
+    const token = useSelector(state => state.authen.token);
+    const [imageUploaded, setImageUploaded] = useState(null);
     const [form] = Form.useForm();
     const [disabled, setDisabled] = useState(true);
     const onFinish = (values) => {
-        console.log('Success:', values);
+        console.log(values);
+        clientApi.service('users/profile', token).put('', values).then(res => {
+            if (res.EC === 0) {
+                message.success(res.EM);
+                deleteImageFromCloudinaryByLink(inforUser.avatar);
+                dispatch(setInformation(res.DT));
+                setDisabled(true);
+            }
+        }).catch(err => {
+            console.log(err);
+        });
     }
+    const handleReset = () => {
+        form.resetFields();
+        setDisabled(true);
+        // Xoá ảnh đã upload lên Cloudinary nhưng không thực hiện cập nhật vào DB
+        deleteImageFromCloudinaryByLink(imageUploaded);
+        setImageUploaded(null)
+    };
+    useEffect(() => {
+        console.log("imageUploaded: ", imageUploaded);
+    }, [imageUploaded]);
     return (
         <Card
             title={<Flex align="center" justify="center"><Title level={3}>Thông tin cá nhân</Title></Flex>}
@@ -17,7 +44,7 @@ const InformationPage = () => {
             <Form
                 style={{ fontWeight: 600 }}
                 onChange={() => form.isFieldsTouched(true) ? setDisabled(true) : setDisabled(false)}
-                onReset={() => { form.resetFields(); setDisabled(true) }}
+                onReset={handleReset}
                 form={form}
                 layout="vertical"
                 initialValues={inforUser}
@@ -27,10 +54,20 @@ const InformationPage = () => {
 
                 <Flex justify="center">
                     <Form.Item name="avatar">
-                        <Avatar size={200} src={inforUser?.avatar} />
+                        <UploadImage src={inforUser?.avatar} setSrc={(url) => { form.setFieldsValue({ avatar: url }); setImageUploaded(url) }} />
                     </Form.Item>
                 </Flex>
                 <Row gutter={16}>
+                    <Col span={24}>
+                        <Form.Item
+                            layout="horizontal"
+                            label="Vai trò"
+                        >
+                            <Text style={{ fontWeight: 800 }}>
+                                {"Nhân viên"}
+                            </Text>
+                        </Form.Item>
+                    </Col>
                     <Col span={12}>
                         <Form.Item
                             label="Họ"
@@ -80,26 +117,16 @@ const InformationPage = () => {
                             <Input />
                         </Form.Item>
                     </Col>
-                    <Col span={12}>
-                        <Form.Item
-                            layout="horizontal"
-                            label="Vai trò"
-                        >
-                            <Text style={{ fontWeight: 800 }}>
-                                {"Nhân viên"}
-                            </Text>
-                        </Form.Item>
-                    </Col>
+
                 </Row>
                 <Flex justify="end" gap={8}>
                     <Form.Item>
                         <Button type="default" htmlType="reset">Hủy</Button>
                     </Form.Item>
                     <Form.Item>
-                        <Button disabled={disabled} type="primary" htmlType="submit">Cập nhật thông tin</Button>
+                        <Button disabled={disabled} type="primary" htmlType="submit">Cập nhật</Button>
                     </Form.Item>
                 </Flex>
-
             </Form>
         </Card >
 
