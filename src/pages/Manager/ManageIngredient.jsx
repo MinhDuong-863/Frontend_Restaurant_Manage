@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { CiImport, CiExport } from "react-icons/ci";
+import { getAllIngredientApi } from '../../services/apiService';
 import { 
   Layout, 
   Row, 
@@ -12,7 +14,8 @@ import {
   Select,
   Table,
   Tag,
-  message
+  message,
+  Upload
 } from 'antd';
 import { 
   PieChart, 
@@ -29,26 +32,69 @@ import {
   DatabaseOutlined, 
   StockOutlined, 
   AlertOutlined,
-  PlusOutlined
+  PlusOutlined,
+  DownloadOutlined,
+  UploadOutlined,
+  EditOutlined,
+  DeleteOutlined
 } from '@ant-design/icons';
+import * as XLSX from 'xlsx';
 
 const { Option } = Select;
 
 const ManageIngredient = () => {
-  const [materials, setMaterials] = useState([
-    { id: 1, name: 'Gạo', quantity: 500, total: 1000, status: 'Đủ', category: 'Nguyên Liệu Chính' },
-    { id: 2, name: 'Thịt heo', quantity: 150, total: 500, status: 'Thấp', category: 'Protein' },
-    { id: 3, name: 'Rau', quantity: 80, total: 200, status: 'Thấp', category: 'Rau Và Củ' },
-    { id: 4, name: 'Nước Mắm', quantity: 30, total: 50, status: 'Thấp', category: 'Gia Vị' },
-  ]);
-
+  const [materials, setMaterials] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [totalIngredients, setTotalIngredients] = useState(0);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 5, // Số lượng bản ghi trên mỗi trang
+    total: 0,    // Tổng số bản ghi (lấy từ API)
+  });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentMaterial, setCurrentMaterial] = useState(null);
   const [form] = Form.useForm();
 
   const totalMaterials = materials.length;
   const lowStockMaterials = materials.filter(m => m.status === 'Thấp').length;
+  const getAllIngredient= async () => {
+    try {
+      setLoading(true);
+      const params={
+        page: pagination.current,
+        pageSize: pagination.pageSize
+      }
+      const response = await getAllIngredientApi(params);
+       const ingredientList = response?.DT?.docs || [];
+      setTotalIngredients(response.DT.totalDocs);
+      const formattedData = ingredientList.map((ingredient) => ({
+        id: ingredient.id,
+        name: ingredient.name,
+        inventory: ingredient.inventory,
+        unit: ingredient.unit,
+        category: ingredient.type,
+        status: ingredient.status === 'active' ? 'Đủ' : 'Thấp',
+      }));
+      setPagination({
+        ...pagination,
+        current: response?.DT?.page,
+        total: response?.DT?.totalPages || 0,
+        pageSize: response?.DT?.limit || 10,
+      });
+      setMaterials(formattedData);
+    } catch (error) {
+      message.error('Failed to load ingredient data');
+    }finally{
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getAllIngredient(pagination.current, pagination.pageSize);
+  }, []);
 
+  const handleTableChange = (pagination) => {
+    getAllIngredient(pagination.current, pagination.pageSize);
+  };
   const pieData = materials.map(m => ({
     name: m.name,
     value: (m.quantity / m.total) * 100
@@ -80,17 +126,27 @@ const ManageIngredient = () => {
       dataIndex: 'name',
       key: 'name',
       width: 150,
+      render: (text) => <strong>{text}</strong>
     },
     {
       title: 'Danh Mục',
       dataIndex: 'category',
       key: 'category',
       width: 150,
+      render: (category) => <Tag color="processing">{category}</Tag>
     },
     {
       title: 'Số Lượng',
-      key: 'quantity',
-      render: (record) => `${record.quantity}/${record.total}`,
+      key: 'inventory',
+      render: (record) => (
+        <div>
+         <div>
+        <span style={{ color: record.inventory < 10 ? 'red' : 'green' }}>
+            {record.inventory}
+        </span>
+    </div>
+        </div>
+      ),
       width: 120,
     },
     {
@@ -98,27 +154,64 @@ const ManageIngredient = () => {
       dataIndex: 'status',
       key: 'status',
       width: 120,
-      render: (status) => (
-        <Tag color={status === 'Thấp' ? 'red' : 'green'}>{status}</Tag>
-      )
+      render: (_, record) => {
+        // Xác định trạng thái dựa trên số lượng
+        const status = record.inventory < 10 ? 'Thấp' : 'Đủ';
+        return (
+          <Tag color={status === 'Thấp' ? 'error' : 'success'}>
+            {status}
+          </Tag>
+        );
+      },
     },
     {
-      title: 'Hành Động',
       key: 'actions',
-      width: 120,
+      width: 150,
       render: (record) => (
-        <Button 
-          type="primary" 
-          ghost 
-          size="small"
-          onClick={() => {
-            setCurrentMaterial(record);
-            form.setFieldsValue(record);
-            setIsModalVisible(true);
-          }}
-        >
-          Cập Nhật
-        </Button>
+        <div>
+          <Button 
+            type="primary" 
+            ghost 
+            size="small"
+            icon={<EditOutlined />} 
+            style={{ marginRight: 8 }}
+            onClick={() => {
+              setCurrentMaterial(record);
+              form.setFieldsValue(record);
+              setIsModalVisible(true);
+            }}
+          >
+          </Button>
+          <Button 
+            size="small"
+            icon={<CiImport />}
+            style={{ marginRight: 8 }} 
+            onClick={() => {
+              // Implement import logic
+            }}
+          />
+          <Button 
+          type='default'
+            size="small"
+            icon={<CiExport />}
+            style={{ marginRight: 8 }} 
+            onClick={() => {
+              // Implement export logic
+            }}
+          />
+          <Button 
+            type="default" 
+            size="small"
+            style={{ marginRight: 8 }} 
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              setMaterials(materials.filter(m => m.id !== record.id));
+              message.success(`Xóa ${record.name} thành công`);
+            }}
+          >
+          </Button>
+        </div>
       )
     }
   ];
@@ -158,7 +251,6 @@ const ManageIngredient = () => {
       message.error('Vui lòng kiểm tra lại thông tin');
     });
   };
-
   return (
     <Layout style={{ 
       background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
@@ -173,31 +265,51 @@ const ManageIngredient = () => {
         <Row gutter={[16, 16]}>
           {/* Thống kê */}
           <Col xs={24} sm={12} lg={8}>
-            <Card hoverable>
+            <Card 
+              hoverable 
+              style={{ 
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+                color: 'white' 
+              }}
+            >
               <Statistic
-                title="Tổng Số Nguyên Liệu"
-                value={totalMaterials}
-                prefix={<DatabaseOutlined />}
+                title={<span style={{color: 'white'}}>Tổng Số Nguyên Liệu</span>}
+                value={totalIngredients}
+                prefix={<DatabaseOutlined style={{color: 'white'}} />}
+                valueStyle={{color: 'white'}}
               />
             </Card>
           </Col>
           <Col xs={24} sm={12} lg={8}>
-            <Card hoverable>
+            <Card 
+              hoverable 
+              style={{ 
+                background: 'linear-gradient(135deg, #ff6b6b 0%, #ff9a9a 100%)', 
+                color: 'white' 
+              }}
+            >
               <Statistic
-                title="Nguyên Liệu Cạn Kho"
+                title={<span style={{color: 'white'}}>Nguyên Liệu Cạn Kho</span>}
                 value={lowStockMaterials}
-                prefix={<AlertOutlined />}
-                valueStyle={{ color: lowStockMaterials > 0 ? 'red' : 'green' }}
+                prefix={<AlertOutlined style={{color: 'white'}} />}
+                valueStyle={{ color: lowStockMaterials > 0 ? 'yellow' : 'white' }}
               />
             </Card>
           </Col>
           <Col xs={24} sm={24} lg={8}>
-            <Card hoverable>
+            <Card 
+              hoverable 
+              style={{ 
+                background: 'linear-gradient(135deg, #4fcf70 0%, #4fcf70 100%)', 
+                color: 'white' 
+              }}
+            >
               <Statistic
-                title="Tỷ Lệ Tồn Kho"
+                title={<span style={{color: 'white'}}>Tỷ Lệ Tồn Kho</span>}
                 value={Math.round((1 - lowStockMaterials / totalMaterials) * 100)}
                 suffix="%"
-                prefix={<StockOutlined />}
+                prefix={<StockOutlined style={{color: 'white'}} />}
+                valueStyle={{color: 'white'}}
               />
             </Card>
           </Col>
@@ -266,11 +378,16 @@ const ManageIngredient = () => {
                 columns={tableColumns} 
                 dataSource={materials} 
                 rowKey="id"
-                scroll={{ x: 600, y: 300 }}  // Thêm khả năng cuộn ngang và dọc
-                pagination={{ 
-                  pageSize: 5,  // Giới hạn số dòng trên mỗi trang
-                  showSizeChanger: false 
+                scroll={{ x: 600, y: 300 }}
+                pagination={{
+                  current: pagination.current,
+                  pageSize: pagination.pageSize,
+                  total: pagination.total,
+                  showSizeChanger: true,
+                  pageSizeOptions: ['5', '10', '20'],
                 }}
+                loading={loading}
+                onChange={handleTableChange}
               />
             </Card>
           </Col>
@@ -308,23 +425,28 @@ const ManageIngredient = () => {
             </Form.Item>
             <Form.Item 
               name="total" 
-              label="Tổng Số Lượng"
-              rules={[{ required: true, message: 'Nhập tổng số lượng' }]}
+              label="Tổng Số Lượng" 
+              rules={[
+                { required: true, message: 'Nhập tổng số lượng' },
+                { type: 'number', min: 1, message: 'Nhập số lượng hợp lệ' }
+              ]}
             >
               <Input type="number" placeholder="Nhập tổng số lượng" />
             </Form.Item>
             <Form.Item 
               name="quantity" 
-              label="Số Lượng Hiện Tại"
-              rules={[{ required: true, message: 'Nhập số lượng' }]}
+              label="Số Lượng Hiện Tại" 
+              rules={[
+                { required: true, message: 'Nhập số lượng hiện tại' },
+                { type: 'number', min: 0, message: 'Nhập số lượng hợp lệ' }
+              ]}
             >
-              <Input type="number" placeholder="Nhập số lượng" />
+              <Input type="number" placeholder="Nhập số lượng hiện tại" />
             </Form.Item>
           </Form>
         </Modal>
       </div>
     </Layout>
   );
-};
-
+}
 export default ManageIngredient;

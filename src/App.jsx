@@ -46,9 +46,9 @@ const App = () => {
         <Route path="ingredient" element={<ManageIngredient/>} />
       </Route>
 
-        </Route>
       </Routes>
     </ConfigProvider>
+
   )
 }
 
