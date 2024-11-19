@@ -1,0 +1,22 @@
+.layout {
+    height: 100vh; /* Chiều cao toàn màn hình */
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    position: fixed; /* Header nổi lên trên */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Đảm bảo header luôn nổi trên content */
+    background: #ffffff; /* Màu nền để che nội dung bên dưới */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng cho header */
+}
+
+.content {
+    margin-top: 64px; /* Đẩy content xuống dưới, bằng chiều cao của header */
+    overflow: auto; /* Cuộn nếu nội dung quá dài */
+    padding: 20px; /* Khoảng cách nội dung */
+    background: #f5f5f5; /* Màu nền */
+}

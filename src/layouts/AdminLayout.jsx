@@ -11,9 +11,10 @@ import { GoPeople } from "react-icons/go";
 import { FaUserCheck } from "react-icons/fa6";
 import { Button, Image, Layout, Menu, message, theme } from 'antd';
 import styles from './AdminLayout.module.scss'; // Import file SCSS
-import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/action/authenSlice';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { PATHS } from '../constant/path';
 
 const { Header, Sider, Content } = Layout;
 
@@ -30,7 +31,7 @@ const siderStyle = {
 const items = [
     {
         key: '1',
-        icon: <DashboardOutlined />,
+        icon: <i className="fa-solid fa-chart-pie"></i>,
         label: 'Thống kê, báo cáo',
     },
     {
@@ -46,7 +47,7 @@ const items = [
     {
         key: '4',
         icon: <GoPeople />,
-        label: 'Quản lý nhân viên',
+        label:  (<NavLink to={PATHS.ADMIN.STAFF}>Quản lý nhân viên</NavLink>),
     },
     {
         key: '5',
@@ -55,6 +56,11 @@ const items = [
     },
     {
         key: '6',
+        icon: <i className="fa-solid fa-ticket-simple"></i>,
+        label: (<NavLink to={PATHS.ADMIN.PROMOTION}>Quản lý khuyến mại</NavLink>),
+    },
+    {
+        key: '7',
         icon: <LogoutOutlined />,
         label: 'Đăng xuất',
     }

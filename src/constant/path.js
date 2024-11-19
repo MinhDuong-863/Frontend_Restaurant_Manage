@@ -2,6 +2,8 @@
 export const PATHS = {
     ADMIN: {
         DASHBOARD: "/admin",
+        PROMOTION: "/admin/promotion",
+        STAFF: "/admin/staff",
         // USER: "/admin/user",
         // CATEGORY: "/admin/category",
         // FOOD: "/admin/food",
