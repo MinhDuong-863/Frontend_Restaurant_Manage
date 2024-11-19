@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   width: 100vw; /* Full chiều rộng viewport */
-  height: 100vh; /* Full chiều cao viewport */
+  height: 100%; /* Full chiều cao viewport */
   box-sizing: border-box; /* Đảm bảo padding không ảnh hưởng đến kích thước */
 }
 
@@ -11,11 +11,13 @@ body {
   margin: 0;
   padding: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex; /* Giúp nội dung child có thể điều chỉnh theo chiều cao */
   flex-direction: column;
   box-sizing: border-box;
   overflow: hidden; /* Tránh thanh cuộn không cần thiết */
+  overflow: auto; /* Tránh thanh cuộn không cần thiết */
+  scrollbar-width: thin; /* Kích thước thanh cuộn */
 }
 #root {
   max-width: 100%;
