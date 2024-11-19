@@ -1,11 +1,13 @@
 import './App.css'
-import Home from './pages/Home/home';
 import { PATHS } from "./constant/path";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from './pages/Login.jsx';
 import AdminLayout from './layouts/AdminLayout.jsx';
 import StaffLayout from './layouts/StaffLayout.jsx';
 import ManagerLayout from './layouts/ManagerLayout.jsx';
+import AdminPromotion from './pages/Admin/pages/Promotion/adminPromotion.jsx';
+import UserLayout from './layouts/UserLayout.jsx';
+import HomePages from './pages/Home/pages/homePage/homePages.jsx';
 import { ConfigProvider } from 'antd';
 import InformationPage from './pages/Staff/InformationPage.jsx';
 import CalendarPage from './pages/Staff/CalendarPage.jsx';
@@ -25,10 +27,13 @@ const App = () => {
       }
     }>
       <Routes>
-        <Route path={PATHS.HOME.HOMEPAGE} element={<Home />} />
-        <Route path={PATHS.HOME.LOGIN} element={<Login />} />
-        <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminLayout />} >
+        <Route element={<UserLayout />}>
+          <Route path={PATHS.HOME.HOMEPAGE} element={<HomePages />} />
         </Route>
+        <Route path={PATHS.HOME.LOGIN} element={<Login />} />
+      <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminLayout />} >
+          <Route path={PATHS.ADMIN.PROMOTION} element={<AdminPromotion />} />
+      </Route>
         <Route path={"/staff"} element={<StaffLayout />} >
           <Route index element={<Navigate to={PATHS.STAFF.INFORMATION} replace />} />
           <Route path={PATHS.STAFF.INFORMATION} element={<InformationPage />} />

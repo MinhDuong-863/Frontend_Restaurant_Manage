@@ -1,0 +1,49 @@
+.user-header{
+    padding: 10px 50px;
+
+    .user-header-content{
+        background-color: white;
+        height: 5em;
+        border-radius: 10px;
+        box-shadow: 4px 4px 8px #e6eaeb, -4px -4px 8px #e6eaeb;
+        padding: 0 20px;    
+
+        img {
+            width: 70%;
+            margin-top: -10px;
+        }
+
+        .reservation-button{
+            background-color: #F39C12;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            width: 60%;
+            height: 60%;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: #192F33;
+            transition: all 0.4s ease;
+
+            &:hover{
+                background-color: #FFA813;
+                height: 61%;
+                width: 62%;
+            }
+        }
+
+        .header-item{
+            font-weight: 600;
+
+            &:hover{
+                color: #F39C12;
+                cursor: pointer;
+                font-size: 15px;
+                transition: all 0.1s ease;
+                font-weight: 700;
+            }
+        }
+    }
+}

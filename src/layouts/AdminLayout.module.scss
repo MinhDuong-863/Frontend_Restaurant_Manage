@@ -1,7 +1,7 @@
 @import "../style/variables.scss";
 
 .demo-logo-vertical {
-    background-color: rgba(255, 255, 255, 0.919);
+    background-color: #FCFCFC;
     height          : 8rem;
     display         : flex;
     justify-content : center;
@@ -28,4 +28,5 @@
     margin    : 24px !important;
     padding   : 24px !important;
     min-height: 100vh;
+    background: #FCFCFC !important;
 }
