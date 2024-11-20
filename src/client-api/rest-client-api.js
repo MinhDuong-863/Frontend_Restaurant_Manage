@@ -1,14 +1,25 @@
 import { message } from 'antd';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import { PATHS } from '../constant/path';
 
 class RestClient {
     path = '';
     token = null;
 
-    async config(url) {
+    // Phương thức để thiết lập token mới
+    setToken(newToken) {
+        this.token = newToken; // Lưu token vào class nếu cần
+        localStorage.setItem('token', newToken); // Cập nhật token vào localStorage
+    }
 
+    // Phương thức để xóa token (khi logout)
+    clearToken() {
+        this.token = null; // Xóa token trong class
+        localStorage.removeItem('token'); // Xóa token khỏi localStorage
+    }
+
+    async config(url) {
+        this.token = localStorage.getItem('token');
         // Cấu hình axios với URL cơ bản
         this.client = axios.create({
             baseURL: url,
@@ -19,8 +30,8 @@ class RestClient {
 
         // Thiết lập interceptor để thêm token vào mỗi yêu cầu
         this.client.interceptors.request.use(
-
             config => {
+                this.token = localStorage.getItem('token');
                 if (this.token) {
                     config.headers['Authorization'] = `Bearer ${this.token}`;
                 }
@@ -42,7 +53,7 @@ class RestClient {
                         const res = await axiosInstance.get("/refreshToken");
                         if (res?.data?.EC === 0) {
                             let newToken = res.data.DT;
-                            localToken.set(newToken);
+                            this.setToken(newToken);
                             // Thay đổi token trong header của yêu cầu ban đầu
                             originalRequest.headers.Authorization = `Bearer ${newToken}`;
                             // Gọi lại yêu cầu ban đầu với token mới
@@ -90,16 +101,7 @@ class RestClient {
             throw error;
         }
     }
-    async authenticate(credentials) {
-        try {
-            const response = await this.client.post('/login', credentials);
-            console.log(response);
-            return response;
-        } catch (error) {
-            console.error('Error in AUTHENTICATION:', error);
-            throw error;
-        }
-    }
+
 
     // Phương thức để làm mới token khi hết hạn
     async reAuthenticate(refreshToken) {
@@ -164,8 +166,7 @@ class RestClient {
         }
     }
 
-    service(path, token = null) {
-        this.token = token
+    service(path) {
         this.path = path;
         return this;
     }

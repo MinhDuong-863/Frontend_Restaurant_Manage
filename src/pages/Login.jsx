@@ -19,14 +19,16 @@ const Login = () => {
                 if (response.EC === 0) {
                     // set token vào redux, refresh token vào cookies
                     console.log(response.DT.accessToken, response.DT.user);
+                    localStorage.setItem('token', response.DT.accessToken);
                     dispatch(login({ token: response.DT.accessToken, user: response.DT.user }));
-                    // document.cookie = `refreshToken=${response.data.DT.refreshToken}`;
+                    document.cookie = `refreshToken=${response.DT.refreshToken}`;
                     message.success('Đăng nhập thành công');
                     //check role chuyển trang  
                     if (response.DT.user.role === 'admin') {
                         naviagte(PATHS.ADMIN.DASHBOARD);
                     }
                     else if (response.DT.user.role === 'staff') {
+
                         naviagte(PATHS.STAFF.INFORMATION);
                     }
                     else if (response.DT.user.role === 'manager') {

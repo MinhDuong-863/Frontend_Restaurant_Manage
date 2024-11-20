@@ -1,13 +1,15 @@
 import './App.css'
 import Home from './pages/Home/home';
 import { PATHS } from "./constant/path";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from './pages/Login.jsx';
 import AdminLayout from './layouts/AdminLayout.jsx';
 import StaffLayout from './layouts/StaffLayout.jsx';
 import ManagerLayout from './layouts/ManagerLayout.jsx';
 import { ConfigProvider } from 'antd';
 import InformationPage from './pages/Staff/InformationPage.jsx';
+import CalendarPage from './pages/Staff/CalendarPage.jsx';
+import SendMailPage from './pages/Staff/SendMailPage.jsx';
 const App = () => {
   // const [count, setCount] = useState(0)
 
@@ -24,9 +26,11 @@ const App = () => {
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
         <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminLayout />} >
         </Route>
-        <Route path={PATHS.STAFF.INFORMATION} element={<StaffLayout />} >
-          <Route index element={<InformationPage />} />
-
+        <Route path={"/staff"} element={<StaffLayout />} >
+          <Route index element={<Navigate to={PATHS.STAFF.INFORMATION} replace />} />
+          <Route path={PATHS.STAFF.INFORMATION} element={<InformationPage />} />
+          <Route path={PATHS.STAFF.CALENDAR} element={<CalendarPage />} />
+          <Route path={PATHS.STAFF.OFF} element={<SendMailPage />} />
 
         </Route>
         <Route path={PATHS.MANAGER.DASHBOARD} element={<ManagerLayout />} >

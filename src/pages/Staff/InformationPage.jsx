@@ -1,21 +1,22 @@
-import { Avatar, Button, Card, Col, Flex, Form, Input, message, Row, Typography } from "antd";
+import { Button, Card, Col, Flex, Form, Input, message, Row, Typography } from "antd";
 import { useEffect, useState } from "react";
 import clientApi from "../../client-api/rest-client-api.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setInformation } from "../../redux/action/authenSlice.jsx";
 import UploadImage from "../../components/UploadImage.jsx";
 import { deleteImageFromCloudinaryByLink } from "../../utils/cloudinary.jsx";
+import { position } from "../../constant/constant.js";
+import { info } from "sass";
 const { Title, Text } = Typography;
 const InformationPage = () => {
     const inforUser = useSelector(state => state.authen.user);
+    const inforStaff = useSelector(state => state.staff);
     const dispatch = useDispatch();
-    const token = useSelector(state => state.authen.token);
     const [imageUploaded, setImageUploaded] = useState(null);
     const [form] = Form.useForm();
     const [disabled, setDisabled] = useState(true);
     const onFinish = (values) => {
-        console.log(values);
-        clientApi.service('users/profile', token).put('', values).then(res => {
+        clientApi.service('users/profile').put('', values).then(res => {
             if (res.EC === 0) {
                 message.success(res.EM);
                 deleteImageFromCloudinaryByLink(inforUser.avatar);
@@ -34,8 +35,8 @@ const InformationPage = () => {
         setImageUploaded(null)
     };
     useEffect(() => {
-        console.log("imageUploaded: ", imageUploaded);
-    }, [imageUploaded]);
+        console.log(inforStaff);
+    }, []);
     return (
         <Card
             title={<Flex align="center" justify="center"><Title level={3}>Thông tin cá nhân</Title></Flex>}
@@ -58,13 +59,33 @@ const InformationPage = () => {
                     </Form.Item>
                 </Flex>
                 <Row gutter={16}>
-                    <Col span={24}>
+                    <Col span={8}>
                         <Form.Item
                             layout="horizontal"
                             label="Vai trò"
                         >
                             <Text style={{ fontWeight: 800 }}>
-                                {"Nhân viên"}
+                                {position[inforUser.role]}
+                            </Text>
+                        </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                        <Form.Item
+                            layout="horizontal"
+                            label="Chức vụ"
+                        >
+                            <Text style={{ fontWeight: 800 }}>
+                                {position[inforStaff.position]}
+                            </Text>
+                        </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                        <Form.Item
+                            layout="horizontal"
+                            label="Mức lương"
+                        >
+                            <Text style={{ fontWeight: 800 }}>
+                                {inforStaff.salary.toLocaleString() + " VND"}
                             </Text>
                         </Form.Item>
                     </Col>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './UploadImage.scss';
 import { Avatar, Progress, message } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import { uploadToCloudinary } from "../utils/cloudinary.jsx";
 const UploadImage = ({ src, setSrc }) => {
     const [uploadProgress, setUploadProgress] = useState(0);
@@ -35,6 +36,7 @@ const UploadImage = ({ src, setSrc }) => {
                 {urlImage && (
                     <div style={{ filter: uploading ? 'blur(4px)' : 'none', opacity: uploading ? 0.5 : 1, transition: 'all 0.3s ease' }}>
                         <Avatar
+                            icon={<UserOutlined />}
                             onClick={() => document.getElementById('input-upload').click()}
                             src={urlImage}
                             alt="Uploaded"

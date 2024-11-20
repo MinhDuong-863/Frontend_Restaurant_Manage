@@ -11,6 +11,8 @@ export const PATHS = {
     STAFF: {
         // DASHBOARD: "/staff/information",
         INFORMATION: "/staff/information",
+        CALENDAR: "/staff/calendar",
+        OFF: "/staff/off",
         // ORDER: "/staff/order",
         // FOOD: "/staff/food",
         // CATEGORY: "/staff/category",

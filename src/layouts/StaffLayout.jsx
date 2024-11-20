@@ -9,12 +9,14 @@ import {
 } from '@ant-design/icons';
 import { GoPeople } from "react-icons/go";
 import { FaUserCheck } from "react-icons/fa6";
+import { FaCalendarAlt } from "react-icons/fa";
 import { Avatar, Button, Flex, Image, Layout, Menu, message, theme, Typography } from 'antd';
 import styles from './StaffLayout.module.scss'; // Import file SCSS
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { PATHS } from '../constant/path';
 import { logout } from '../redux/action/authenSlice';
+import { removeStaffInfor, setStaffInfor } from "../redux/action/staffSlice";
 import clientApi from '../client-api/rest-client-api';
 
 const { Text } = Typography;
@@ -37,8 +39,8 @@ const items = [
     },
     {
         key: '2',
-        icon: <UsergroupAddOutlined />,
-        label: 'Tạo tài khoản',
+        icon: <FaCalendarAlt />,
+        label: 'Lịch làm việc',
     },
     {
         key: '3',
@@ -63,7 +65,7 @@ const items = [
 ];
 const navigationMap = {
     "1": PATHS.STAFF.INFORMATION,
-    "2": "/staff/create-account",
+    "2": PATHS.STAFF.CALENDAR,
     "3": "/staff/users",
     "4": "/staff/staff",
     "5": "/staff/recruitment",
@@ -87,6 +89,7 @@ const StaffLayout = () => {
                 if (res.EC === 0) {
                     navigate(PATHS.HOME.LOGIN);
                     dispatch(logout());
+                    dispatch(removeStaffInfor());
                     message.success(res.EM);
 
                 } else {
@@ -106,6 +109,12 @@ const StaffLayout = () => {
         };
         navigateSideBar(index);
     }, [index]);
+    useEffect(() => {
+        clientApi.service('staff/infor').get('').then(res => {
+            dispatch(setStaffInfor({ ...res.DT[0] }));
+            console.log("res.DT[0]:", res.DT[0]);
+        })
+    }, []);
 
     return (
         <Layout>
@@ -147,7 +156,7 @@ const StaffLayout = () => {
                         borderRadius: borderRadiusLG,
                     }}
                     className={styles['custom-content']}>
-                    <Outlet />
+                    <div><Outlet /></div>
                 </Content>
             </Layout>
         </Layout>
