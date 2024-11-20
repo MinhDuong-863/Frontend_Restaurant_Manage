@@ -1,12 +1,17 @@
 .user-header{
     padding: 10px 50px;
+    background: transparent;
+    position: fixed;
+    left: 0; 
+    right: 0;
+    z-index: 1000;
 
     .user-header-content{
         background-color: white;
         height: 5em;
         border-radius: 10px;
-        box-shadow: 4px 4px 8px #e6eaeb, -4px -4px 8px #e6eaeb;
         padding: 0 20px;    
+        box-shadow: 2px 2px 4px #bdc0c1, -2px -2px 4px #bdc0c1;
 
         img {
             width: 70%;

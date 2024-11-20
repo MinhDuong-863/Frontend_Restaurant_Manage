@@ -1,0 +1,35 @@
+.top-screen-slider {
+  position: relative;
+  height: 100vh; // Chiếm toàn bộ chiều cao màn hình
+  width: 100%;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); // Adjust opacity as needed
+    z-index: 1;
+}
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 2;
+}
