@@ -1,8 +1,8 @@
-import React, { useState } from "react";
 import './home.scss';
 import { Progress, message } from "antd";
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { uploadToCloudinary } from "../../utils/cloudinary.jsx";
+import { useState } from 'react';
 const Home = () => {
     const [uploadProgress, setUploadProgress] = useState(0);
     const [uploading, setUploading] = useState(false);

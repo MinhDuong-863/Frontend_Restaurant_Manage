@@ -7,10 +7,10 @@ import UserHeader from "../components/UserHeader/UserHeader";
 const UserLayout = () => {
     return (
         <Layout className="layout">
-            <UserHeader className="header" />
             <Content className="content">
                 <Outlet />
             </Content>
+            <UserHeader className="header" />
         </Layout>
     );
 };

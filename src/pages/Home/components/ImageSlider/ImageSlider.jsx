@@ -8,24 +8,24 @@ const ImageSlider = ({ images }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000); // Chuyển ảnh sau mỗi 3 giây
+    }, 3000);
 
-    return () => clearInterval(interval); // Dọn dẹp khi component unmount
+    return () => clearInterval(interval);
   }, [images.length]);
 
   return (
-    <div className="slider">
-      <div
-        className="slider-images"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-      >
-        {images.map((image, index) => (
-          <img key={index} src={image} alt={`Slide ${index + 1}`} />
-        ))}
-      </div>
+    <div className="top-screen-slider">
+      {images.map((image, index) => (
+        <div 
+          key={index} 
+          className={`slide ${index === currentIndex ? 'active' : ''}`}
+          style={{ backgroundImage: `url(${image})` }}
+        />
+      ))}
     </div>
   );
 };
+
 ImageSlider.propTypes = {
   images: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

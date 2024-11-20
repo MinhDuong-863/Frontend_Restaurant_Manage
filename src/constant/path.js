@@ -29,6 +29,9 @@ export const PATHS = {
         CATEGORY: "/manager/category",
         REPORT: "/manager/report",
     },
+    USER:{
+        RESERVATION: "user/reservation",
+    },
     HOME: {
         HOMEPAGE: "/",
         LOGIN: "/login",

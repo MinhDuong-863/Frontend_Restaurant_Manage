@@ -1,0 +1,28 @@
+.reservate-page-container{
+    padding: 5em;
+    background-color: #D7D7D7;
+    height: 100vb;
+
+    .reservate-page-title{
+        margin-top: 4em;
+
+        h1{
+            font-size: 4em;
+            color: #000;
+            font-weight: 300;
+        }
+    }
+
+    .reservate-page-form{
+        label{
+            color: #000;
+            font-weight: 600;
+        }
+
+        .input-reservate{
+            padding: 5px 6px;
+            border: none;
+            border-radius: 5px;
+        }
+    }
+}

@@ -10,6 +10,7 @@ import UserLayout from './layouts/UserLayout.jsx';
 import HomePages from './pages/Home/pages/homePage/homePages.jsx';
 import { ConfigProvider } from 'antd';
 import InformationPage from './pages/Staff/InformationPage.jsx';
+import ReservatePage from './pages/Home/pages/reservatePage/reservatePage.jsx';
 import CalendarPage from './pages/Staff/CalendarPage.jsx';
 import SendMailPage from './pages/Staff/SendMailPage.jsx';
 import TablePage from './pages/Staff/TablePage.jsx';
@@ -32,6 +33,7 @@ const App = () => {
       <Routes>
         <Route element={<UserLayout />}>
           <Route path={PATHS.HOME.HOMEPAGE} element={<HomePages />} />
+          <Route path={PATHS.USER.RESERVATION} element={<ReservatePage />} />
         </Route>
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
       <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminLayout />} >
