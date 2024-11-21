@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     DashboardOutlined,
     LogoutOutlined,
@@ -9,10 +9,12 @@ import {
 } from '@ant-design/icons';
 import { GoPeople } from "react-icons/go";
 import { FaUserCheck } from "react-icons/fa6";
-import { Button, Image, Layout, Menu, theme } from 'antd';
+import { Button, Image, Layout, Menu, message, theme } from 'antd';
 import styles from './AdminLayout.module.scss'; // Import file SCSS
-import { NavLink, Outlet } from 'react-router-dom';
 import { PATHS } from '../constant/path';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/action/authenSlice';
 
 const { Header, Sider, Content } = Layout;
 
@@ -68,7 +70,18 @@ const AdminLayout = () => {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const role = useSelector(state => state.authen.user.role);
+    useEffect(() => {
 
+        console.log(role);
+        if (role !== 'admin') {
+            dispatch(logout());
+            message.error('Bạn không có quyền truy cập vào trang này');
+            navigate("/login")
+        };
+    }, [])
     return (
         <Layout>
             <Sider width={215} style={siderStyle} theme='light' trigger={null} collapsible collapsed={collapsed}>

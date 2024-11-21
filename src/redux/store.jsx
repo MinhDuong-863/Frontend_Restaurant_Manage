@@ -7,7 +7,7 @@ import rootReducer from './reducers'; // Thay thế bằng reducer thực tế c
 const persistConfig = {
     key: 'root',          // key để xác định trạng thái gốc cần lưu
     storage,              // Sử dụng localStorage làm engine
-    whitelist: ['authen', 'staff'],  // Chỉ lưu trạng thái của reducer user
+    whitelist: ['authen', 'staff', "web"],  // Chỉ lưu trạng thái của reducer user
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

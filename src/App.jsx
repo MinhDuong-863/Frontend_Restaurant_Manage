@@ -44,16 +44,15 @@ const App = () => {
           <Route path={PATHS.STAFF.CALENDAR} element={<CalendarPage />} />
           <Route path={PATHS.STAFF.OFF} element={<SendMailPage />} />
 
-        </Route>
-        <Route path={PATHS.MANAGER.DASHBOARD} element={<ManagerLayout />} >
 
-      </Route>
-      <Route path={PATHS.MANAGER.BASE} element={<ManagerLayout />}>
-        <Route index element={<ManagerDashboard />} />
-        <Route path="dashboard" element={<ManagerDashboard />} />
-        <Route path="staff" element={<ManageStaff />} />
-        <Route path="ingredient" element={<ManageIngredient/>} />
-      </Route>
+        </Route>
+        <Route path={PATHS.MANAGER.BASE} element={<ManagerLayout />} >
+          <Route index element={<Navigate to={PATHS.MANAGER.DASHBOARD} replace />} />
+          <Route path={PATHS.MANAGER.DASHBOARD} element={<ManagerDashboard />} />
+          <Route path={PATHS.MANAGER.STAFF} element={<ManageStaff />} />
+          <Route path={PATHS.MANAGER.INGREDIENT} element={<ManageIngredient />} />
+        </Route>
+
 
       </Routes>
     </ConfigProvider>

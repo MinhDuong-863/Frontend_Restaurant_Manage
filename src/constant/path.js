@@ -11,11 +11,11 @@ export const PATHS = {
         // REPORT: "/admin/report",
     },
     STAFF: {
-        // DASHBOARD: "/staff/information",
         INFORMATION: "/staff/information",
         CALENDAR: "/staff/calendar",
         OFF: "/staff/off",
-        // ORDER: "/staff/order",
+        TABLE: "/staff/table",
+        BOOKING: "/staff/booking",
         // FOOD: "/staff/food",
         // CATEGORY: "/staff/category",
     },
