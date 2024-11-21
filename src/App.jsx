@@ -11,6 +11,7 @@ import HomePages from './pages/Home/pages/homePage/homePages.jsx';
 import { ConfigProvider } from 'antd';
 import InformationPage from './pages/Staff/InformationPage.jsx';
 import ReservatePage from './pages/Home/pages/reservatePage/reservatePage.jsx';
+import RecruitmentPage from './pages/Home/pages/recruitmentPage/recruitmentPage.jsx';
 import CalendarPage from './pages/Staff/CalendarPage.jsx';
 import SendMailPage from './pages/Staff/SendMailPage.jsx';
 import TablePage from './pages/Staff/TablePage.jsx';
@@ -34,6 +35,7 @@ const App = () => {
         <Route element={<UserLayout />}>
           <Route path={PATHS.HOME.HOMEPAGE} element={<HomePages />} />
           <Route path={PATHS.USER.RESERVATION} element={<ReservatePage />} />
+          <Route path={PATHS.USER.RECRUITMENT} element={<RecruitmentPage />} />
         </Route>
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
       <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminLayout />} >
