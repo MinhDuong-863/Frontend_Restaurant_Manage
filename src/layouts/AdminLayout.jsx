@@ -15,6 +15,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/action/authenSlice';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { PATHS } from '../constant/path';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/action/authenSlice';
 
 const { Header, Sider, Content } = Layout;
 
