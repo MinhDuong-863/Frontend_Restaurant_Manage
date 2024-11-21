@@ -18,17 +18,6 @@ import {
   Upload
 } from 'antd';
 import { 
-  PieChart, 
-  Pie, 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  Tooltip, 
-  Legend, 
-  ResponsiveContainer 
-} from 'recharts';
-import { 
   DatabaseOutlined, 
   StockOutlined, 
   AlertOutlined,
@@ -46,12 +35,15 @@ const ManageIngredient = () => {
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalIngredients, setTotalIngredients] = useState(0);
+  const [operationType, setOperationType] = useState(null); 
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 5, // Số lượng bản ghi trên mỗi trang
     total: 0,    // Tổng số bản ghi (lấy từ API)
   });
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isImportExportModalVisible, setIsImportExportModalVisible] = useState(false);
+
   const [currentMaterial, setCurrentMaterial] = useState(null);
   const [form] = Form.useForm();
 
@@ -187,16 +179,21 @@ const ManageIngredient = () => {
             icon={<CiImport />}
             style={{ marginRight: 8 }} 
             onClick={() => {
-              // Implement import logic
+              setOperationType('import');
+              setCurrentMaterial(record);
+              form.resetFields();
+              setIsImportExportModalVisible(true);
             }}
           />
           <Button 
-          type='default'
             size="small"
             icon={<CiExport />}
             style={{ marginRight: 8 }} 
             onClick={() => {
-              // Implement export logic
+              setOperationType('export');
+              setCurrentMaterial(record);
+              form.resetFields();
+              setIsImportExportModalVisible(true);
             }}
           />
           <Button 
@@ -251,6 +248,47 @@ const ManageIngredient = () => {
       message.error('Vui lòng kiểm tra lại thông tin');
     });
   };
+  const handleImportMaterial = () => {
+    form.validateFields().then(values => {
+      const updatedMaterials = materials.map(material => 
+        material.id === currentMaterial?.id 
+          ? {
+              ...material, 
+              ...values,
+              inventory: material.inventory + values.quantity,
+              status: (material.inventory + values.quantity) < 20 ? 'Thấp' : 'Đủ'
+            } 
+          : material
+      );
+
+      setMaterials(updatedMaterials);
+      setIsImportExportModalVisible(false);
+      message.success(`Nhập nguyên liệu ${values.name} thành công`);
+    }).catch(errorInfo => {
+      message.error('Vui lòng kiểm tra lại thông tin');
+    }
+    );
+  };
+  const handleExportMaterial = () => {
+    form.validateFields().then(values => {
+      const updatedMaterials = materials.map(material => 
+        material.id === currentMaterial?.id 
+          ? {
+              ...material, 
+              ...values,
+              inventory: material.inventory - values.quantity,
+              status: (material.inventory - values.quantity) < 20 ? 'Thấp' : 'Đủ'
+            } 
+          : material
+      );
+
+      setMaterials(updatedMaterials);
+      setIsImportExportModalVisible(false);
+      message.success(`Xuất nguyên liệu ${values.name} thành công`);
+    }).catch(errorInfo => {
+      message.error('Vui lòng kiểm tra lại thông tin');
+    });
+  };
   return (
     <Layout style={{ 
       background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
@@ -268,7 +306,7 @@ const ManageIngredient = () => {
             <Card 
               hoverable 
               style={{ 
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+                background: '#F39C12', 
                 color: 'white' 
               }}
             >
@@ -289,7 +327,7 @@ const ManageIngredient = () => {
               }}
             >
               <Statistic
-                title={<span style={{color: 'white'}}>Nguyên Liệu Cạn Kho</span>}
+                title={<span style={{color: 'white'}}>Nguyên Liệu Hết Hạn</span>}
                 value={lowStockMaterials}
                 prefix={<AlertOutlined style={{color: 'white'}} />}
                 valueStyle={{ color: lowStockMaterials > 0 ? 'yellow' : 'white' }}
@@ -311,48 +349,6 @@ const ManageIngredient = () => {
                 prefix={<StockOutlined style={{color: 'white'}} />}
                 valueStyle={{color: 'white'}}
               />
-            </Card>
-          </Col>
-
-          {/* Biểu đồ */}
-          <Col xs={24} lg={12}>
-            <Card 
-              title="Trạng Thái Từng Nguyên Liệu"
-              style={{ height: '450px', overflow: 'auto' }}
-            >
-              <ResponsiveContainer width="100%" height={350}>
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={100}
-                    fill="#8884d8"
-                    label={({ name, value }) => `${name}: ${value.toFixed(1)}%`}
-                  />
-                  <Tooltip />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </Card>
-          </Col>
-
-          <Col xs={24} lg={12}>
-            <Card 
-              title="Tỷ Lệ Tồn Kho Theo Nhóm"
-              style={{ height: '450px', overflow: 'auto' }}
-            >
-              <ResponsiveContainer width="100%" height={350}>
-                <BarChart data={barData}>
-                  <XAxis dataKey="category" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="Tỷ Lệ Tồn Kho (%)" fill="#82ca9d" />
-                </BarChart>
-              </ResponsiveContainer>
             </Card>
           </Col>
 
@@ -445,6 +441,54 @@ const ManageIngredient = () => {
             </Form.Item>
           </Form>
         </Modal>
+          <Modal
+            title={operationType === 'import' ? 'Nhập Nguyên Liệu' : 'Xuất Nguyên Liệu'}
+            visible={isImportExportModalVisible}
+            onOk={() => {
+              operationType === 'import' ? handleImportMaterial() : handleExportMaterial();
+            }}
+            onCancel={() => setIsImportExportModalVisible(false)}
+          >
+            <Form
+              form={form}
+              layout="vertical"
+              initialValues={currentMaterial || {}}
+            >
+              <Form.Item
+                name="quantity"
+                label="Số Lượng"
+                rules={[{ required: true, message: 'Vui lòng nhập số lượng!' }]}
+              >
+                <Input type="number" min={1} />
+              </Form.Item>
+              <Form.Item
+                name="supplier"
+                label="Nhà Cung Cấp"
+                rules={[{ required: true, message: 'Vui lòng nhập nhà cung cấp!' }]}
+              >
+                <Input />
+              </Form.Item>
+              {operationType === 'import' && (
+                <>
+                  <Form.Item
+                    name="price"
+                    label="Giá Nhập"
+                    rules={[{ required: true, message: 'Vui lòng nhập giá nhập!' }]}
+                  >
+                    <Input type="number" min={0} />
+                  </Form.Item>
+                  <Form.Item
+                    name="expiration_date"
+                    label="Ngày Hết Hạn"
+                    rules={[{ required: true, message: 'Vui lòng chọn ngày hết hạn!' }]}
+                  >
+                    <Input type="date" />
+                  </Form.Item>
+                </>
+              )}
+            </Form>
+          </Modal>
+
       </div>
     </Layout>
   );
