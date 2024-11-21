@@ -1,8 +1,9 @@
 import clientApi from "../client-api/rest-client-api"
 
-const searchBooking = async (data) => {
-    return clientApi.service("booking").get(data);
+const searchBooking = async (obj) => {
+    // const queryString = new URLSearchParams(obj).toString();
+    return clientApi.service("booking").find(obj);
 }
-export default {
-    searchBooking
+export {
+    searchBooking,
 }
