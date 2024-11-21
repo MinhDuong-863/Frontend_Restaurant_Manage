@@ -1,0 +1,108 @@
+.recruitment-page-container{
+    padding: 5em;
+    background-color: #D7D7D7;
+    height: 100vb;
+
+    .recruitment-page-title{
+        margin-top: 4em;
+
+        h1{
+            font-size: 4em;
+            color: #000;
+            font-weight: 300;
+        }
+    }
+
+    .recruitment-content{
+        margin: 10px;
+    }
+}
+
+.recruitment-item{
+    padding: 10px 20px;
+    background: white;
+    border-radius: 10px;
+    width: 90%;
+
+    p{
+        margin-bottom: 0.3em;
+    }
+
+    .highlight{
+        color: #F39C12;
+        font-weight: 600;
+    }
+
+    .btn-detail{
+        padding: 5px 20px;
+        background: transparent;
+        border: 2px solid gray;
+
+        &:hover{
+            background: black;
+            color: white;
+        }
+    }
+
+    .btn-apply{
+        padding: 5px 10px;
+        background: transparent;
+        border: 2px solid #F7D000;
+        color: #d8b803;
+
+        &:hover{
+            background: #F7D000;
+            color: black;
+        }
+    }
+}
+
+.ant-modal{
+    margin-top: -5em;
+
+    .ant-modal-title{
+        font-size: 1.5em;
+        font-weight: 600;
+        color: #F39C12;
+        margin-bottom: 10px;
+    }
+
+    .ant-btn-primary{
+        background: white;
+        border: 1px solid #F39C12;
+        border-radius: 0 !important;
+        color: #F39C12;
+        font-weight: 600;
+
+        &:hover{
+            background: #F39C12!important;
+            color: black!important;
+        }
+    }
+
+    .ant-btn-default{
+        background: white;
+        border: 1px solid gray;
+        background: transparent;
+        border-radius: 0;
+
+        &:hover{
+            background: black !important;
+            color: white !important;
+            border: 1px solid black !important;
+        }
+    }
+
+    .custom-button.ant-btn-primary {
+        background: white;
+        border: 1px solid #F39C12;
+        border-radius: 0 !important;
+        color: #F39C12;
+        font-weight: 600;
+    
+        &:hover {
+            background: #F39C12 !important;
+            color: black !important;
+        }
+    }
+}

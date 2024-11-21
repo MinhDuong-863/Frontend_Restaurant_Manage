@@ -31,6 +31,7 @@ export const PATHS = {
     },
     USER:{
         RESERVATION: "user/reservation",
+        RECRUITMENT: "user/recruitment",
     },
     HOME: {
         HOMEPAGE: "/",
