@@ -1,6 +1,17 @@
 import clientApi from "../client-api/rest-client-api";
 //handle api for staff
 const token = localStorage.getItem('token')
+//api create user
+const createUser = async (user) => {
+  try {
+    return await clientApi
+      .service('/register')
+      .create(user);
+  } catch (error) {
+    console.error('Không thể thêm người dùng mới:', error);
+    throw error;
+  }
+}
 const getAllStaffApi = async (params = {}) => {
   try {
     return await clientApi
@@ -69,6 +80,18 @@ const getAllIngredientApi = async (params = {}) => {
   }
 };
 
+
+const searchBooking = async (obj) => {
+  // const queryString = new URLSearchParams(obj).toString();
+  return clientApi.service("booking/staff").find(obj);
+}
+const serveBooking = async (id, data) => {
+  return clientApi.service("booking/serve").put(id, data);
+}
+const addOrderDetail = async (id, data) => {
+  return clientApi.service("order").put(id, data);
+}
+
 //api for recruitment
 export const getAllRecruitmentApi = async (params = {}) => {
   try {
@@ -84,7 +107,6 @@ export const getAllRecruitmentApi = async (params = {}) => {
     throw error;
   }
 }
-//api create user
 export const createRecruitment = async (data) => {
   try {
     return await clientApi
@@ -126,18 +148,8 @@ export const deleteRecruitment = async (recruitmentId) => {
     throw error;
   }
 }
-export { getAllStaffApi, updateStaff, addStaff, deleteStaff, getAllIngredientApi, createUser };
-const searchBooking = async (obj) => {
-  // const queryString = new URLSearchParams(obj).toString();
-  return clientApi.service("booking/staff").find(obj);
-}
-const serveBooking = async (id, data) => {
-  return clientApi.service("booking/serve").put(id, data);
-}
-const addOrderDetail = async (id, data) => {
-  return clientApi.service("order").put(id, data);
-}
 export {
+  createUser,
   getAllStaffApi,
   updateStaff,
   addStaff,
