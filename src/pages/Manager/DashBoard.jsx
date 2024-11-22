@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Row, Col, Statistic, Progress, Table, Select, Space } from 'antd';
+import clientApi from '../../client-api/rest-client-api';
+import { Card, Row, Col, Statistic, Progress, Table, Select, Space, message } from 'antd';
 import { 
   BarChart, Bar, LineChart, Line, PieChart, Pie, 
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell 
@@ -20,53 +21,124 @@ const ManagerDashboard = () => {
     month: null,
     year: null
   });
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [totalOrders, setTotalOrders] = useState(0);
+  const [topSellingDishes, setTopSellingDishes] = useState([]);
+  const [menuCategoryData, setMenuCategoryData] = useState([]);
+  const [revenueData, setRevenueData] = useState([]);
 
   // Dummy data (replace with actual API calls)
   const COLORS = ['#722ed1', '#2f54eb', '#1890ff', '#13c2c2', '#52c41a'];
 
-  // Static sample data (to be replaced with actual API data)
-  const revenueData = [
-    { month: 'Jan', revenue: 45000, orders: 120 },
-    { month: 'Feb', revenue: 52000, orders: 135 },
-    { month: 'Mar', revenue: 61000, orders: 150 },
-    { month: 'Apr', revenue: 58000, orders: 142 },
-    { month: 'May', revenue: 65000, orders: 160 },
-    { month: 'Jun', revenue: 72000, orders: 175 }
-  ];
-
-  const menuCategoryData = [
-    { name: 'Appetizers', value: 250, percentage: 25 },
-    { name: 'Main Courses', value: 350, percentage: 35 },
-    { name: 'Desserts', value: 200, percentage: 20 },
-    { name: 'Beverages', value: 150, percentage: 15 },
-    { name: 'Specials', value: 50, percentage: 5 }
-  ];
-
-  const topSellingDishes = [
-    { dish: 'Signature Steak', sales: 450, revenue: 13500 },
-    { dish: 'Seafood Pasta', sales: 380, revenue: 11400 },
-    { dish: 'Chocolate Lava Cake', sales: 320, revenue: 6400 },
-    { dish: 'Grilled Salmon', sales: 280, revenue: 8400 },
-    { dish: 'Margherita Pizza', sales: 250, revenue: 7500 }
-  ];
 
   const tableColumns = [
-    { title: 'Dish', dataIndex: 'dish', key: 'dish' },
+    { title: 'Món ăn', dataIndex: 'dish', key: 'dish' },
     { 
-      title: 'Sales', 
+      title: 'Đã bán', 
       dataIndex: 'sales', 
       key: 'sales',
       sorter: (a, b) => a.sales - b.sales
     },
     { 
-      title: 'Revenue', 
+      title: 'Doanh thu', 
       dataIndex: 'revenue', 
       key: 'revenue',
-      render: (value) => `$${value.toLocaleString()}`,
+      render: (value) => `VND ${value.toLocaleString()}`,
       sorter: (a, b) => a.revenue - b.revenue
     }
   ];
+  const getRevenue = async () => {
+    try {
+      setLoading(true);
+      const params = {
+        year: filters.year || 2024,
+        month: filters.month || 11
+      };
 
+      const response = await clientApi.service('/report/revenue').find(params);
+  
+      if (response.EC === 200) {
+        // Handle potential multiple data entries for different time periods
+        const revenueDetails = response.DT.length > 0 ? response.DT : [];
+        
+        // Aggregate data across all returned entries
+        const aggregatedData = revenueDetails.reduce((acc, entry) => {
+          acc.totalRevenue += entry.totalRevenue;
+          acc.totalOrders += entry.totalOrders;
+          acc.soldItems.push(...entry.soldItems);
+          return acc;
+        }, { 
+          totalRevenue: 0, 
+          totalOrders: 0, 
+          soldItems: [] 
+        });
+
+        // Process sold items for top-selling dishes
+        const processedTopSelling = aggregatedData.soldItems.reduce((acc, item) => {
+          const existingItem = acc.find(x => x.dish === item.name);
+          if (existingItem) {
+            existingItem.sales += item.quantitySold;
+            existingItem.revenue += item.price * item.quantitySold;
+          } else {
+            acc.push({
+              dish: item.name,
+              sales: item.quantitySold,
+              revenue: item.price * item.quantitySold
+            });
+          }
+          return acc;
+        }, [])
+        .sort((a, b) => b.sales - a.sales)
+        .slice(0, 5);
+
+        // Calculate menu category data
+        const categoryMap = aggregatedData.soldItems.reduce((acc, item) => {
+          const categoryName = item.name.split(' ')[0]; // Simple categorization
+          if (!acc[categoryName]) {
+            acc[categoryName] = { 
+              name: categoryName, 
+              value: 0, 
+              percentage: 0 
+            };
+          }
+          acc[categoryName].value += item.quantitySold;
+          return acc;
+        }, {});
+
+        const processedCategoryData = Object.values(categoryMap).map(category => ({
+          ...category,
+          percentage: Math.round((category.value / aggregatedData.soldItems.length) * 100)
+        }));
+
+        // Set states
+        setTotalRevenue(aggregatedData.totalRevenue);
+        setTotalOrders(aggregatedData.totalOrders);
+        setTopSellingDishes(processedTopSelling);
+        setMenuCategoryData(processedCategoryData);
+        
+        // Prepare revenue data with more flexibility
+        const revenueData = revenueDetails.map(entry => ({
+          month: entry._id.month ? 
+            new Date(2024, entry._id.month - 1).toLocaleString('default', { month: 'short' }) : 
+            `${entry._id.year || 'Unknown'}`,
+          revenue: entry.totalRevenue,
+          orders: entry.totalOrders
+        }));
+
+        setRevenueData(revenueData);
+      } else {
+        message.error('Failed to retrieve revenue data');
+      }
+      setLoading(false);
+    } catch (error) {
+      message.error('Failed to get revenue data');
+      setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    getRevenue();
+  }, [filters.year, filters.month]);
   const FilterControls = () => {
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
     const currentYear = new Date().getFullYear();
@@ -78,20 +150,20 @@ const ManagerDashboard = () => {
           value={filters.month}
           onChange={(value) => setFilters(prev => ({ ...prev, month: value }))}
           style={{ width: 120 }}
-          placeholder="Select Month"
+          placeholder="Chọn tháng"
         >
-          <Option value={null}>All Months</Option>
+          <Option value={null}>Chọn tháng</Option>
           {months.map(month => (
-            <Option key={month} value={month}>Month {month}</Option>
+            <Option key={month} value={month}>Tháng {month}</Option>
           ))}
         </Select>
         <Select
           value={filters.year}
           onChange={(value) => setFilters(prev => ({ ...prev, year: value }))}
           style={{ width: 120 }}
-          placeholder="Select Year"
+          placeholder="Chọn năm"
         >
-          <Option value={null}>All Years</Option>
+          <Option value={null}>Chọn năm</Option>
           {years.map(year => (
             <Option key={year} value={year}>{year}</Option>
           ))}
@@ -111,38 +183,19 @@ const ManagerDashboard = () => {
         <Col xs={24} sm={12} lg={6}>
           <Card>
             <Statistic
-              title="Total Revenue"
-              value={72000}
+              title="Tổng doanh thu"
+              value={totalRevenue}
               prefix={<DollarOutlined style={{ color: '#52c41a' }} />}
-              suffix="USD"
+              suffix="VND"
             />
           </Card>
         </Col>
         <Col xs={24} sm={12} lg={6}>
           <Card>
             <Statistic
-              title="Total Orders"
-              value={175}
+              title="Tổng số lượng đơn hàng"
+              value={totalOrders}
               prefix={<ShoppingCartOutlined style={{ color: '#1890ff' }} />}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
-            <Statistic
-              title="New Customers"
-              value={45}
-              prefix={<UserOutlined style={{ color: '#722ed1' }} />}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
-            <Statistic
-              title="Average Order Value"
-              value={411}
-              prefix={<MoneyCollectOutlined style={{ color: '#13c2c2' }} />}
-              suffix="USD"
             />
           </Card>
         </Col>
@@ -150,113 +203,57 @@ const ManagerDashboard = () => {
 
       {/* Revenue and Performance */}
       <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
-        <Col xs={24} lg={16}>
-          <Card title="Monthly Revenue and Orders">
+        <Col xs={24} lg={24}>
+          <Card title="Doanh thu theo tháng">
             <ResponsiveContainer width="100%" height={400}>
               <LineChart data={revenueData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
-                <YAxis yAxisId="left" />
-                <YAxis yAxisId="right" orientation="right" />
-                <Tooltip />
+                <YAxis 
+                  yAxisId="left" 
+                  tickFormatter={(value) => new Intl.NumberFormat('vi-VN').format(value)}
+                />
+                <YAxis 
+                  yAxisId="right" 
+                  orientation="right"
+                />
+                <Tooltip 
+                  formatter={(value, name) => 
+                    name === 'Doanh thu (VND)' 
+                      ? [new Intl.NumberFormat('vi-VN').format(value) + ' VND', name]
+                      : [value, name]
+                  }
+                />
                 <Legend />
                 <Line 
                   yAxisId="left"
                   type="monotone" 
                   dataKey="revenue" 
                   stroke="#52c41a" 
-                  name="Revenue (USD)"
+                  name="Doanh thu (VND)"
                 />
                 <Line 
                   yAxisId="right"
                   type="monotone" 
                   dataKey="orders" 
                   stroke="#1890ff" 
-                  name="Total Orders"
+                  name="Tổng số đơn hàng"
                 />
               </LineChart>
-            </ResponsiveContainer>
-          </Card>
-        </Col>
-        <Col xs={24} lg={8}>
-          <Card title="Menu Category Sales">
-            <ResponsiveContainer width="100%" height={400}>
-              <PieChart>
-                <Pie
-                  data={menuCategoryData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={40}
-                  outerRadius={110}
-                  fill="#722ed1"
-                  label={({name, value, percentage}) => `${value} items - ${percentage}%`}
-                >
-                  {menuCategoryData.map((entry, index) => (
-                    <Cell 
-                      key={`cell-${index}`} 
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend layout="vertical" align="right" verticalAlign="middle" />
-              </PieChart>
             </ResponsiveContainer>
           </Card>
         </Col>
       </Row>
 
       {/* Menu and Performance Details */}
-      <Row gutter={[16, 16]} style={{ marginTop: 16 }}>
-        <Col xs={24}>
-          <Card title="Top Selling Dishes">
-            <Table 
-              columns={tableColumns} 
-              dataSource={topSellingDishes}
-              pagination={false}
-            />
-          </Card>
-        </Col>
+      <Card title="Món ăn bán nhiều nhất">
+        <Table 
+          columns={tableColumns} 
+          dataSource={topSellingDishes}
+          pagination={false}
+        />
+      </Card>
 
-        <Col xs={24} lg={12}>
-          <Card title="Performance Metrics">
-            <Space direction="vertical" style={{ width: '100%' }}>
-              <div>
-                <div>Table Turnover Rate</div>
-                <Progress percent={75} status="active" />
-              </div>
-              <div>
-                <div>Customer Satisfaction</div>
-                <Progress percent={92} status="active" />
-              </div>
-              <div>
-                <div>Menu Item Profitability</div>
-                <Progress percent={68} status="active" />
-              </div>
-            </Space>
-          </Card>
-        </Col>
-
-        <Col xs={24} lg={12}>
-          <Card title="Order Type Distribution">
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={[
-                { name: 'Dine-In', value: 100 },
-                { name: 'Takeaway', value: 60 },
-                { name: 'Delivery', value: 40 }
-              ]}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="value" fill="#1890ff" />
-              </BarChart>
-            </ResponsiveContainer>
-          </Card>
-        </Col>
-      </Row>
     </div>
   );
 };

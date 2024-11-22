@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CiImport, CiExport } from "react-icons/ci";
 import { getAllIngredientApi } from '../../services/apiService';
+import clientApi from '../../client-api/rest-client-api';
 import { 
   Layout, 
   Row, 
@@ -15,7 +16,8 @@ import {
   Table,
   Tag,
   message,
-  Upload
+  Upload,
+  Tabs
 } from 'antd';
 import { 
   DatabaseOutlined, 
@@ -25,13 +27,17 @@ import {
   DownloadOutlined,
   UploadOutlined,
   EditOutlined,
-  DeleteOutlined
+  DeleteOutlined,
+  WarningOutlined
 } from '@ant-design/icons';
+import TabPane from 'antd/es/tabs/TabPane';
+import { formatDate } from '../../utils/format';
 
 const { Option } = Select;
 
 const ManageIngredient = () => {
   const [materials, setMaterials] = useState([]);
+  const [expiredMaterials , setExpiredMaterials] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalIngredients, setTotalIngredients] = useState(0);
   const [operationType, setOperationType] = useState(null); 
@@ -47,7 +53,47 @@ const ManageIngredient = () => {
   const [form] = Form.useForm();
 
   const totalMaterials = materials.length;
-  const lowStockMaterials = materials.filter(m => m.status === 'Thấp').length;
+  const [lowStockMaterials, setLowStockMaterials] = useState(0);
+
+
+  const handleDeleteMaterial= async (record) => {
+    try{
+      console.log('record', record);
+      const response = await clientApi.service('/ingredients').delete(record.id);
+  
+      if (response.EC === 0) {
+        message.success(`Xóa ${record.name} thành công`);
+        getAllIngredient();
+      } else {
+        message.error(response.EM || 'Xóa nguyên liệu không thành công');
+      }
+    } catch (error) {
+      console.error('Error deleting material:', error);
+      message.error('Đã có lỗi xảy ra khi xóa nguyên liệu');
+    }
+  };
+  const handleAddMaterial = async () => {
+    try {
+      const values = await form.validateFields();
+      
+      const newIngredientData = {
+        name: values.name,
+        unit: values.unit,
+        type: values.type,
+        description: values.description || '',
+      };
+
+      const response = await clientApi.service('/ingredients').create(newIngredientData);
+      if (response.EC===0){
+        message.success(`Thêm ${values.name} thành công`);
+        setIsModalVisible(false);
+        getAllIngredient();
+      } 
+    } catch (error) {
+      console.error('Error adding material:', error);
+      message.error('Vui lòng kiểm tra lại thông tin');
+    }
+  };
   const getAllIngredient = async () => {
     try {
       setLoading(true);
@@ -60,7 +106,7 @@ const ManageIngredient = () => {
       
       setTotalIngredients(response.DT.totalDocs);
       const formattedData = ingredientList.map((ingredient) => ({
-        id: ingredient.id,
+        id: ingredient._id,
         name: ingredient.name,
         inventory: ingredient.inventory,
         unit: ingredient.unit,
@@ -87,6 +133,35 @@ const ManageIngredient = () => {
     getAllIngredient(pagination.current, pagination.pageSize);
   }, [pagination.current, pagination.pageSize]);
 
+  const getExpiredMaterials =async () => {
+    try{
+      setLoading(true);
+      const response= await clientApi.service('/ingredients/expired').find({
+        page: 1,
+        limit: 5
+      });
+      const expiredList=response?.DT?.data || [];
+      console.log('expired ingredients', expiredList);
+      setLowStockMaterials(response.DT.totalItems);
+      const formattedData=expiredList.map((expired)=>{
+        return{
+          ingredientName:   expired.ingredientName,
+          expirationDate:   formatDate(expired.expirationDate),
+          quantity:         expired.quantity,
+          supplier:         expired.supplier
+        }
+      });
+      setExpiredMaterials(formattedData);
+    }catch(error){
+      message.error('Đã có lỗi xảy ra');
+    }finally{
+      setLoading(false);
+    }
+  }
+  useEffect(() => {
+    getExpiredMaterials();
+  }, []);
+
   const handleTableChange = (pagination) => {
     setPagination({
       ...pagination,
@@ -94,25 +169,63 @@ const ManageIngredient = () => {
       pageSize: pagination.pageSize
     });
   };
-  const pieData = materials.map(m => ({
-    name: m.name,
-    value: (m.quantity / m.total) * 100
-  }));
-
-  const categoryData = materials.reduce((acc, m) => {
-    const existing = acc.find(item => item.category === m.category);
-    if (existing) {
-      existing.quantity += m.quantity;
-      existing.total += m.total;
-    } else {
-      acc.push({ 
-        category: m.category, 
-        quantity: m.quantity, 
-        total: m.total 
-      });
+ 
+  const handleImportMaterial = async () => {
+    try{
+      const values = await form.validateFields();
+    
+      const importData = {
+        ingredient_id: currentMaterial.id,
+        quantity: values.quantity,
+        supplier: values.supplier,
+        price: values.price,
+        expiration_date: values.expiration_date,
+        type: 'import'
+      };
+      console.log('importData', importData);
+      const response = await clientApi.service('/update-ingredients').put(currentMaterial.id, importData);
+      console.log('response', response);
+      if (response.EC === 0) {
+        message.success(`Nhập ${currentMaterial.name} thành công`);
+        getAllIngredient(); // Refresh ingredient list
+        getExpiredMaterials(); // Update expired materials
+        setIsImportExportModalVisible(false);
+      } else {
+        message.error(response.EM || 'Nhập nguyên liệu không thành công');
+      }
+    } catch (error) {
+      console.error('Error importing material:', error);
+      message.error('Vui lòng kiểm tra lại thông tin');
+    } finally {
+      setLoading(false);
     }
-    return acc;
-  }, []);
+  };
+  const handleExportMaterial = async () => {
+    try{
+      const values = await form.validateFields();
+    
+      const importData = {
+        ingredient_id: currentMaterial.id,
+        quantity: values.quantity,
+        type: 'export'
+      };
+      const response = await clientApi.service('/update-ingredients').put(currentMaterial.id, importData);
+      if (response.EC === 0) {
+        message.success(`Xuất ${currentMaterial.name} thành công`);
+        getAllIngredient(); // Refresh ingredient list
+        getExpiredMaterials(); // Update expired materials
+        setIsImportExportModalVisible(false);
+      } else {
+        message.error(response.EM || 'Xuất nguyên liệu không thành công');
+      }
+    } catch (error) {
+      console.error('Error importing material:', error);
+      message.error('Vui lòng kiểm tra lại thông tin');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const tableColumns = [
     {
       title: 'Tên Nguyên Liệu',
@@ -163,19 +276,6 @@ const ManageIngredient = () => {
       render: (record) => (
         <div>
           <Button 
-            type="primary" 
-            ghost 
-            size="small"
-            icon={<EditOutlined />} 
-            style={{ marginRight: 8 }}
-            onClick={() => {
-              setCurrentMaterial(record);
-              form.setFieldsValue(record);
-              setIsModalVisible(true);
-            }}
-          >
-          </Button>
-          <Button 
             size="small"
             icon={<CiImport />}
             style={{ marginRight: 8 }} 
@@ -204,8 +304,7 @@ const ManageIngredient = () => {
             danger
             icon={<DeleteOutlined />}
             onClick={() => {
-              setMaterials(materials.filter(m => m.id !== record.id));
-              message.success(`Xóa ${record.name} thành công`);
+              handleDeleteMaterial(record);
             }}
           >
           </Button>
@@ -213,7 +312,39 @@ const ManageIngredient = () => {
       )
     }
   ];
-
+  const expiredTableColumns= [
+    {
+      title: 'Tên Nguyên Liệu',
+      dataIndex: 'ingredientName',
+      key: 'ingredientName',
+      width: 150,
+      render: (text) => <strong>{text}</strong>
+    },
+    {
+      title: 'Ngày Hết Hạn',
+      dataIndex: 'expirationDate',
+      key: 'expirationDate',
+      width: 150,
+    },
+    {
+      title: 'Số Lượng',
+      key: 'quantity',
+      render: (record) => (
+        <div>
+          <span style={{ color: record.quantity < 10 ? 'red' : 'green' }}>
+            {record.quantity}
+          </span>
+        </div>
+      ),
+      width: 120,
+    },
+    {
+      title: 'Nhà cung cấp',
+      dataIndex: 'supplier',
+      key: 'supplier',
+      width: 150,
+    }
+  ];
   const handleUpdateMaterial = () => {
     form.validateFields().then(values => {
       const updatedMaterials = materials.map(material => 
@@ -229,63 +360,6 @@ const ManageIngredient = () => {
       setMaterials(updatedMaterials);
       setIsModalVisible(false);
       message.success(`Cập nhật ${values.name} thành công`);
-    }).catch(errorInfo => {
-      message.error('Vui lòng kiểm tra lại thông tin');
-    });
-  };
-
-  const handleAddMaterial = () => {
-    form.validateFields().then(values => {
-      const newMaterial = {
-        ...values,
-        id: materials.length + 1,
-        status: (values.quantity / values.total) * 100 < 20 ? 'Thấp' : 'Đủ'
-      };
-
-      setMaterials([...materials, newMaterial]);
-      setIsModalVisible(false);
-      message.success(`Thêm ${values.name} thành công`);
-    }).catch(errorInfo => {
-      message.error('Vui lòng kiểm tra lại thông tin');
-    });
-  };
-  const handleImportMaterial = () => {
-    form.validateFields().then(values => {
-      const updatedMaterials = materials.map(material => 
-        material.id === currentMaterial?.id 
-          ? {
-              ...material, 
-              ...values,
-              inventory: material.inventory + values.quantity,
-              status: (material.inventory + values.quantity) < 20 ? 'Thấp' : 'Đủ'
-            } 
-          : material
-      );
-
-      setMaterials(updatedMaterials);
-      setIsImportExportModalVisible(false);
-      message.success(`Nhập nguyên liệu ${values.name} thành công`);
-    }).catch(errorInfo => {
-      message.error('Vui lòng kiểm tra lại thông tin');
-    }
-    );
-  };
-  const handleExportMaterial = () => {
-    form.validateFields().then(values => {
-      const updatedMaterials = materials.map(material => 
-        material.id === currentMaterial?.id 
-          ? {
-              ...material, 
-              ...values,
-              inventory: material.inventory - values.quantity,
-              status: (material.inventory - values.quantity) < 20 ? 'Thấp' : 'Đủ'
-            } 
-          : material
-      );
-
-      setMaterials(updatedMaterials);
-      setIsImportExportModalVisible(false);
-      message.success(`Xuất nguyên liệu ${values.name} thành công`);
     }).catch(errorInfo => {
       message.error('Vui lòng kiểm tra lại thông tin');
     });
@@ -335,58 +409,59 @@ const ManageIngredient = () => {
               />
             </Card>
           </Col>
-          <Col xs={24} sm={24} lg={8}>
-            <Card 
-              hoverable 
-              style={{ 
-                background: 'linear-gradient(135deg, #4fcf70 0%, #4fcf70 100%)', 
-                color: 'white' 
-              }}
-            >
-              <Statistic
-                title={<span style={{color: 'white'}}>Tỷ Lệ Tồn Kho</span>}
-                value={Math.round((1 - lowStockMaterials / totalMaterials) * 100)}
-                suffix="%"
-                prefix={<StockOutlined style={{color: 'white'}} />}
-                valueStyle={{color: 'white'}}
-              />
-            </Card>
-          </Col>
+         
 
           {/* Bảng chi tiết */}
+          
+
           <Col span={24}>
-            <Card 
-              title="Chi Tiết Nguyên Liệu" 
-              extra={
-                <Button 
-                  type="primary"
-                  className='btn-custome'
-                  icon={<PlusOutlined />}
-                  onClick={() => {
-                    setCurrentMaterial(null);
-                    form.resetFields();
-                    setIsModalVisible(true);
-                  }}
+            <Card>
+              <Tabs defaultActiveKey="1">
+                <TabPane tab="Tất Cả Nguyên Liệu" key="1">
+                  <div style={{ marginBottom: 16 }}>
+                    <Button 
+                      type="primary"
+                      className='btn-custome'
+                      icon={<PlusOutlined />}
+                      onClick={() => {
+                        setCurrentMaterial(null);
+                        form.resetFields();
+                        setIsModalVisible(true);
+                      }}
+                    >
+                      Thêm Nguyên Liệu
+                    </Button>
+                  </div>
+                  <Table 
+                    columns={tableColumns} 
+                    dataSource={materials} 
+                    rowKey="id"
+                    pagination={pagination}
+                    loading={loading}
+                    onChange={handleTableChange}
+                  />
+                </TabPane>
+                <TabPane 
+                  tab={
+                    <span>
+                      <WarningOutlined style={{ color: '#ff4d4f' }} />
+                      Nguyên Liệu Hết Hạn ({expiredMaterials.length})
+                    </span>
+                  } 
+                  key="2"
                 >
-                  Thêm Nguyên Liệu
-                </Button>
-              }
-            >
-              <Table 
-                columns={tableColumns} 
-                dataSource={materials} 
-                rowKey="id"
-                pagination={{
-                  current: pagination.current,
-                  pageSize: pagination.pageSize,
-                  total: pagination.total,
-                  showSizeChanger: true,
-                  pageSizeOptions: ['5', '10', '20'],
-                  showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} nguyên liệu`
-                }}
-                loading={loading}
-                onChange={handleTableChange}
-              />
+                  <Table 
+                    columns={expiredTableColumns} 
+                    dataSource={expiredMaterials}
+                    rowKey="id"
+                    pagination={{
+                      pageSize: 5,
+                      showSizeChanger: true,
+                      showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} nguyên liệu hết hạn`
+                    }}
+                  />
+                </TabPane>
+              </Tabs>
             </Card>
           </Col>
         </Row>
@@ -402,7 +477,7 @@ const ManageIngredient = () => {
           destroyOnClose
         >
           <Form form={form} layout="vertical" preserve={false}>
-            {currentMaterial && (
+            {!currentMaterial && (
               <Form.Item 
                 name="name" 
                 label="Tên Nguyên Liệu"
@@ -411,19 +486,16 @@ const ManageIngredient = () => {
                 <Input placeholder="Nhập tên nguyên liệu" />
               </Form.Item>
             )}
-            <Form.Item 
-              name="inventory" 
-              label="Tồn kho"
-              rules={[{ required: true, message: 'Nhập số lượng tồn kho' }]}
-            >
-              <Input readOnly placeholder="Nhập số lượng tồn kho" />
-            </Form.Item>
             <Form.Item
               name="unit"
               label="Đơn Vị"
               rules={[{ required: true, message: 'Nhập đơn vị' }]}
             >
-              <Input placeholder="Nhập đơn vị" />
+              <Select placeholder="Chọn đơn vị">
+                <Option value="kg">Kg</Option>
+                <Option value="l">Lít</Option>
+                <Option value="khác">Khác</Option>
+              </Select>
             </Form.Item>
             <Form.Item
               name="description"
@@ -453,6 +525,8 @@ const ManageIngredient = () => {
               operationType === 'import' ? handleImportMaterial() : handleExportMaterial();
             }}
             onCancel={() => setIsImportExportModalVisible(false)}
+            okText="Cập nhật"
+            cancelText="Hủy"
           >
             <Form
               form={form}
@@ -466,15 +540,16 @@ const ManageIngredient = () => {
               >
                 <Input type="number" min={1} />
               </Form.Item>
-              <Form.Item
-                name="supplier"
-                label="Nhà Cung Cấp"
-                rules={[{ required: true, message: 'Vui lòng nhập nhà cung cấp!' }]}
-              >
-                <Input />
-              </Form.Item>
+             
               {operationType === 'import' && (
                 <>
+                    <Form.Item
+                    name="supplier"
+                    label="Nhà Cung Cấp"
+                    rules={[{ required: true, message: 'Vui lòng nhập nhà cung cấp!' }]}
+                  >
+                    <Input />
+                  </Form.Item>
                   <Form.Item
                     name="price"
                     label="Giá Nhập"
@@ -497,5 +572,5 @@ const ManageIngredient = () => {
       </div>
     </Layout>
   );
-}
+};
 export default ManageIngredient;
