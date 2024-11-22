@@ -21,6 +21,7 @@ import ManageStaff from './pages/Manager/ManageStaff.jsx';
 import ManageIngredient from './pages/Manager/ManageIngredient.jsx';
 import BookingDetails from './pages/Staff/BookingDetails.jsx';
 import Recruitment from './pages/Manager/Recruitment.jsx';
+import Application from './pages/Manager/Application.jsx';
 const App = () => {
   // const [count, setCount] = useState(0)
 
@@ -59,6 +60,7 @@ const App = () => {
           <Route path={PATHS.MANAGER.STAFF} element={<ManageStaff />} />
           <Route path={PATHS.MANAGER.INGREDIENT} element={<ManageIngredient />} />
           <Route path={PATHS.MANAGER.RECRUITMENT} element={<Recruitment />} />
+          <Route path={PATHS.MANAGER.APPLICATION} element={<Application />} />
         </Route>
 
 

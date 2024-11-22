@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Card, Row, Col, Button, message } from 'antd';
 import StaffTable from './TableListStaff';
 import StaffModal from './StaffModal';
-import { 
-  getAllStaffApi, 
-  deleteStaff, 
-  addStaff, 
-  updateStaff 
+import {
+  getAllStaffApi,
+  deleteStaff,
+  addStaff,
+  updateStaff
 } from '../../services/apiService';
 import './staff.scss';
 const ManageStaff = () => {
@@ -14,23 +14,23 @@ const ManageStaff = () => {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [currentStaff, setCurrentStaff] = useState(null);
-  const [pagination, setPagination]=useState({
-    currentPage:1,
-    pageSize:10,
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    pageSize: 10,
     total: 0
   })
 
   // Fetch staff data
-  const loadStaffData = async (page=1, pageSize=10) => {
+  const loadStaffData = async (page = 1, pageSize = 10) => {
     try {
       setLoading(true);
-      const params={page, pageSize}
+      const params = { page, pageSize }
       const response = await getAllStaffApi(params);
       const staffList = response?.DT?.staffs || [];
       const formattedData = staffList.map((staff) => ({
         id: staff.staffId,
         name: staff.fullName,
-        position: staff.position.charAt(0).toUpperCase() + staff.position.slice(1), 
+        position: staff.position.charAt(0).toUpperCase() + staff.position.slice(1),
         contact: staff.phone_number,
         type: staff.type,
         email: staff.email,
@@ -40,9 +40,9 @@ const ManageStaff = () => {
         avatar: staff.avatar,
       }));
       //handle get staff postion not manager and count staff
-      let count=0;
-      const filterData=formattedData.filter((staff)=>{
-        if(staff.position!=='Manager'){
+      let count = 0;
+      const filterData = formattedData.filter((staff) => {
+        if (staff.position !== 'Manager') {
           count++;
           return staff;
         }
@@ -116,15 +116,15 @@ const ManageStaff = () => {
     loadStaffData(pagination.current, pagination.pageSize);
   };
   return (
-    <Card 
-      title="Quản lý nhân viên" 
+    <Card
+      title="Quản lý nhân viên"
       extra={
         <Button type="primary" className='btn-custome' onClick={openAddModal}>
           Thêm nhân viên mới
         </Button>
       }
     >
-      <StaffTable 
+      <StaffTable
         data={staffData}
         loading={loading}
         onEdit={openEditModal}
@@ -136,8 +136,8 @@ const ManageStaff = () => {
         visible={modalVisible}
         staff={currentStaff}
         onCancel={() => setModalVisible(false)}
-        onSubmit={currentStaff ? 
-          (staffInfo) => handleUpdateStaff(currentStaff.id, staffInfo) : 
+        onSubmit={currentStaff ?
+          (staffInfo) => handleUpdateStaff(currentStaff.id, staffInfo) :
           handleAddStaff
         }
       />

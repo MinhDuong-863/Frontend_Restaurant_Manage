@@ -148,6 +148,64 @@ export const deleteRecruitment = async (recruitmentId) => {
     throw error;
   }
 }
+
+//api for Application
+export const getApplicationApi = async (params = {}) => {
+  try {
+    return await clientApi
+      .service('/application')
+      .find({
+        page: params.page || 1,
+        limit: params.pageSize || 10,
+        search: params.search || '',
+        recruitmentId: params.recruitmentId
+      });
+  } catch (error) {
+    console.error('Error fetching application:', error);
+    throw error;
+  }
+}
+export const createApplicationApi = async (data) => {
+  try {
+    return await clientApi
+      .service('/application')
+      .create(data);
+  } catch (error) {
+    console.error('Lỗi tạo ứng viên:', error);
+    throw error;
+  }
+}
+
+export const updateApplicationApi = async (id, data) => {
+  try {
+    return await clientApi
+      .service('/application')
+      .put(id, data);
+  } catch (error) {
+    console.error('Error updating application:', error);
+    throw error;
+  }
+}
+export const getApplicationById = async (id) => {
+  try {
+    return await clientApi
+      .service('/application')
+      .get(id);
+  } catch (error) {
+    console.error('Error fetching application:', error);
+    throw error;
+  }
+}
+export const deleteApplicationApi = async (recruitmentId) => {
+  try {
+    return await clientApi
+      .service('/application')
+      .delete(recruitmentId);
+  } catch (error) {
+    console.error('Error deleting application:', error);
+    throw error;
+  }
+}
 export {
   createUser,
   getAllStaffApi,

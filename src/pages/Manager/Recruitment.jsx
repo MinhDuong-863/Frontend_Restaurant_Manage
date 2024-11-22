@@ -3,9 +3,12 @@ import "./staff.scss"
 import { createRecruitment, deleteRecruitment, getAllRecruitmentApi, getRecruitmentById, updateRecruitment } from "../../services/apiService";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from "react";
-import { formatDate } from "../../utils/format";
+import { formatCurrency, formatDate } from "../../utils/format";
 import { POSITIONS, REQUIREMENTS, TYPE_OF_RECRUITMENT } from "../../constant/values";
 import dayjs from "dayjs";
+import Application from "./Application";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
 const Recruitment = () => {
     const [recruitments, setRecruitments] = useState([]);
@@ -17,6 +20,7 @@ const Recruitment = () => {
         pageSize: 5, // Số lượng bản ghi trên mỗi trang
         total: 0,    // Tổng số bản ghi (lấy từ API)
     });
+    const [recruimentDetal, setRecruitmentDetail] = useState("");
     const [form] = Form.useForm();
     const getAllRecruitment = async () => {
         try {
@@ -30,7 +34,7 @@ const Recruitment = () => {
             const formattedData = recruimentList.map((recruitment) => ({
                 id: recruitment.recruimentId,
                 position: recruitment.position,
-                salary: recruitment.salary,
+                salary: formatCurrency(recruitment.salary),
                 start_date: formatDate(recruitment.start_date || new Date()),
                 address: recruitment.address,
                 describe: recruitment.describe,
@@ -54,7 +58,6 @@ const Recruitment = () => {
     useEffect(() => {
         getAllRecruitment(pagination.current, pagination.pageSize);
     }, [pagination.current, pagination.pageSize]);
-
     const handleTableChange = (pagination) => {
         setPagination({
             ...pagination,
@@ -142,6 +145,17 @@ const Recruitment = () => {
                         }}
                     >
                     </Button>
+                    <Button
+                        color="green"
+                        type="default"
+                        size="small"
+                        style={{ marginRight: 8 }}
+                        icon={<FontAwesomeIcon icon={faCircleInfo} color="green" />}
+                        onClick={() => {
+                            setRecruitmentDetail(record.id);
+                        }}
+                    >
+                    </Button>
                 </div>
             )
         }
@@ -213,6 +227,12 @@ const Recruitment = () => {
                     </Card>
                 </Col>
             </Row>
+            {recruimentDetal && <Application
+                recruimentDetal={recruimentDetal}
+                close={() => {
+                    setRecruitmentDetail(null);
+                }}
+            />}
             <Modal
                 title={"Thêm mới tuyển dụng"}
                 open={showModal}

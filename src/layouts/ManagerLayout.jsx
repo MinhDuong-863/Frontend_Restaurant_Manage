@@ -1,9 +1,11 @@
 import React, { Children, useEffect, useState } from 'react';
 import {
     DashboardOutlined,
+    FormOutlined,
     LogoutOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
+    OrderedListOutlined,
     UsergroupAddOutlined,
     UserOutlined,
 } from '@ant-design/icons';
@@ -67,6 +69,18 @@ const items = [
         key: '4',
         icon: <FaUserCheck />,
         label: 'Quản lý tuyển dụng',
+        children: [
+            {
+                key: '4.1',
+                icon: <OrderedListOutlined />,
+                label: 'Tin tuyển dụng',
+            },
+            {
+                key: '4.2',
+                icon: <FormOutlined />,
+                label: 'Đơn ứng tuyển',
+            },
+        ]
     },
     {
         key: '5',
@@ -82,6 +96,8 @@ const navigationMap = {
     "2.3": PATHS.MANAGER.STAFF,
     "3": PATHS.MANAGER.INGREDIENT,
     "4": PATHS.MANAGER.RECRUITMENT,
+    "4.1": PATHS.MANAGER.RECRUITMENT,
+    "4.2": PATHS.MANAGER.APPLICATION,
     "5": PATHS.HOME.LOGOUT,
 }
 const ManagerLayout = () => {

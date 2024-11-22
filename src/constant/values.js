@@ -142,3 +142,22 @@ export const REQUIREMENTS = [
     label: "trên 5 năm kinh nghiệm"
   }
 ]
+// enum: ['Not viewed', 'Viewed', 'Successful', 'Rejected'],
+export const STATUS_APPLY = [
+  {
+    value: 'Successful',
+    label: 'Chấp nhận',
+  },
+  {
+    value: 'Rejected',
+    label: 'Từ chối',
+  },
+  {
+    value: 'Not viewed',
+    label: 'Chưa xem',
+  },
+  {
+    value: 'Viewed',
+    label: 'Đã xem',
+  }
+]
