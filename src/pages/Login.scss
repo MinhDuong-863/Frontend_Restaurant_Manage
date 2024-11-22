@@ -3,7 +3,7 @@
 .login-container {
     display            : flex;
     height             : 100vh;
-    background-image   : url('https://res.cloudinary.com/utejobhub/image/upload/v1731929819/cnpm/zhn5p0lxavwcwb14q0pi.png');
+    background-image   : url('https://res.cloudinary.com/dup39fo44/image/upload/v1732108223/363365339_207965105531678_3534534565980532889_n_zlwffj.jpg');
     background-size    : cover; // Đảm bảo hình ảnh phủ toàn bộ container
     background-position: center; // Căn giữa hình ảnh
     background-repeat  : no-repeat; // Không lặp lại hình ảnh
@@ -18,9 +18,10 @@
         align-items       : center;
 
         .welcome {
-            color      : $text-color;
+            color      : white;
             font-family: 'Courier New', Courier, monospace;
             font-weight: 900 !important;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); 
         }
 
         .form-container {

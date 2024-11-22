@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Input, Form, Typography, Col, Row, Flex, message } from 'antd';
 import './Login.scss';
 import { Link, useNavigate } from 'react-router-dom';

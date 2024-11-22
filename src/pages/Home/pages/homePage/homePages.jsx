@@ -5,7 +5,6 @@ import './HomePage.scss';
 const HomePages = () => {
 
     const images = [
-        
         'https://res.cloudinary.com/dup39fo44/image/upload/v1732108223/363365339_207965105531678_3534534565980532889_n_zlwffj.jpg',
         'https://res.cloudinary.com/dup39fo44/image/upload/v1732109166/snapedit_1732109144746_kjejlp.png'
       ];
@@ -49,7 +48,7 @@ const HomePages = () => {
                     </div>
                     <div className='row about-content'>
                         <div className='row mb-5 justify-content-center'>
-                            <iframe width="500" height="390" src="https://www.youtube.com/embed/30jWl_dr5Zo?list=TLGGDdAcXM_Ij0IxOTExMjAyNA" title="ỨC VỊT NƯỚNG THAN | MĂM MĂM" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                            <iframe width="952" height="254" src="https://www.youtube.com/embed/EiPwvWKFFNo?list=TLGGNL1hO4NfxTIyMjExMjAyNA" title="AI LOVE AI COCKTAIL | NÚC&#39;S CREATION" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         </div>
                         <div className='col-12 col-lg-4 ms-lg-5 about-text'>
                             <p style={{margin: 0, display: 'flex', alignItems: 'flex-end',  height: '100px'}}>OUR</p>
