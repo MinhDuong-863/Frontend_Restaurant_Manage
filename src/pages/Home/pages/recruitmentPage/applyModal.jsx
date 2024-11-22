@@ -1,8 +1,36 @@
-import { Modal, Form, Input, DatePicker } from "antd";
+import { Modal, Form, Input, DatePicker, message } from "antd";
 import PropTypes from 'prop-types';
+import { applyRecruitment } from "../../../../services/userService";
 
-const ApplyModal = ({ isVisible, onClose, onSubmit, recruitmentId }) => {
+const ApplyModal = ({ isVisible, onClose, recruitmentId }) => {
     const [form] = Form.useForm();
+
+    const handleApplySubmit = async (applyData) => {
+        try {
+            const response = await applyRecruitment(applyData);
+            
+            if (response.EC === 0) {
+                message.success('Ứng tuyển thành công');
+                form.resetFields();
+                onClose();
+            } 
+            // Kiểm tra các lỗi email và CID đã tồn tại
+            else if (response.EC === 400 && response.EM === 'Email đã tồn tại') {
+                message.error('Email đã được sử dụng cho một đơn ứng tuyển khác');
+            } 
+            else if (response.EC === 400 && response.EM === 'CID đã tồn tại') {
+                message.error('CID đã được sử dụng cho một đơn ứng tuyển khác');
+            } 
+            // Trường hợp khác thất bại
+            else {
+                message.error('Ứng tuyển thất bại');
+            }
+        } catch (error) {
+            console.log(error);
+            message.error('Ứng tuyển thất bại');
+        }
+    };
+    
 
     const handleOk = () => {
         form
@@ -13,9 +41,7 @@ const ApplyModal = ({ isVisible, onClose, onSubmit, recruitmentId }) => {
                     recruitment_id: recruitmentId,
                     dob: values.dob.format("YYYY-MM-DD"), // Định dạng ngày sinh
                 };
-                onSubmit(formData); // Gửi dữ liệu ứng tuyển
-                form.resetFields(); // Reset form sau khi gửi
-                onClose(); // Đóng modal
+                handleApplySubmit(formData);
             })
             .catch((info) => {
                 console.error("Validate Failed:", info);
@@ -98,7 +124,6 @@ const ApplyModal = ({ isVisible, onClose, onSubmit, recruitmentId }) => {
 ApplyModal.propTypes = {
     isVisible: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
     recruitmentId: PropTypes.string.isRequired,
 };
 

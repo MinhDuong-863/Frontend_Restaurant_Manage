@@ -1,0 +1,23 @@
+.food-item{
+    padding: 15px 5px;
+    border: 1px solid #D7D7D7;  
+    border-radius: 10px;
+
+    .btn-book{
+        background: white;
+        border: 1px solid #F39C12;
+        border-radius: 0 !important;
+        color: #F39C12;
+        font-weight: 600;
+        padding: 5px 20px;
+    
+        &:hover {
+            background: #F39C12 !important;
+            color: black !important;
+        }
+    }
+
+    p{
+        margin: 0;
+    }
+}
