@@ -1,6 +1,20 @@
 import clientApi from "../client-api/rest-client-api";
 //handle api for staff
 const token=localStorage.getItem('token')
+
+//api create user
+const createUser=async(user)=>{
+    try {
+        return await clientApi
+          .service('/register')
+          .create(user);
+      } catch (error) {
+        console.error('Không thể thêm người dùng mới:', error);
+        throw error;
+      }
+}
+
+
 const getAllStaffApi= async(params = {})=>{
     try {
         return await clientApi
@@ -68,4 +82,4 @@ const getAllIngredientApi = async (params = {}) => {
       throw error;
   }
 };
-export {getAllStaffApi, updateStaff, addStaff, deleteStaff, getAllIngredientApi};
+export {getAllStaffApi, updateStaff, addStaff, deleteStaff, getAllIngredientApi, createUser};

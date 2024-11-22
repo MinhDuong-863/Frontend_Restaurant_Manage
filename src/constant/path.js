@@ -26,7 +26,7 @@ export const PATHS = {
         ORDER: "/manager/order",
         FOOD: "/manager/food",
         INGREDIENT: "/manager/ingredient",
-        CATEGORY: "/manager/category",
+        //CATEGORY: "/manager/category",
         REPORT: "/manager/report",
     },
     USER:{
