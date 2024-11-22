@@ -55,3 +55,18 @@ export const getAllFood = async (page, limit, search, type, status) => {
         throw error;
     }
 }
+
+export const bookingTable = async (data) => {
+    try {
+        const response = await clientApi.service('booking').create(data);
+        console.log(response);
+        if (response?.EC === 0) {
+            return response;
+        } else {
+            throw new Error(response?.EM || "Không thể đặt bàn");
+        }
+    } catch (error) {
+        console.error('Error in bookingTable:', error);
+        throw error;
+    }
+}

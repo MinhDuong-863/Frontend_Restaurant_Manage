@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import PropTypes from 'prop-types';
 import BookingModal from '../bookingModal/bookingModal';
@@ -6,12 +6,20 @@ import './OrderModal.scss';
 
 const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+    const [tempFoods, setTempFoods] = useState([...selectedFoods]);
+
+    useEffect(() => {
+        if (isOpen) {
+            setTempFoods([...selectedFoods]);
+        }
+    }, [isOpen, selectedFoods]);
+
     
     const handleQuantityChange = (_id, newQuantity) => {
         if (newQuantity >= 0) {
-            setSelectedFoods(prev => 
-                prev.map(food => 
-                    food._id === _id 
+            setTempFoods(prev =>
+                prev.map(food =>
+                    food._id === _id
                         ? { ...food, quantity: newQuantity }
                         : food
                 )
@@ -20,7 +28,7 @@ const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
     };
 
     const handleRemoveFood = (_id) => {
-        setSelectedFoods(prev => prev.filter(food => food._id !== _id));
+        setTempFoods(prev => prev.filter(food => food._id !== _id));
     };
 
     const calculateTotal = () => {
@@ -54,17 +62,16 @@ const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
     };
     
     const handleOrderConfirm = () => {
-        console.log('Order confirmed');
-        //console hiển thị danh sách existingFood
-        console.log(selectedFoods);
-        onClose();
-    }
+        setSelectedFoods(tempFoods); // Lưu danh sách món ăn đã chỉnh sửa
+        onClose(); // Đóng modal
+    };
       
 
     return (
         <>
             <Modal
                 title="Danh sách món đã chọn"
+                closeIcon={null}
                 open={isOpen}
                 onCancel={onClose}
                 width={800}
@@ -76,8 +83,11 @@ const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
                         {selectedFoods.length === 0 ? (
                             <div className="empty-order">
                                 <p>Chưa có món ăn nào được chọn</p>
-                                <button className="btn-add" onClick={openBookingModal}>
+                                <button className="btn-add me-3" onClick={openBookingModal}>
                                     Thêm món
+                                </button>
+                                <button className="btn-cancel" onClick={onClose}>
+                                    Hủy
                                 </button>
                             </div>
                         ) : (
@@ -93,7 +103,7 @@ const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {selectedFoods.map(food => (
+                                        {tempFoods.map(food => (
                                             <tr key={food._id}>
                                                 <td className="food-info">
                                                     <div>

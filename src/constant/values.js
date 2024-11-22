@@ -1,98 +1,66 @@
 export const TIME_ZONE = [
     {
-      value: 1,
+      value: '8:00',
       label: '8:00',
     },
     {
-      value: 2,
+      value: '9:00',
       label: '9:00',
     },
     {
-      value: 3,
+      value: '10:00',
       label: '10:00',
     },
     {
-      value: 4,
+      value: '11:00',
       label: '11:00',
     },
     {
-      value: 6,
+      value: '12:00',
       label: '12:00',
     },
     {
-      value: 7,
+      value: '13:00',
       label: '13:00',
     },
     {
-      value: 8,
+      value: '14:00',
       label: '14:00',
     },
     {
-      value: 9,
+      value: '15:00',
       label: '15:00',
     },
     {
-      value: 10,
+      value: '16:00',
       label: '16:00',
     },
     {
-      value: 11,
+      value: '17:00',
       label: '17:00',
     },
     {
-      value: 12,
+      value: '18:00',
       label: '18:00',
     },
     {
-      value: 13,
+      value: '19:00',
       label: '19:00',
     },
     {
-      value: 14,
+      value: '20:00',
       label: '20:00',
     }
 ]
 
-export const TABLES = [
+export const TABLE_TYPES = [
   {
-    value: 1,
-    label: 'Bàn 1',
+    value: 'normal',
+    label: 'Bàn thường',
   }, 
   {
-    value: 2,
-    label: 'Bàn 2',
-  },
-  {
-    value: 3,
-    label: 'Bàn 3',
-  },
-  {
-    value: 4,
-    label: 'Bàn 4',
-  },
-  {
-    value: 5,
-    label: 'Bàn 5',
-  },
-  {
-    value: 6,
-    label: 'Bàn 6',
-  },
-  {
-    value: 7,
-    label: 'Bàn 7',
-  },
-  {
-    value: 8,
-    label: 'Bàn 8',
-  },
-  {
-    value: 9,
-    label: 'Bàn 9',
-  },
-  {
-    value: 10,
-    label: 'Bàn 10',
+    value: 'VIP',
+    label: 'Bàn Vip',
   }
 ]
 

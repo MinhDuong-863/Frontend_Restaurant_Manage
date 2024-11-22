@@ -1,3 +1,47 @@
+.reservation-summary {
+    padding: 5em;
+    background-color: #D7D7D7;
+    height: 100vb;
+
+    h3 {
+        font-size: 2.5em;
+        color: #000;
+        margin-bottom: 1em;
+        font-weight: 500;
+    }
+
+    p {
+        font-size: 1.2em;
+        color: #333;
+        margin-bottom: 0.5em;
+        line-height: 1.6;
+    }
+
+    h4 {
+        margin-top: 1.5em;
+        font-size: 1.5em;
+        color: #000;
+        font-weight: 500;
+    }
+
+    ul {
+        list-style-type: disc;
+        padding-left: 2em;
+        margin-top: 0.5em;
+
+        li {
+            font-size: 1.1em;
+            color: #444;
+            margin-bottom: 0.3em;
+        }
+    }
+
+    .seleted-food{
+        background: white;
+        border-radius: 10px;
+    }
+}
+
 .reservate-page-container{
     padding: 5em;
     background-color: #D7D7D7;
