@@ -82,6 +82,7 @@ const StaffLayout = () => {
                     navigate(PATHS.HOME.LOGIN);
                     dispatch(logout());
                     dispatch(removeStaffInfor());
+                    dispatch(removeCurrent());
                     message.success(res.EM);
                 } else {
                     message.error(res.EM);

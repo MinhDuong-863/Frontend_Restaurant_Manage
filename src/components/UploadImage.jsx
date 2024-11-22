@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './UploadImage.scss';
+import styles from './UploadImage.module.scss';
 import { Avatar, Progress, message } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { uploadToCloudinary } from "../utils/cloudinary.jsx";
@@ -32,10 +32,10 @@ const UploadImage = ({ src, setSrc }) => {
     return (
         <div >
             <input type="file" id='input-upload' hidden={true} onChange={handleImageChange} />
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+            <div className={styles["container"]}>
                 {urlImage && (
                     <div style={{ filter: uploading ? 'blur(4px)' : 'none', opacity: uploading ? 0.5 : 1, transition: 'all 0.3s ease' }}>
-                        <Avatar
+                        <Avatar className={styles["avatar-upload"]}
                             icon={<UserOutlined />}
                             onClick={() => document.getElementById('input-upload').click()}
                             src={urlImage}
@@ -45,15 +45,7 @@ const UploadImage = ({ src, setSrc }) => {
                     </div>
                 )}
                 {uploading && (
-                    <div
-                        style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            width: '80%',
-                        }}
-                    >
+                    <div className={styles["progress-container"]}>
                         <Progress percent={uploadProgress} status="active" />
                     </div>
                 )}
