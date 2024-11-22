@@ -1,10 +1,9 @@
-import { DatePicker, Pagination, Select } from 'antd';
+import { DatePicker, Select } from 'antd';
 import './ReservatePage.scss';
 import { TABLES, TIME_ZONE } from '../../../../constant/values';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import BookingModal from './bookingModal/bookingModal';
-import FoodItem from './foodItem/foodItem';
-import { getAllFood } from '../../../../services/userService';
+import OrderModal from './orderModal/orderModal';
 
 const ReservatePage = () => {
     const [selectedTime, setSelectedTime] = useState(null);
@@ -33,61 +32,30 @@ const ReservatePage = () => {
         setNote(e.target.value);
     }
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
+    //modal order
+    const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+    const [selectedFoods, setSelectedFoods] = useState([]);
 
-    const [selectedFoodType, setSelectedFoodType] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [foods, setFoods] = useState([]);
-    const [search, setSearch] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(15);
-    const [total, setTotal] = useState(0);
+    const closeOrderModal = () => setIsOrderModalOpen(false);
 
-    const onFoodTypeChange = (value) => {
-        setSelectedFoodType(value);
-    }
+    //modal booking
+    const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
-    const onSeachChange = (e) => {
-        setSearch(e.target.value);
-    }
-
-    const handlePageChange = (page, pageSize) => {
-        setCurrentPage(page);  
-        setPageSize(pageSize);  
+    const handleFoodSelect = (food) => {
+        setSelectedFoods(prev => {
+            const existingFood = prev.find(f => f._id === food._id);
+            if (existingFood) {
+                return prev.map(f => 
+                    f._id === food._id 
+                        ? { ...f, quantity: f.quantity + 1 }
+                        : f
+                );
+            }
+            return [...prev, { ...food, quantity: 1 }];
+        });
+        setIsBookingModalOpen(false);
+        setIsOrderModalOpen(true);
     };
-
-    const FoodType = [
-        {
-            value: '1',
-            label: 'Món chính'
-        },
-        {
-            value: '2',
-            label: 'Món phụ'
-        },
-        {
-            value: '3',
-            label: 'Món tráng miệng'
-        }
-    ]
-
-    const fetchFoods = async () => {
-        try {
-            setLoading(true);
-            const { data, totalItem } = await getAllFood(currentPage, pageSize, search, selectedFoodType, 'active');
-            setFoods(data);
-            setTotal(totalItem);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching recruitments:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchFoods();
-    }, [currentPage, pageSize, search, selectedFoodType]);
 
    return (
         <div className="reservate-page-container">
@@ -185,7 +153,7 @@ const ReservatePage = () => {
                     </div>
                     <div className='row mt-3'>
                         <div className='col-12 d-flex justify-content-end'>
-                            <button className='btn-order' onClick={openModal}>Đặt món</button>
+                            <button className='btn-order' onClick={() => setIsOrderModalOpen(true)}>Đặt món</button>
                             <button className='btn-reservate'>Đặt bàn</button>
                         </div>
                     </div>
@@ -195,57 +163,19 @@ const ReservatePage = () => {
                         src='https://res.cloudinary.com/dup39fo44/image/upload/v1732177249/top-view-dining-table-arrangement_hhjywo.jpg' alt='Image-reservate' ></img>
                 </div>
             </div>
-            <BookingModal isOpen={isModalOpen} onClose={closeModal}>
-                <div className='row booking-header'>
-                    <h2>Chọn món ăn</h2>
-                </div>
-                <div className='row mt-3 booking-action'>
-                    <div className='col-8'>
-                        <input 
-                            type='text' 
-                            placeholder='Tìm kiếm món ăn' 
-                            style={{width: '100%', height: '3em'}} 
-                            value={search}
-                            onChange={onSeachChange}
-                            className='input-search'/>
-                    </div>
-                    <div className='col-4'>
-                        <Select
-                            showSearch
-                            placeholder="Chọn vị trí"
-                            optionFilterProp="label"
-                            onChange={onFoodTypeChange}
-                            value={selectedFoodType}
-                            options={FoodType}
-                            style={{width: '100%', height: '3em'}}
-                        />
-                    </div>
-                </div>
-                <div className='row mt-3 booking-list justify-content-center'>
-                    {loading ? (
-                        <p>Đang tải dữ liệu...</p>
-                    ) : (
-                        foods.map((item) => (
-                            <FoodItem
-                                key={item.foodId}
-                                foodItem={item}
-                            />
-                        ))
-                    )}
-                    <div className='row mt-3'>
-                        <Pagination
-                            align="center"
-                            current={currentPage}
-                            pageSize={pageSize}
-                            total={total}
-                            onChange={handlePageChange}
-                        />
-                    </div> 
-                </div>
-            </BookingModal>
+            <BookingModal 
+                isOpen={isBookingModalOpen}
+                onClose={() => setIsBookingModalOpen(false)}
+                onFoodSelect={handleFoodSelect}
+            />
+            <OrderModal 
+                isOpen={isOrderModalOpen}
+                onClose={closeOrderModal}
+                selectedFoods={selectedFoods}
+                setSelectedFoods={setSelectedFoods}
+            />
         </div>
    )
-
 }
 
 export default ReservatePage;

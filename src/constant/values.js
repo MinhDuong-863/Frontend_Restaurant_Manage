@@ -117,3 +117,34 @@ export const TYPE_OF_RECRUITMENT = [
     label: 'Bán thời gian (part-time)',
   }
 ]
+
+export const TYPE_OF_FOOD = [
+  {
+    value: '',
+    label: 'Tất cả',
+  },
+  {
+    value: 'appetizer',
+    label: 'Món khai vị',
+  },
+  {
+    value: 'MainCourse',
+    label: 'Món chính',
+  },
+  {
+    value: 'SideDishes',
+    label: 'Món ăn kèm',
+  },
+  {
+    value: 'Desserts',
+    label: 'Món tráng miệng',
+  },
+  {
+    value: 'Drinks',
+    label: 'Đồ uống',
+  },
+  {
+    value: 'Specialties',
+    label: 'Món đặc sản',
+  }
+]
