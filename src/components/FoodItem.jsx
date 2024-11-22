@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Card, Row, Col, InputNumber, Button, Form, Flex, Typography } from "antd";
 
 const { Text, Title } = Typography;
-const FoodItem = ({ foodId, foodName = null, foodImage = null }) => {
+const FoodItem = ({ foodName = "Tên món ăn", price = 0, quantity = 0, foodImage = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDvhVj35wKn7UFUA96YOQD-nZCMsxRKr_Mhw&s" }) => {
     const [form] = Form.useForm();
-    const [quantity, setQuantity] = useState(3); // Giá trị mặc định
 
     const onQuantityChange = (value) => {
         setQuantity(value);
@@ -18,17 +17,12 @@ const FoodItem = ({ foodId, foodName = null, foodImage = null }) => {
 
     return (
         <Card size="small" style={{ borderRadius: 10, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
-            <Form
-                form={form}
-                layout="inline"
-                initialValues={{ foodId, quantity }}
-                onFinish={handleFormSubmit}
-            >
+            <div>
                 <Row align="middle" gutter={[16, 16]} style={{ width: "100%" }}>
                     {/* Hình ảnh món ăn */}
                     <Col span={3}>
                         <img
-                            src={foodImage || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDvhVj35wKn7UFUA96YOQD-nZCMsxRKr_Mhw&s"}
+                            src={foodImage}
                             alt="Food"
                             style={{
                                 width: "100%",
@@ -40,7 +34,8 @@ const FoodItem = ({ foodId, foodName = null, foodImage = null }) => {
 
                     {/* Thông tin món ăn */}
                     <Col span={12}>
-                        <Title level={4}>{foodName || "Tên món ăn"}</Title>
+                        <Title level={4}>{foodName}</Title>
+                        <Text strong>{price.toLocaleString()}đ</Text>
                     </Col>
 
                     {/* Input số lượng */}
@@ -48,35 +43,14 @@ const FoodItem = ({ foodId, foodName = null, foodImage = null }) => {
 
                         <Row justify="end" align="middle">
                             <Flex gap={8}>
-                                <Button
-                                    onClick={() => onQuantityChange(quantity > 1 ? quantity - 1 : 1)}
-                                    disabled={quantity <= 1}
-                                >
-                                    -
-                                </Button>
-                                <Form.Item
-                                    name="quantity"
-                                    style={{ marginInlineEnd: 0 }}
-                                >
-                                    <InputNumber
-                                        min={1}
-                                        value={quantity}
-                                        onChange={onQuantityChange}
-                                    />
-                                </Form.Item>
-                                <Button onClick={() => onQuantityChange(quantity + 1)}>+</Button>
+                                <Text>Số lượng: {quantity}</Text>
                             </Flex>
                         </Row>
 
                     </Col>
                 </Row>
 
-                {/* Ẩn ID món ăn trong Form */}
-                <Form.Item name="foodId" hidden>
-                    <input />
-                </Form.Item>
-
-            </Form>
+            </div>
         </Card>
     );
 };

@@ -1,7 +1,8 @@
 import { useLocation } from "react-router-dom";
 import React from "react";
-import { Badge, Descriptions, Flex, Typography } from "antd";
+import { Button, Col, Descriptions, Flex, Row, Typography } from "antd";
 import styles from "./BookingDetails.module.scss";
+import FoodItem from "../../components/FoodItem";
 const { Title, Text } = Typography;
 
 const BookingDetails = () => {
@@ -45,6 +46,18 @@ const BookingDetails = () => {
       span: 3,
     }
   ];
+
+  const calculateTotalPrice = (response) => {
+    if (!response?.DT || !Array.isArray(response.DT)) {
+      return 0; // Trả về 0 nếu response không hợp lệ
+    }
+
+    return response.DT.reduce(
+      (total, { food_price = 0, quantity = 0 }) => total + food_price * quantity,
+      0
+    );
+  };
+
   return (
     <div className={styles["page"]}>
       <Flex vertical gap={20}>
@@ -54,7 +67,21 @@ const BookingDetails = () => {
           <Descriptions title={<div className={styles["header-1"]}>Thông tin đặt bàn</div>} bordered items={items} />
         </div>
         <div className={styles["header-1"]}>Gọi món</div>
+        <Flex gap={"1rem"}>
+          <Button className={styles["btn"]}>Thêm món</Button>
+          <Button className={styles["btn"]}>Thanh toán</Button>
+        </Flex>
+        <div>
+          <Row>
+            <Col span={12}>
 
+            </Col>
+            <Col span={12}>
+              <FoodItem />
+            </Col>
+          </Row>
+
+        </div>
       </Flex>
 
     </div>
