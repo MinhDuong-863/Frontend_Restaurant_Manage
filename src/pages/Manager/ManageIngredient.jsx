@@ -27,7 +27,6 @@ import {
   EditOutlined,
   DeleteOutlined
 } from '@ant-design/icons';
-import * as XLSX from 'xlsx';
 
 const { Option } = Select;
 
@@ -49,15 +48,16 @@ const ManageIngredient = () => {
 
   const totalMaterials = materials.length;
   const lowStockMaterials = materials.filter(m => m.status === 'Thấp').length;
-  const getAllIngredient= async () => {
+  const getAllIngredient = async () => {
     try {
       setLoading(true);
-      const params={
+      const params = {
         page: pagination.current,
         pageSize: pagination.pageSize
-      }
+      };
       const response = await getAllIngredientApi(params);
-       const ingredientList = response?.DT?.docs || [];
+      const ingredientList = response?.DT?.docs || [];
+      
       setTotalIngredients(response.DT.totalDocs);
       const formattedData = ingredientList.map((ingredient) => ({
         id: ingredient.id,
@@ -65,27 +65,34 @@ const ManageIngredient = () => {
         inventory: ingredient.inventory,
         unit: ingredient.unit,
         category: ingredient.type,
+        description: ingredient.description,
         status: ingredient.status === 'active' ? 'Đủ' : 'Thấp',
       }));
-      setPagination({
-        ...pagination,
+  
+      setPagination(prevState => ({
+        ...prevState,
         current: response?.DT?.page,
-        total: response?.DT?.totalPages || 0,
+        total: response?.DT?.totalDocs || 0,
         pageSize: response?.DT?.limit || 10,
-      });
+      }));
+  
       setMaterials(formattedData);
     } catch (error) {
       message.error('Failed to load ingredient data');
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
   useEffect(() => {
     getAllIngredient(pagination.current, pagination.pageSize);
-  }, []);
+  }, [pagination.current, pagination.pageSize]);
 
   const handleTableChange = (pagination) => {
-    getAllIngredient(pagination.current, pagination.pageSize);
+    setPagination({
+      ...pagination,
+      current: pagination.current,
+      pageSize: pagination.pageSize
+    });
   };
   const pieData = materials.map(m => ({
     name: m.name,
@@ -106,12 +113,6 @@ const ManageIngredient = () => {
     }
     return acc;
   }, []);
-
-  const barData = categoryData.map(item => ({
-    category: item.category,
-    'Tỷ Lệ Tồn Kho (%)': Math.round((item.quantity / item.total) * 100)
-  }));
-
   const tableColumns = [
     {
       title: 'Tên Nguyên Liệu',
@@ -358,7 +359,8 @@ const ManageIngredient = () => {
               title="Chi Tiết Nguyên Liệu" 
               extra={
                 <Button 
-                  type="primary" 
+                  type="primary"
+                  className='btn-custome'
                   icon={<PlusOutlined />}
                   onClick={() => {
                     setCurrentMaterial(null);
@@ -374,13 +376,13 @@ const ManageIngredient = () => {
                 columns={tableColumns} 
                 dataSource={materials} 
                 rowKey="id"
-                scroll={{ x: 600, y: 300 }}
                 pagination={{
                   current: pagination.current,
                   pageSize: pagination.pageSize,
                   total: pagination.total,
                   showSizeChanger: true,
                   pageSizeOptions: ['5', '10', '20'],
+                  showTotal: (total, range) => `${range[0]}-${range[1]} của ${total} nguyên liệu`
                 }}
                 loading={loading}
                 onChange={handleTableChange}
@@ -395,10 +397,12 @@ const ManageIngredient = () => {
           visible={isModalVisible}
           onOk={currentMaterial ? handleUpdateMaterial : handleAddMaterial}
           onCancel={() => setIsModalVisible(false)}
+          okText="Lưu"
+          cancelText="Hủy"
           destroyOnClose
         >
           <Form form={form} layout="vertical" preserve={false}>
-            {!currentMaterial && (
+            {currentMaterial && (
               <Form.Item 
                 name="name" 
                 label="Tên Nguyên Liệu"
@@ -408,36 +412,37 @@ const ManageIngredient = () => {
               </Form.Item>
             )}
             <Form.Item 
-              name="category" 
+              name="inventory" 
+              label="Tồn kho"
+              rules={[{ required: true, message: 'Nhập số lượng tồn kho' }]}
+            >
+              <Input readOnly placeholder="Nhập số lượng tồn kho" />
+            </Form.Item>
+            <Form.Item
+              name="unit"
+              label="Đơn Vị"
+              rules={[{ required: true, message: 'Nhập đơn vị' }]}
+            >
+              <Input placeholder="Nhập đơn vị" />
+            </Form.Item>
+            <Form.Item
+              name="description"
+              label="Mô Tả"
+            >
+              <Input.TextArea placeholder="Nhập mô tả" />
+            </Form.Item>
+
+            <Form.Item 
+              name="type" 
               label="Nhóm Nguyên Liệu"
               rules={[{ required: true, message: 'Chọn nhóm nguyên liệu' }]}
             >
               <Select placeholder="Chọn nhóm">
-                <Option value="Nguyên Liệu Chính">Nguyên Liệu Chính</Option>
-                <Option value="Protein">Protein</Option>
-                <Option value="Rau Và Củ">Rau Và Củ</Option>
-                <Option value="Gia Vị">Gia Vị</Option>
+                <Option value="Thịt">Thịt</Option>
+                <Option value="Hải sản">Hải sản</Option>
+                <Option value="Rau củ">Rau Và Củ</Option>
+                <Option value="Gia vị">Gia Vị</Option>
               </Select>
-            </Form.Item>
-            <Form.Item 
-              name="total" 
-              label="Tổng Số Lượng" 
-              rules={[
-                { required: true, message: 'Nhập tổng số lượng' },
-                { type: 'number', min: 1, message: 'Nhập số lượng hợp lệ' }
-              ]}
-            >
-              <Input type="number" placeholder="Nhập tổng số lượng" />
-            </Form.Item>
-            <Form.Item 
-              name="quantity" 
-              label="Số Lượng Hiện Tại" 
-              rules={[
-                { required: true, message: 'Nhập số lượng hiện tại' },
-                { type: 'number', min: 0, message: 'Nhập số lượng hợp lệ' }
-              ]}
-            >
-              <Input type="number" placeholder="Nhập số lượng hiện tại" />
             </Form.Item>
           </Form>
         </Modal>

@@ -4,7 +4,7 @@ import {
     DeleteOutlined, 
     UserOutlined 
   } from '@ant-design/icons';
-const StaffTable = ({ data, loading, onEdit, onDelete }) => {
+const StaffTable = ({ data, loading, pagination,  onEdit, onDelete }) => {
     const columns = [
         {
             title: 'No.',
@@ -12,7 +12,7 @@ const StaffTable = ({ data, loading, onEdit, onDelete }) => {
             key: 'index',
             width: '5%',
             align: 'right',
-            render: (text, record, index) => index + 1
+            render: (text, record, index) => index + 1,
           },
       {
         title: 'Avatar',
@@ -113,8 +113,11 @@ const StaffTable = ({ data, loading, onEdit, onDelete }) => {
         loading={loading}
         rowKey="id"
         pagination={{
-          pageSize: 10,
+          ...pagination,
           showSizeChanger: true,
+          showTotal: (total, range) => 
+            `Tổng ${total} nhân viên`,
+          pagination: ['10', '20', '50', '100']
         }}
       />
     );

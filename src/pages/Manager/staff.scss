@@ -1,0 +1,75 @@
+
+.btn-custome{
+    background: #F39C12;
+    border: 2px solid #F39C12;
+    border-radius: 0 !important;
+    color: white;
+    font-weight: 600;
+    padding: 5px 30px;
+
+    &:hover{
+        background: #FFA813!important;
+        border: 2px solid #F39C12;
+    }
+}
+.btn-cancle{
+    padding: 5px 30px;
+    background: transparent;
+    border: 2px solid gray;
+    margin-right: 10px;
+    font-weight: 600;
+
+    &:hover{
+        background: black;
+        color: white;
+    }
+}
+.ant-modal{
+    margin-top: -5em;
+
+    .ant-modal-title{
+        font-size: 1.5em;
+        font-weight: 600;
+        color: #F39C12;
+        margin-bottom: 10px;
+    }
+
+    .ant-btn-primary{
+        background: white;
+        border: 1px solid #F39C12;
+        border-radius: 0 !important;
+        color: #F39C12;
+        font-weight: 600;
+
+        &:hover{
+            background: #F39C12!important;
+            color: black!important;
+        }
+    }
+
+    .ant-btn-default{
+        background: white;
+        border: 1px solid gray;
+        background: transparent;
+        border-radius: 0;
+
+        &:hover{
+            background: black !important;
+            color: white !important;
+            border: 1px solid black !important;
+        }
+    }
+
+    .custom-button.ant-btn-primary {
+        background: white;
+        border: 1px solid #F39C12;
+        border-radius: 0 !important;
+        color: #F39C12;
+        font-weight: 600;
+    
+        &:hover {
+            background: #F39C12 !important;
+            color: black !important;
+        }
+    }
+}

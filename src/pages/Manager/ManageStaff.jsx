@@ -8,18 +8,24 @@ import {
   addStaff, 
   updateStaff 
 } from '../../services/apiService';
-
+import './staff.scss';
 const ManageStaff = () => {
   const [staffData, setStaffData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [currentStaff, setCurrentStaff] = useState(null);
+  const [pagination, setPagination]=useState({
+    currentPage:1,
+    pageSize:10,
+    total: 0
+  })
 
   // Fetch staff data
-  const loadStaffData = async () => {
+  const loadStaffData = async (page=1, pageSize=10) => {
     try {
       setLoading(true);
-      const response = await getAllStaffApi();
+      const params={page, pageSize}
+      const response = await getAllStaffApi(params);
       const staffList = response?.DT?.staffs || [];
       const formattedData = staffList.map((staff) => ({
         id: staff.staffId,
@@ -33,7 +39,22 @@ const ManageStaff = () => {
         status: staff.status === 'active' ? 'Active' : 'Inactive',
         avatar: staff.avatar,
       }));
-      setStaffData(formattedData);
+      //handle get staff postion not manager and count staff
+      let count=0;
+      const filterData=formattedData.filter((staff)=>{
+        if(staff.position!=='Manager'){
+          count++;
+          return staff;
+        }
+      })
+      console.log(filterData)
+      setStaffData(filterData);
+      setPagination({
+        ...pagination,
+        currentPage: page,
+        pageSize: pageSize,
+        total: count || 0,
+      });
       setLoading(false);
     } catch (error) {
       message.error('Failed to load staff data');
@@ -42,7 +63,7 @@ const ManageStaff = () => {
   };
 
   useEffect(() => {
-    loadStaffData();
+    loadStaffData(pagination.currentPage, pagination.pageSize);
   }, []);
 
   // Handle staff addition
@@ -65,7 +86,7 @@ const ManageStaff = () => {
       loadStaffData();
       setModalVisible(false);
     } catch (error) {
-      message.error('Failed to update staff');
+      message.error('Lỗi cập nhật thông tin nhân viên');
     }
   };
 
@@ -73,10 +94,10 @@ const ManageStaff = () => {
   const handleDeleteStaff = async (staffId) => {
     try {
       await deleteStaff(staffId);
-      message.success('Staff deleted successfully');
+      message.success('Xóa nhân viên thành công');
       loadStaffData();
     } catch (error) {
-      message.error('Failed to delete staff');
+      message.error('Đang xảy ra lỗi khi xóa nhân viên');
     }
   };
 
@@ -91,12 +112,14 @@ const ManageStaff = () => {
     setCurrentStaff(staff);
     setModalVisible(true);
   };
-
+  const handleTableChange = (pagination, filters, sorter) => {
+    loadStaffData(pagination.current, pagination.pageSize);
+  };
   return (
     <Card 
       title="Quản lý nhân viên" 
       extra={
-        <Button type="primary" onClick={openAddModal}>
+        <Button type="primary" className='btn-custome' onClick={openAddModal}>
           Thêm nhân viên mới
         </Button>
       }
@@ -105,6 +128,7 @@ const ManageStaff = () => {
         data={staffData}
         loading={loading}
         onEdit={openEditModal}
+        pagination={pagination}
         onDelete={handleDeleteStaff}
       />
 
