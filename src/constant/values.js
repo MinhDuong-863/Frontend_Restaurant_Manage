@@ -66,22 +66,22 @@ export const TABLE_TYPES = [
 
 export const POSITIONS = [
   {
-    value: 1,
+    value: 'Nhân viên phục vụ',
     label: 'Nhân viên phục vụ',
   },
   {
-    value: 2,
+    value: "Quản lý",
     label: 'Quản lý',
   }
 ]
 
 export const TYPE_OF_RECRUITMENT = [
   {
-    value: 1,
+    value: "fulltime",
     label: 'Toàn thời gian (full-time)',
   },
   {
-    value: 2,
+    value: "parttime",
     label: 'Bán thời gian (part-time)',
   }
 ]
@@ -114,5 +114,31 @@ export const TYPE_OF_FOOD = [
   {
     value: 'Specialties',
     label: 'Món đặc sản',
+  }
+]
+export const REQUIREMENTS = [
+  {
+    value: "Chưa có kinh nghiệm",
+    label: 'Chưa có kinh nghiệm',
+  },
+  {
+    value: "Dưới 1 năm kinh nghiệm",
+    label: 'Dưới 1 năm kinh nghiệm',
+  },
+  {
+    value: "1-2 năm kinh nghiệm",
+    label: '1-2 năm kinh nghiệm',
+  },
+  {
+    value: "Trên 2 năm kinh nghiệm",
+    label: 'Trên 2 năm kinh nghiệm',
+  },
+  {
+    value: "Trên 3 năm kinh nghiệm",
+    label: "Trên 3 năm kinh nghiệm"
+  },
+  {
+    value: "Trên 5 năm kinh nghiệm",
+    label: "trên 5 năm kinh nghiệm"
   }
 ]

@@ -81,7 +81,7 @@ const navigationMap = {
     "2.2": PATHS.MANAGER.STAFF,
     "2.3": PATHS.MANAGER.STAFF,
     "3": PATHS.MANAGER.INGREDIENT,
-    "4": PATHS.MANAGER.CATEGORY,
+    "4": PATHS.MANAGER.RECRUITMENT,
     "5": PATHS.HOME.LOGOUT,
 }
 const ManagerLayout = () => {

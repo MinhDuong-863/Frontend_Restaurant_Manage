@@ -20,6 +20,7 @@ import ManagerDashboard from './pages/Manager/DashBoard.jsx';
 import ManageStaff from './pages/Manager/ManageStaff.jsx';
 import ManageIngredient from './pages/Manager/ManageIngredient.jsx';
 import BookingDetails from './pages/Staff/BookingDetails.jsx';
+import Recruitment from './pages/Manager/Recruitment.jsx';
 const App = () => {
   // const [count, setCount] = useState(0)
 
@@ -38,9 +39,9 @@ const App = () => {
           <Route path={PATHS.USER.RECRUITMENT} element={<RecruitmentPage />} />
         </Route>
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
-      <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminLayout />} >
+        <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminLayout />} >
           <Route path={PATHS.ADMIN.PROMOTION} element={<AdminPromotion />} />
-      </Route>
+        </Route>
         <Route path={"/staff"} element={<StaffLayout />} >
           <Route index element={<Navigate to={PATHS.STAFF.INFORMATION} replace />} />
           <Route path={PATHS.STAFF.INFORMATION} element={<InformationPage />} />
@@ -57,6 +58,7 @@ const App = () => {
           <Route path={PATHS.MANAGER.DASHBOARD} element={<ManagerDashboard />} />
           <Route path={PATHS.MANAGER.STAFF} element={<ManageStaff />} />
           <Route path={PATHS.MANAGER.INGREDIENT} element={<ManageIngredient />} />
+          <Route path={PATHS.MANAGER.RECRUITMENT} element={<Recruitment />} />
         </Route>
 
 

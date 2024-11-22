@@ -68,6 +68,65 @@ const getAllIngredientApi = async (params = {}) => {
     throw error;
   }
 };
+
+//api for recruitment
+export const getAllRecruitmentApi = async (params = {}) => {
+  try {
+    return await clientApi
+      .service('/recruitment')
+      .find({
+        page: params.page || 1,
+        limit: params.pageSize || 10,
+        search: params.search || ''
+      });
+  } catch (error) {
+    console.error('Error fetching recruitment:', error);
+    throw error;
+  }
+}
+//api create user
+export const createRecruitment = async (data) => {
+  try {
+    return await clientApi
+      .service('/recruitment')
+      .create(data);
+  } catch (error) {
+    console.error('Không thể thêm mới tuyển dụng:', error);
+    throw error;
+  }
+}
+
+export const updateRecruitment = async (id, data) => {
+  try {
+    return await clientApi
+      .service('/recruitment')
+      .put(id, data);
+  } catch (error) {
+    console.error('Error updating recruitment:', error);
+    throw error;
+  }
+}
+export const getRecruitmentById = async (id) => {
+  try {
+    return await clientApi
+      .service('/recruitment')
+      .get(id);
+  } catch (error) {
+    console.error('Error fetching recruitment:', error);
+    throw error;
+  }
+}
+export const deleteRecruitment = async (recruitmentId) => {
+  try {
+    return await clientApi
+      .service('/recruitment')
+      .delete(recruitmentId);
+  } catch (error) {
+    console.error('Error deleting recruitment:', error);
+    throw error;
+  }
+}
+export { getAllStaffApi, updateStaff, addStaff, deleteStaff, getAllIngredientApi, createUser };
 const searchBooking = async (obj) => {
   // const queryString = new URLSearchParams(obj).toString();
   return clientApi.service("booking/staff").find(obj);

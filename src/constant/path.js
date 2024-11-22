@@ -28,6 +28,7 @@ export const PATHS = {
         INGREDIENT: "/manager/ingredient",
         //CATEGORY: "/manager/category",
         REPORT: "/manager/report",
+        RECRUITMENT: "/manager/recruitment",
     },
     USER:{
         RESERVATION: "/reservation",
