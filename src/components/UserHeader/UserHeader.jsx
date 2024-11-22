@@ -44,11 +44,6 @@ const UserHeader = () => {
                         Trang chủ
                     </NavLink>
                 </div>
-                <div className='col-1 header-item d-flex justify-content-center'>
-                    <NavLink to="/menu" className="header-link" activeClassName="active">
-                        Thực đơn
-                    </NavLink>
-                </div>
                 <div className='col-1 header-item d-flex justify-content-center' style={{padding: '0'}}>
                     <NavLink to="/recruitment" className="header-link" activeClassName="active">
                         Tuyển dụng
@@ -62,6 +57,7 @@ const UserHeader = () => {
                         {isLoggedIn ? 'Đăng xuất' : 'Đăng nhập'}
                     </button>
                 </div>
+                <div className='col-1'></div>
                 <div className='col-1'></div>
                 <div className='col-1'></div>
                 <div className='col-2 d-flex justify-content-center align-items-center'>
