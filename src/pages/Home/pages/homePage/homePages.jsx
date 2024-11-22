@@ -5,8 +5,9 @@ import './HomePage.scss';
 const HomePages = () => {
 
     const images = [
-        'https://res.cloudinary.com/dup39fo44/image/upload/v1732109166/snapedit_1732109144746_kjejlp.png',
-        'https://res.cloudinary.com/dup39fo44/image/upload/v1732108223/363365339_207965105531678_3534534565980532889_n_zlwffj.jpg'
+        
+        'https://res.cloudinary.com/dup39fo44/image/upload/v1732108223/363365339_207965105531678_3534534565980532889_n_zlwffj.jpg',
+        'https://res.cloudinary.com/dup39fo44/image/upload/v1732109166/snapedit_1732109144746_kjejlp.png'
       ];
 
     return (

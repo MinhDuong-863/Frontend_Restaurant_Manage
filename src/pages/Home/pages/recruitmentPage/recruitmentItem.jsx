@@ -2,15 +2,12 @@ import './Recruitment.scss';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Modal, Button } from 'antd';
-import ApplyModal from '../components/applyModal';
+import ApplyModal from './applyModal';
+import { formatCurrency, formatDate } from '../../../../utils/format';
 
-const RecruitmentItem = ({ title, content, details }) => {
+const RecruitmentItem = ({ details }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isApplyModalVisible, setIsApplyModalVisible] = useState(false);
-
-    const handleApplySubmit = (applyData) => {
-        console.log("Dữ liệu ứng tuyển:", applyData);
-    }
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -26,13 +23,13 @@ const RecruitmentItem = ({ title, content, details }) => {
 
     return (
         <>
-            <div className='recruitment-item row'>
+            <div className='recruitment-item mt-3 row'>
                 <div className='col-10'>
-                    <h2>{title}</h2>
-                    <p>Mức lương: <span className="highlight">3.000.000 vnd</span></p>
-                    <p>Loại tuyển dụng: Toàn thời gian (full-time)</p>
-                    <p>Ngày bắt đầu: 20/10/2024</p>
-                    <p>Yêu cầu: {content}</p>
+                    <h2>Vị trí {details.position}</h2>
+                    <p><strong className='me-2'>Mức lương:</strong><span className="highlight">{formatCurrency(details.salary)}</span></p>
+                    <p><strong className='me-2'>Loại tuyển dụng:</strong> {details.type}</p>
+                    <p><strong className='me-2'>Ngày bắt đầu: </strong>{formatDate(details.start_date)} </p>
+                    <p><strong className='me-2'>Yêu cầu:</strong> {details.require}</p>
                 </div>
                 <div className='col-1 d-flex align-items-end' style={{ padding: '0' }}>
                     <button className="btn-detail" onClick={showModal}>
@@ -43,7 +40,6 @@ const RecruitmentItem = ({ title, content, details }) => {
                     <button className="btn-apply" onClick={() => setIsApplyModalVisible(true)}>Ứng tuyển</button>
                 </div>
             </div>
-
             {/* Modal */}
             <Modal
                 title="Chi tiết tuyển dụng:"
@@ -74,7 +70,6 @@ const RecruitmentItem = ({ title, content, details }) => {
             <ApplyModal
                 isVisible={isApplyModalVisible}
                 onClose={() => setIsApplyModalVisible(false)}
-                onSubmit={handleApplySubmit}
                 recruitmentId={details.recruimentId}
             />
         </>
@@ -82,19 +77,7 @@ const RecruitmentItem = ({ title, content, details }) => {
 };
 
 RecruitmentItem.propTypes = {
-    title: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    details: PropTypes.shape({
-        position: PropTypes.string.isRequired,
-        salary: PropTypes.number.isRequired,
-        start_date: PropTypes.string.isRequired,
-        address: PropTypes.string.isRequired,
-        describe: PropTypes.string.isRequired,
-        require: PropTypes.string.isRequired,
-        infomation: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        recruimentId: PropTypes.string.isRequired,
-    }).isRequired,
+    details: PropTypes.object.isRequired,
 };
 
 export default RecruitmentItem;
