@@ -75,6 +75,9 @@ const searchBooking = async (obj) => {
 const serveBooking = async (id, data) => {
   return clientApi.service("booking/serve").put(id, data);
 }
+const addOrderDetail = async (id, data) => {
+  return clientApi.service("order").put(id, data);
+}
 export {
   getAllStaffApi,
   updateStaff,
@@ -82,5 +85,6 @@ export {
   deleteStaff,
   getAllIngredientApi,
   searchBooking,
-  serveBooking
+  serveBooking,
+  addOrderDetail
 };
