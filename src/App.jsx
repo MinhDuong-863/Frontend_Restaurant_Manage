@@ -41,6 +41,7 @@ const App = () => {
         </Route>
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
         <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminLayout />} >
+          <Route path={PATHS.ADMIN.DASHBOARD} element={<ManagerDashboard />} />
           <Route path={PATHS.ADMIN.PROMOTION} element={<AdminPromotion />} />
         </Route>
         <Route path={"/staff"} element={<StaffLayout />} >
