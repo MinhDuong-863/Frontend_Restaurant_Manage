@@ -31,9 +31,7 @@ const BookingPage = () => {
     const onSubmit = (values) => {
         search({ ...values, page: currentPage, limit: pageSize })
     }
-    useEffect(() => {
-        console.log(ListBooking)
-    }, [ListBooking])
+
 
 
     const fetchData = async (page, limit) => {

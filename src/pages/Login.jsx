@@ -64,8 +64,7 @@ const Login = () => {
                         <Form.Item
                             label="Tên đăng nhập"
                             name="username"
-                            rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập!' }]}
-                        >
+                            rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập!' }]}>
                             <Input />
                         </Form.Item>
                         <Form.Item

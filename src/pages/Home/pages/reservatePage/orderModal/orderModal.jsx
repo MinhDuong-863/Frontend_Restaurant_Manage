@@ -14,7 +14,7 @@ const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
         }
     }, [isOpen, selectedFoods]);
 
-    
+
     const handleQuantityChange = (_id, newQuantity) => {
         if (newQuantity >= 0) {
             setTempFoods(prev =>
@@ -48,7 +48,7 @@ const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
     const handleFoodSelect = (newFood) => {
         setSelectedFoods((prev) => {
             const existingFood = prev.find((food) => food._id === newFood._id);
-    
+
             if (existingFood) {
                 return prev.map((food) =>
                     food._id === newFood._id
@@ -60,12 +60,13 @@ const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
         });
         closeBookingModal();
     };
-    
+
     const handleOrderConfirm = () => {
         setSelectedFoods(tempFoods); // Lưu danh sách món ăn đã chỉnh sửa
+
         onClose(); // Đóng modal
     };
-      
+
 
     return (
         <>
@@ -107,26 +108,26 @@ const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
                                             <tr key={food._id}>
                                                 <td className="food-info">
                                                     <div>
-                                                        <img src={food.image} alt={food.name} style={{marginRight: '10px'}} />
+                                                        <img src={food.image} alt={food.name} style={{ marginRight: '10px' }} />
                                                         <span>{food.name}</span>
                                                     </div>
                                                 </td>
                                                 <td>{food.price.toLocaleString('vi-VN')}đ</td>
                                                 <td className="quantity-cell ">
                                                     <div className='quantity'>
-                                                        <button 
+                                                        <button
                                                             className="quantity-btn"
                                                             onClick={() => handleQuantityChange(food._id, food.quantity - 1)}
                                                         >
                                                             -
                                                         </button>
-                                                        <input 
-                                                            type="number" 
+                                                        <input
+                                                            type="number"
                                                             value={food.quantity}
                                                             onChange={(e) => handleQuantityChange(food._id, parseInt(e.target.value) || 0)}
                                                             min="1"
                                                         />
-                                                        <button 
+                                                        <button
                                                             className="quantity-btn"
                                                             onClick={() => handleQuantityChange(food._id, food.quantity + 1)}
                                                         >
@@ -136,7 +137,7 @@ const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
                                                 </td>
                                                 <td>{(food.price * food.quantity).toLocaleString('vi-VN')}đ</td>
                                                 <td>
-                                                    <button 
+                                                    <button
                                                         className="remove-btn"
                                                         onClick={() => handleRemoveFood(food._id)}
                                                     >
@@ -159,11 +160,11 @@ const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
                                     </div>
                                 </div>
                                 <div className='row'>
-                                    <div className='col-9'/>
-                                    <div className='col-1' style={{padding: '0'}}>
+                                    <div className='col-9' />
+                                    <div className='col-1' style={{ padding: '0' }}>
                                         <div className="order-actions me-1">
                                             <button className="btn-cancel" onClick={onClose}>Hủy</button>
-                                        </div> 
+                                        </div>
                                     </div>
                                     <div className='col-2'>
                                         <div className="order-actions">
@@ -177,8 +178,8 @@ const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
                 </div>
             </Modal>
 
-            <BookingModal 
-                isOpen={isBookingModalOpen} 
+            <BookingModal
+                isOpen={isBookingModalOpen}
                 onClose={closeBookingModal}
                 onFoodSelect={handleFoodSelect}
             />

@@ -1,22 +1,42 @@
 .events {
-  margin: 0;
-  padding: 0;
+  margin    : 0;
+  padding   : 0;
   list-style: none;
 
   .ant-badge-status {
-    width: 100%;
-    overflow: hidden;
-    font-size: 12px;
-    white-space: nowrap;
+    width        : 100%;
+    overflow     : hidden;
+    font-size    : 12px;
+    white-space  : nowrap;
     text-overflow: ellipsis;
   }
 }
 
 .notes-month {
-  font-size: 28px;
+  font-size : 28px;
   text-align: center;
 
   section {
     font-size: 28px;
   }
+}
+
+.title {
+  font-size: 3em;
+}
+
+.btn-check-in-out {
+  background   : #F39C12;
+  border       : 2px solid #F39C12;
+  border-radius: 0 !important;
+  color        : black;
+  font-weight  : 600;
+  padding      : 5px 10px;
+
+  &:hover {
+    background: #FFA813 !important;
+    border    : 2px solid #F39C12 !important;
+    color     : white !important;
+  }
+
 }
