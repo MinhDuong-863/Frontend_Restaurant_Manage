@@ -42,10 +42,10 @@ export const getAllFood = async (page, limit, search, type, status) => {
     try {
         const response = await clientApi.service('foods').find({ page, limit, search, type, status });
         if (response?.EC === 0) {
-            const { foods, total } = response.DT;
+            const { foods, totalCount } = response.DT;
             return {
                 data: foods,
-                totalItem: total
+                totalItem: totalCount
             };
         } else {
             throw new Error(response?.EM || "Không lấy được danh sách món ăn");
