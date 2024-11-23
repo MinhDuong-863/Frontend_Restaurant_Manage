@@ -39,8 +39,8 @@ export const applyRecruitment = async (data) => {
 }
 
 export const getAllFood = async (page, limit, search, type, status) => {
-    try{
-        const response = await clientApi.service('foods').find({page, limit, search, type, status});
+    try {
+        const response = await clientApi.service('foods').find({ page, limit, search, type, status });
         if (response?.EC === 0) {
             const { foods, total } = response.DT;
             return {
@@ -67,6 +67,20 @@ export const bookingTable = async (data) => {
         }
     } catch (error) {
         console.error('Error in bookingTable:', error);
+        throw error;
+    }
+}
+export const register = async (data) => {
+
+    try {
+        const response = await clientApi.service('register').create(data);
+        if (response?.EC === 0) {
+            return response;
+        } else {
+            throw new Error(response?.EM || "Không thể đăng ký");
+        }
+    } catch (error) {
+        console.error('Error in register:', error);
         throw error;
     }
 }

@@ -1,31 +1,43 @@
 import { useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { Button, Col, Descriptions, Flex, List, Row, Typography } from "antd";
+import { Button, Col, Descriptions, Flex, List, message, Row, Typography } from "antd";
 import styles from "./BookingDetails.module.scss";
-import { getListOrder, payment } from "../../services/apiService";
+import { addOrderDetail, getListOrder, payment } from "../../services/apiService";
+import OrderModal from "../Home/pages/reservatePage/orderModal/orderModal";
 const { Title, Text } = Typography;
-const data = [
-  {
-    name: "Táo",
-    food_price: 5000,
-    quantity: 10,
-  },
-  {
-    name: "Cam",
-    food_price: 7000,
-    quantity: 20,
-  },
-  {
-    name: "Chuối",
-    food_price: 4000,
-    quantity: 15,
-  },
-];
+
 const BookingDetails = () => {
   const location = useLocation();
   const { item } = location.state || {};
   const [listFood, setListFood] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [selectedFoods, setSelectedFoods] = useState([]);
+  const [flag, setFlag] = useState(false);
+
+  useEffect(() => {
+    console.log("flag", flag);
+    const order_detail = getSelectedFoodsMinimal();
+    addOrderDetail(item.booking._id, { order_detail }).then((response) => {
+      if (response.EC === 0) {
+        // message.success(response.EM);
+        fetchListFood();
+        setSelectedFoods([]);
+        closeOrderModal();
+      }
+      else {
+        message.error(response.EM);
+      }
+    });
+  }, [setFlag]);
+
+  const getSelectedFoodsMinimal = () => {
+    return selectedFoods.map(food => ({
+      food_id: food._id,         // Chỉ lấy `id` từ `_id`
+      quantity: food.quantity // Giữ nguyên `quantity`
+    }));
+  };
+  const closeOrderModal = () => setIsOrderModalOpen(false);
   if (!item) {
     return <p>Không có thông tin đặt trước.</p>;
   }
@@ -66,7 +78,6 @@ const BookingDetails = () => {
 
   const fetchListFood = async () => {
     getListOrder(item.booking._id).then((response) => {
-      console.log(response);
       setListFood(response.DT);
     });
   }
@@ -74,6 +85,7 @@ const BookingDetails = () => {
     // Gọi API lấy danh sách món ăn
     fetchListFood();
   }, []);
+
   useEffect(() => {
     setTotalPrice(calculateTotalPrice(listFood));
   }, [listFood]);
@@ -88,7 +100,11 @@ const BookingDetails = () => {
       0
     );
   };
+  const handleAddFood = () => {
+    // gọi modal thêm món ăn
+    setIsOrderModalOpen(true)
 
+  }
   const handlePayment = () => {
 
     payment({
@@ -109,7 +125,7 @@ const BookingDetails = () => {
         </div>
         <div className={styles["header-1"]}>Gọi món</div>
         <Flex gap={"1rem"}>
-          <Button className={styles["btn"]}>Thêm món</Button>
+          <Button onClick={handleAddFood} className={styles["btn"]}>Thêm món</Button>
           <Button onClick={handlePayment} className={styles["btn"]}>Thanh toán</Button>
         </Flex>
         <div>
@@ -125,7 +141,6 @@ const BookingDetails = () => {
                 renderItem={(item) => (
                   <List.Item>
                     <List.Item.Meta
-
                       title={`Tên: ${item.food_name}`}
                       description={`Giá: ${item.food_price.toLocaleString("vi-VN") || 0} VNĐ | Số lượng: ${item.quantity || 0}`}
                     />
@@ -134,7 +149,14 @@ const BookingDetails = () => {
               />
             </Col>
           </Row>
-
+          <OrderModal
+            isOpen={isOrderModalOpen}
+            onClose={closeOrderModal}
+            selectedFoods={selectedFoods}
+            setSelectedFoods={setSelectedFoods}
+            setFlag={setFlag}
+            flag={flag}
+          />
         </div>
       </Flex>
 

@@ -12,7 +12,7 @@ import { PATHS } from "../../constant/path.js";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-
+const { Text } = Typography;
 
 
 
@@ -93,11 +93,11 @@ const CalendarPage = () => {
     return (
         <div style={{ padding: 20 }}>
             <Flex justify="space-between" align="center">
-                <Typography.Title level={2}>Lịch làm việc</Typography.Title>
+                <Text className="title" level={2}>Lịch làm việc</Text>
                 <Flex gap={8}>
-                    <Button onClick={handleOff} size="large" type="primary">Xin nghỉ phép</Button>
-                    <Button onClick={handleCheckIn} size="large" type="primary">Check in</Button>
-                    <Button onClick={handleCheckOut} size="large" type="primary">Check out</Button>
+                    <Button className="btn-check-in-out" onClick={handleOff} size="large" type="primary">Xin nghỉ phép</Button>
+                    <Button className="btn-check-in-out" onClick={handleCheckIn} size="large" type="primary">Chấm công vào</Button>
+                    <Button className="btn-check-in-out" onClick={handleCheckOut} size="large" type="primary">Chấm công ra</Button>
                 </Flex>
             </Flex>
             <Flex justify="center" className="mt-2">
