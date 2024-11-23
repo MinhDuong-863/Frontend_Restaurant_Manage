@@ -20,16 +20,16 @@ const BookingDetails = () => {
     const order_detail = getSelectedFoodsMinimal();
     addOrderDetail(item.booking._id, { order_detail }).then((response) => {
       if (response.EC === 0) {
-        // message.success(response.EM);
+        message.success(response.EM);
         fetchListFood();
-        setSelectedFoods([]);
         closeOrderModal();
       }
       else {
         message.error(response.EM);
       }
     });
-  }, [setFlag]);
+    setSelectedFoods([]);
+  }, [flag]);
 
   const getSelectedFoodsMinimal = () => {
     return selectedFoods.map(food => ({
@@ -154,8 +154,8 @@ const BookingDetails = () => {
             onClose={closeOrderModal}
             selectedFoods={selectedFoods}
             setSelectedFoods={setSelectedFoods}
-            setFlag={setFlag}
             flag={flag}
+            setFlag={setFlag}
           />
         </div>
       </Flex>
