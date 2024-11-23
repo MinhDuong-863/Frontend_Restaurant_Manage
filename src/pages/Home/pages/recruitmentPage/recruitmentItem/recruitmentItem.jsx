@@ -1,9 +1,9 @@
-import './Recruitment.scss';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Modal, Button } from 'antd';
-import ApplyModal from './applyModal';
-import { formatCurrency, formatDate } from '../../../../utils/format';
+import ApplyModal from '../applyModal';
+import { formatCurrency, formatDate } from '../../../../../utils/format';
+import './RecruitmentItem.scss';
 
 const RecruitmentItem = ({ details }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,21 +23,21 @@ const RecruitmentItem = ({ details }) => {
 
     return (
         <>
-            <div className='recruitment-item mt-3 row'>
-                <div className='col-10'>
+            <div className='recruitment-item row'>
+                <div className='col-12'>
                     <h2>Vị trí {details.position}</h2>
                     <p><strong className='me-2'>Mức lương:</strong><span className="highlight">{formatCurrency(details.salary)}</span></p>
                     <p><strong className='me-2'>Loại tuyển dụng:</strong> {details.type}</p>
                     <p><strong className='me-2'>Ngày bắt đầu: </strong>{formatDate(details.start_date)} </p>
                     <p><strong className='me-2'>Yêu cầu:</strong> {details.require}</p>
                 </div>
-                <div className='col-1 d-flex align-items-end' style={{ padding: '0' }}>
-                    <button className="btn-detail" onClick={showModal}>
+                <div className='col-12 mt-2 d-flex justify-content-end'>
+                    <button className="btn-detail me-1" onClick={showModal}>
                         Chi tiết
                     </button>
-                </div>
-                <div className='col-1 d-flex align-items-end' style={{ padding: '0' }}>
-                    <button className="btn-apply" onClick={() => setIsApplyModalVisible(true)}>Ứng tuyển</button>
+                    <button className="btn-apply" onClick={() => setIsApplyModalVisible(true)}>
+                        Ứng tuyển
+                    </button>
                 </div>
             </div>
             {/* Modal */}

@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-
-//khởi tạo state ban đầu
 const initialState = {
     user: null,
     token: null,
@@ -9,10 +7,9 @@ const initialState = {
 };
 
 export const authenSlice = createSlice({
-    name: 'authen', //tên của reducer
+    name: 'authen',
     initialState,
     reducers: {
-
         login: (state, action) => {
             state.isLoggedIn = true;
             state.token = action.payload.token;
@@ -29,9 +26,5 @@ export const authenSlice = createSlice({
     },
 });
 
-// Export các action để sử dụng trong component
-// export const { setInfor, setNull } = userSlice.actions;
 export const { login, logout, setInformation } = authenSlice.actions;
-
-// Export reducer để sử dụng trong store
 export default authenSlice.reducer;

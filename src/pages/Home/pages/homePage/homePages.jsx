@@ -41,9 +41,9 @@ const HomePages = () => {
                             <p className='mt-5 ms-4 me-4 me-lg-3 text-aligh-center text-lg-start' style={{textAlign: 'justify'}}>
                                 Tại đây, chúng tôi tin rằng, bằng cách hòa quyện hài hòa giữa truyền thống và những kỹ thuật nấu nướng hiện đại, sáng tạo, chúng tôi có thể biến những món ăn và thức uống giản đơn thành những khoảnh khắc đong đầy thời gian, ký ức và cảm xúc, nơi quá khứ và hiện tại giao thoa một cách trọn vẹn.
                             </p>
-                            <button className='d-flex justify-content-start ms-4'>
+                            {/* <button className='d-flex justify-content-start ms-4'>
                                 Về chúng tôi
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                     <div className='row about-content'>
@@ -66,9 +66,9 @@ const HomePages = () => {
                             <p>
                                 Sự trân trọng của chúng tôi đối môi trường sẽ không thể hoản hảo nếu mà không thực sự bảo vệ chúng. Chúng tôi cam kết bảo vệ môi trường thể hiện nó trong các hoạt động của nhà hàng, bắt đầu bằng những việc sử dụng nguyên liệu sẵn có, theo mùa để giảm thiểu tác động đến môi trường của chúng ta.
                             </p>
-                            <button className='d-flex justify-content-start'>
+                            {/* <button className='d-flex justify-content-start'>
                                 Xem Menu
-                            </button>
+                            </button> */}
                         </div>
                         <div className='col-12 mt-5 col-lg-4 ms-lg-5 about-text text-end'></div>
                         <MenuSlider/>
@@ -89,9 +89,9 @@ const HomePages = () => {
                             <p>
                                 Hãy để chúng tôi dẫn dắt bạn vào hành trình ẩm thực, nơi mỗi món ăn là một câu chuyện, và mỗi phút giây đều trở thành kỷ niệm đáng trân quý. Chào mừng đến với Tastycs—sự hội tụ của hương vị, phong cách và đẳng cấp.
                             </p>
-                            <button className='d-flex justify-content-end'>
+                            {/* <button className='d-flex justify-content-end'>
                                 Đặt bàn ngay
-                            </button>
+                            </button> */}
                         </div>
                         
                         <div className='col-12 col-lg-4 ms-lg-5 about-text text-end'>

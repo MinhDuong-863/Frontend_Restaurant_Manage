@@ -17,6 +17,10 @@ const UserHeader = () => {
         isLoggedIn ? navigate('/reservation') : navigate('/login');
     };
 
+    const handleAccountClick = () => {
+        isLoggedIn ? navigate('/account') : navigate('/login');
+    };
+
     const handleAuthAction = () => {
         if (isLoggedIn) {
             // Logout logic
@@ -52,13 +56,20 @@ const UserHeader = () => {
                 </div>
                 <div className='col-1 header-item d-flex justify-content-center' style={{padding: '0'}}>
                     <button 
+                        onClick={handleAccountClick} 
+                        className="button-header-link"
+                    >
+                        Tài khoản
+                    </button>
+                </div>
+                <div className='col-1 header-item d-flex justify-content-center' style={{padding: '0'}}>
+                    <button 
                         onClick={handleAuthAction} 
                         className="button-header-link"
                     >
                         {isLoggedIn ? 'Đăng xuất' : 'Đăng nhập'}
                     </button>
                 </div>
-                <div className='col-1'></div>
                 <div className='col-1'></div>
                 <div className='col-1'></div>
                 <div className='col-2 d-flex justify-content-center align-items-center'>
