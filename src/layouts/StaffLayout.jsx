@@ -43,11 +43,6 @@ const items = [
         label: 'Lịch làm việc',
     },
     {
-        key: '3',
-        icon: <MdTableRestaurant />,
-        label: 'Bàn ăn',
-    },
-    {
         key: '4',
         icon: <TbReservedLine />,
         label: 'Đặt trước',

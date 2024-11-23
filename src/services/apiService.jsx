@@ -1,3 +1,4 @@
+import axios from "axios";
 import clientApi from "../client-api/rest-client-api";
 //handle api for staff
 const token = localStorage.getItem('token')
@@ -206,6 +207,22 @@ export const deleteApplicationApi = async (recruitmentId) => {
     throw error;
   }
 }
+const getListOrder = async (id) => {
+  try {
+    return clientApi.service("order").get(id);
+  } catch (error) {
+    console.error('Error deleting application:', error);
+    throw error;
+  }
+}
+const payment = async (data) => {
+  try {
+    return axios.post("http://localhost:3000/api/payment", data)
+  } catch (error) {
+    console.error('Error deleting application:', error);
+    throw error;
+  }
+}
 export {
   createUser,
   getAllStaffApi,
@@ -215,5 +232,7 @@ export {
   getAllIngredientApi,
   searchBooking,
   serveBooking,
-  addOrderDetail
+  addOrderDetail,
+  getListOrder,
+  payment
 };

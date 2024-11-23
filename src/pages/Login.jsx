@@ -37,6 +37,9 @@ const Login = () => {
                         naviagte(PATHS.HOME.HOMEPAGE);
                     }
                 }
+                else {
+                    message.error(response.EM);
+                }
             })
             .catch(error => {
                 console.log(error);
