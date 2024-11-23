@@ -17,7 +17,7 @@ const Promotion = ({ isOpen, onClose }) => {
     const onSearchChange = (e) => {
         setSearch(e.target.value);
     };
-
+    
     const handlePageChange = (page, pageSize) => {
         setCurrentPage(page);
         setPageSize(pageSize);
@@ -25,22 +25,22 @@ const Promotion = ({ isOpen, onClose }) => {
 
     useEffect(() => {
         if (isOpen) {
-            fetchPromotions();
+          fetchPromotions();
         }
-    }, [currentPage, pageSize, search, isOpen]);
+      }, [currentPage, pageSize, search, isOpen]);
 
     const fetchPromotions = async () => {
         try {
-            setLoading(true);
-            const { data, total } = await getValidPromotion(currentPage, pageSize, search);
-            setPromotions(data);
-            setTotal(total);
-            setLoading(false);
+          setLoading(true);
+          const { data, total } = await getValidPromotion(currentPage, pageSize, search);
+          setPromotions(data);
+          setTotal(total);
+          setLoading(false);
         } catch (error) {
-            console.error('Error fetching foods:', error);
-            setLoading(false);
+          console.error('Error fetching foods:', error);
+          setLoading(false);
         }
-    };
+      };
 
     return (
         <>
@@ -63,12 +63,12 @@ const Promotion = ({ isOpen, onClose }) => {
                 <div className="promotion-content">
                     <div className="promotion-action row">
                         <div className="col-6">
-                            <input type="text"
-                                placeholder="Tìm mã khuyến mãi..."
+                            <input type="text" 
+                                placeholder="Tìm mã khuyến mãi..." 
                                 onChange={(e) => {
-                                    e.target.value = e.target.value.toUpperCase(); // Chuyển thành chữ hoa
-                                    onSearchChange(e); // Gọi hàm xử lý tìm kiếm
-                                }} />
+                                e.target.value = e.target.value.toUpperCase(); // Chuyển thành chữ hoa
+                                onSearchChange(e); // Gọi hàm xử lý tìm kiếm
+                            }}/>
                         </div>
                     </div>
                     {loading ? (
@@ -84,12 +84,12 @@ const Promotion = ({ isOpen, onClose }) => {
                                             <p className={`text-center discount-fix ${promotion.type === "percentage" ? "discount-percentage" : "discount-fixed"}`}>
                                                 {promotion.type === "percentage" ? "Giảm thỉ lệ" : "Giảm trực tiếp"}
                                             </p>
-                                            <p
+                                            <p 
                                                 className={`text-center discount-value ${promotion.type === "percentage" ? "discount-percentage" : ""}`}
                                             >
-                                                {promotion.type === "fixed"
-                                                    ? `${formatCurrency(promotion.discount)}`
-                                                    : `${promotion.discount}%`
+                                                {promotion.type === "fixed" 
+                                                ? `${formatCurrency(promotion.discount)}` 
+                                                : `${promotion.discount}%`
                                                 }
                                             </p>
                                         </div>
