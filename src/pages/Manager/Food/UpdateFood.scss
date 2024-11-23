@@ -1,0 +1,140 @@
+.ant-upload.ant-upload-select {
+    width: 200px !important;
+    height: 200px !important;
+    
+    .ant-upload-wrapper {
+      width: 100%;
+      height: 100%;
+    }
+  
+    // Style cho nút upload khi chưa có ảnh
+    .ant-upload-btn {
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #fafafa;
+      border: 1px dashed #d9d9d9;
+      border-radius: 8px;
+      cursor: pointer;
+  
+      &:hover {
+        border-color: #1890ff;
+      }
+  
+      .anticon {
+        font-size: 24px;
+        color: #999;
+      }
+    }
+  
+    // Style cho container chứa ảnh preview
+    .upload-image-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+  
+      // Loading overlay
+      .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        color: white;
+        z-index: 2;
+  
+        .anticon {
+          font-size: 24px;
+          margin-bottom: 8px;
+          animation: spin 1s linear infinite;
+        }
+  
+        span {
+          font-size: 16px;
+          font-weight: 500;
+        }
+      }
+  
+      // Hover overlay
+      .upload-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s;
+        border-radius: 8px;
+        color: white;
+  
+        .anticon {
+          font-size: 24px;
+          margin-bottom: 8px;
+        }
+  
+        span {
+          font-size: 14px;
+        }
+      }
+  
+      &:hover {
+        .upload-overlay {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  // Style cho upload progress
+  .upload-progress {
+    margin-top: 8px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.45);
+  }
+  
+  // Style cho modal
+  .ant-modal-content {
+    .ant-form-item-required {
+      &::before {
+        display: none !important;
+      }
+    }
+  }
+  
+  // Style cho extra text
+  .ant-form-item-extra {
+    color: #666;
+    font-size: 12px;
+    margin-top: 4px;
+  }

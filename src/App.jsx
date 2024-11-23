@@ -21,6 +21,7 @@ import ManageIngredient from './pages/Manager/ManageIngredient.jsx';
 import BookingDetails from './pages/Staff/BookingDetails.jsx';
 import Recruitment from './pages/Manager/Recruitment.jsx';
 import Application from './pages/Manager/Application.jsx';
+import FoodManagement from './pages/Manager/Food/ManageFood.jsx';
 import LeaveApplication from './pages/Staff/LeaveApplication.jsx';
 import Account from './pages/Home/pages/account/account.jsx';
 const App = () => {
@@ -100,6 +101,7 @@ const App = () => {
           <Route path={PATHS.MANAGER.INGREDIENT} element={<ManageIngredient />} />
           <Route path={PATHS.MANAGER.RECRUITMENT} element={<Recruitment />} />
           <Route path={PATHS.MANAGER.APPLICATION} element={<Application />} />
+          <Route path={PATHS.MANAGER.FOOD} element={<FoodManagement />} />
         </Route>
 
 

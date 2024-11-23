@@ -16,6 +16,7 @@ import styles from './ManagerLayout.module.scss'; // Import file SCSS
 import { Outlet, useNavigate } from 'react-router-dom';
 import { PATHS } from '../constant/path';
 import { logout } from '../redux/action/authenSlice';
+import { IoFastFoodOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
 import clientApi from '../client-api/rest-client-api';
 import { removeCurrent, setCurrent } from '../redux/action/webSlice';
@@ -65,6 +66,11 @@ const items = [
         icon: <UserOutlined />,
         label: 'Quản lý nguyên liệu',
     },
+     {
+        key: '6',
+        icon: <IoFastFoodOutline />,
+        label: 'Quản lý món ăn',
+    },
     {
         key: '4',
         icon: <FaUserCheck />,
@@ -99,6 +105,7 @@ const navigationMap = {
     "4.1": PATHS.MANAGER.RECRUITMENT,
     "4.2": PATHS.MANAGER.APPLICATION,
     "5": PATHS.HOME.LOGOUT,
+    "6": PATHS.MANAGER.FOOD
 }
 const ManagerLayout = () => {
     const dispatch = useDispatch();

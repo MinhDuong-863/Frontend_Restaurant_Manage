@@ -1,0 +1,19 @@
+.btn-create{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    background-color: #3de713;
+    color: white;
+    border: none;
+    //padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    &:hover{
+        background-color: #3de713 !important;
+        color: white;
+        transform: translateY(-3px);
+    }
+}
