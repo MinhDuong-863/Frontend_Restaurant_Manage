@@ -1,6 +1,7 @@
 .recruitment-page-container{
     padding: 5em;
     background-color: #D7D7D7;
+    min-height: 100vh;  
 
     .recruitment-page-title{
         margin-top: 4em;
@@ -14,45 +15,6 @@
 
     .recruitment-content{
         margin: 10px;
-    }
-}
-
-.recruitment-item{
-    padding: 10px 20px;
-    background: white;
-    border-radius: 10px;
-    width: 90%;
-
-    p{
-        margin-bottom: 0.3em;
-    }
-
-    .highlight{
-        color: #F39C12;
-        font-weight: 600;
-    }
-
-    .btn-detail{
-        padding: 5px 20px;
-        background: transparent;
-        border: 2px solid gray;
-
-        &:hover{
-            background: black;
-            color: white;
-        }
-    }
-
-    .btn-apply{
-        padding: 5px 10px;
-        background: transparent;
-        border: 2px solid #F7D000;
-        color: #d8b803;
-
-        &:hover{
-            background: #F7D000;
-            color: black;
-        }
     }
 }
 

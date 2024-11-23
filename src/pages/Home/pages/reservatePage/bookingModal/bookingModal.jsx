@@ -104,7 +104,6 @@ const BookingModal = ({ isOpen, onClose, onFoodSelect }) => {
             ))
           )}
         </div>
-
         <div className="row mt-3">
           <Pagination
             align="center"
