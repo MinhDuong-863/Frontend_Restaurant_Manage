@@ -1,18 +1,19 @@
-
 .btn-create{
-    background: #3de713;
-    border: 2px solid #3de713;
-    border-radius: 0 !important;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    background-color: #3de713;
     color: white;
-    font-weight: 600;
-    padding: 5px 30px;
+    border: none;
+    //padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
     transition: all 0.3s ease;
     &:hover{
-        background: #3de713!important;
-        border: 2px solid #3de713;
+        background-color: #3de713 !important;
+        color: white;
         transform: translateY(-3px);
     }
-
 }
-//#3de713

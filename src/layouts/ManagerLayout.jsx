@@ -69,6 +69,11 @@ const items = [
         icon: <UserOutlined />,
         label: 'Quản lý nguyên liệu',
     },
+     {
+        key: '6',
+        icon: <IoFastFoodOutline />,
+        label: 'Quản lý món ăn',
+    },
     {
         key: '6',
         icon: <IoFastFoodOutline />,
