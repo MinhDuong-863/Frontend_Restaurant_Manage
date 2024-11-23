@@ -1,0 +1,28 @@
+.page {
+
+    .title {
+        font-size: 3em;
+    }
+
+    .header-1 {
+        padding-left: 1em;
+        font-size   : 1.25em;
+        font-weight : 600;
+    }
+
+    .btn {
+        background   : #F39C12;
+        border       : 2px solid #F39C12;
+        border-radius: 0 !important;
+        color        : black;
+        font-weight  : 600;
+        padding      : 5px 10px;
+
+        &:hover {
+            background: #FFA813 !important;
+            border    : 2px solid #F39C12 !important;
+            color     : white !important;
+        }
+
+    }
+}

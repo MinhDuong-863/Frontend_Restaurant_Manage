@@ -1,0 +1,31 @@
+// .btn-order {
+//     padding     : 5px 30px;
+//     background  : transparent;
+//     border      : 2px solid gray;
+//     margin-right: 10px;
+//     font-weight : 600;
+
+//     &:hover {
+//         background: black;
+//         color     : white;
+//     }
+// }
+.title {
+    font-size: 3em;
+}
+
+
+.btn-find {
+    background   : #F39C12;
+    border       : 2px solid #F39C12;
+    border-radius: 0 !important;
+    color        : black;
+    font-weight  : 600;
+    padding      : 5px 10px;
+
+    &:hover {
+        background: #FFA813 !important;
+        border    : 2px solid #F39C12 !important;
+        color     : white !important;
+    }
+}

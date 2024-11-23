@@ -1,0 +1,87 @@
+.home-page-container {
+    .slider-text {
+        position: absolute; // Changed from fixed/sticky
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-align: center;
+        font-size: 2rem;
+        font-family: 'Noto Serif Display', serif;
+        font-weight: bold;
+        z-index: 10; // Higher z-index to ensure visibility
+        width: 100%; // Ensure full width
+        padding: 0 20px; // Optional: prevent text from touching edges
+    }
+       
+
+    .home-page-slider {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .home-page-content{
+        
+        .stories-content{
+            background: #D7D7D7;
+            padding: 5em 0;
+
+            img{
+                width: 90%;
+            }
+
+            p{
+                text-align: center;
+                font-size: 12px;
+            }
+
+            button{
+                padding: 5px 20px;
+                background: transparent;
+                border: 2px solid gray;
+
+                &:hover{
+                    background: black;
+                    color: white;
+                }
+            }
+        }
+
+        .about-content{
+            background: black;
+            color: white;
+            padding: 5em;
+
+            .about-text{
+                font-family: 'Noto Serif Display';
+                font-size: 3.5em;
+            }
+
+            .concept{
+                margin-top: 1em;
+                text-align: justify;
+                font-size: 13px;
+            }
+
+            button{
+                padding: 5px 30px;
+                background: transparent;
+                border: 1px solid #F7D000;
+                color: #F7D000;
+
+                &:hover{
+                    background: #F7D000;
+                    color: black;
+                }
+            }
+        }
+    }
+}

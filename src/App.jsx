@@ -1,34 +1,73 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-
-function App() {
-  const [count, setCount] = useState(0)
+import { PATHS } from "./constant/path";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Login from './pages/Login.jsx';
+import AdminLayout from './layouts/AdminLayout.jsx';
+import StaffLayout from './layouts/StaffLayout.jsx';
+import ManagerLayout from './layouts/ManagerLayout.jsx';
+import AdminPromotion from './pages/Admin/pages/Promotion/adminPromotion.jsx';
+import UserLayout from './layouts/UserLayout.jsx';
+import HomePages from './pages/Home/pages/homePage/homePages.jsx';
+import { ConfigProvider } from 'antd';
+import InformationPage from './pages/Staff/InformationPage.jsx';
+import ReservatePage from './pages/Home/pages/reservatePage/reservatePage.jsx';
+import RecruitmentPage from './pages/Home/pages/recruitmentPage/recruitmentPage.jsx';
+import CalendarPage from './pages/Staff/CalendarPage.jsx';
+import SendMailPage from './pages/Staff/SendMailPage.jsx';
+import TablePage from './pages/Staff/TablePage.jsx';
+import BookingPage from './pages/Staff/BookingPage.jsx';
+import ManagerDashboard from './pages/Manager/DashBoard.jsx';
+import ManageStaff from './pages/Manager/ManageStaff.jsx';
+import ManageIngredient from './pages/Manager/ManageIngredient.jsx';
+import BookingDetails from './pages/Staff/BookingDetails.jsx';
+import Recruitment from './pages/Manager/Recruitment.jsx';
+import Application from './pages/Manager/Application.jsx';
+const App = () => {
+  // const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <ConfigProvider theme={
+      {
+        token: {
+          fontFamily: "'Montserrat', sans-serif",
+        }
+      }
+    }>
+      <Routes>
+        <Route element={<UserLayout />}>
+          <Route path={PATHS.HOME.HOMEPAGE} element={<HomePages />} />
+          <Route path={PATHS.USER.RESERVATION} element={<ReservatePage />} />
+          <Route path={PATHS.USER.RECRUITMENT} element={<RecruitmentPage />} />
+        </Route>
+        <Route path={PATHS.HOME.LOGIN} element={<Login />} />
+        <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminLayout />} >
+          <Route path={PATHS.ADMIN.DASHBOARD} element={<ManagerDashboard />} />
+          <Route path={PATHS.ADMIN.PROMOTION} element={<AdminPromotion />} />
+        </Route>
+        <Route path={"/staff"} element={<StaffLayout />} >
+          <Route index element={<Navigate to={PATHS.STAFF.INFORMATION} replace />} />
+          <Route path={PATHS.STAFF.INFORMATION} element={<InformationPage />} />
+          <Route path={PATHS.STAFF.CALENDAR} element={<CalendarPage />} />
+          <Route path={PATHS.STAFF.OFF} element={<SendMailPage />} />
+          <Route path={PATHS.STAFF.TABLE} element={<TablePage />} />
+          <Route path={PATHS.STAFF.BOOKING} element={<BookingPage />} />
+          <Route path="/staff/booking/details" element={<BookingDetails />} />
+
+
+        </Route>
+        <Route path={PATHS.MANAGER.BASE} element={<ManagerLayout />} >
+          <Route index element={<Navigate to={PATHS.MANAGER.DASHBOARD} replace />} />
+          <Route path={PATHS.MANAGER.DASHBOARD} element={<ManagerDashboard />} />
+          <Route path={PATHS.MANAGER.STAFF} element={<ManageStaff />} />
+          <Route path={PATHS.MANAGER.INGREDIENT} element={<ManageIngredient />} />
+          <Route path={PATHS.MANAGER.RECRUITMENT} element={<Recruitment />} />
+          <Route path={PATHS.MANAGER.APPLICATION} element={<Application />} />
+        </Route>
+
+
+      </Routes>
+    </ConfigProvider>
+
   )
 }
 
