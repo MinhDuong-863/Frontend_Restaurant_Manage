@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Input, Card, Button, message, Space, Pagination, Spin, Select } from 'antd';
-import { SearchOutlined, ReloadOutlined } from '@ant-design/icons';
+import { SearchOutlined, ReloadOutlined, PlusOutlined } from '@ant-design/icons';
 import FoodItemManagement from './FoodItem';
 import { getAllFood } from '../../../services/userService';
 import { TYPE_OF_FOOD } from '../../../constant/values';
@@ -139,6 +139,7 @@ const FoodManagement = () => {
       <Button
         type="primary"
         className='btn-create'
+        icon={<PlusOutlined />}
         onClick={handleCreateClick}
         style={{ height: '3em' }}
       >

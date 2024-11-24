@@ -10,7 +10,8 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 import { GoPeople } from "react-icons/go";
-import { FaUserCheck } from "react-icons/fa6";
+import { FaUserCheck, FaWpforms  } from "react-icons/fa6";
+import { FaTasks } from "react-icons/fa";
 import { Button, Image, Layout, Menu, message, theme } from 'antd';
 import styles from './ManagerLayout.module.scss'; // Import file SCSS
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -51,12 +52,12 @@ const items = [
             },
             {
                 key: '2.2',
-                icon: <UserOutlined />,
-                label: 'Bảng chấm công',
+                icon: <FaTasks  />,
+                label: 'Phân chia ca làm việc',
             },
             {
                 key: '2.3',
-                icon: <UserOutlined />,
+                icon: <FaWpforms />,
                 label: 'Đơn xin nghỉ',
             }
         ]
@@ -98,8 +99,8 @@ const navigationMap = {
     "1": PATHS.MANAGER.DASHBOARD,
     "2": PATHS.MANAGER.STAFF,
     "2.1": PATHS.MANAGER.STAFF,
-    "2.2": PATHS.MANAGER.STAFF,
-    "2.3": PATHS.MANAGER.STAFF,
+    "2.2": PATHS.MANAGER.SHIFT,
+    "2.3": PATHS.MANAGER.LEAVE_APPLICATION,
     "3": PATHS.MANAGER.INGREDIENT,
     "4": PATHS.MANAGER.RECRUITMENT,
     "4.1": PATHS.MANAGER.RECRUITMENT,
