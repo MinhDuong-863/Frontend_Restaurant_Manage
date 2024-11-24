@@ -207,6 +207,77 @@ export const deleteApplicationApi = async (recruitmentId) => {
     throw error;
   }
 }
+
+///  API for order book
+export const getOrderBookApi = async (params = {}) => {
+  try {
+    return await clientApi
+      .service('/booking')
+      .find({
+        page: params.page || 1,
+        limit: params.pageSize || 10,
+        search: params.search || '',
+        statusPayment: params.statusPayment || '',
+        statusOrder: params.statusOrder || ''
+      });
+  } catch (error) {
+    console.error('Error fetching order:', error);
+    throw error;
+  }
+}
+export const getBookingById = async (id) => {
+  try {
+    return await clientApi
+      .service('/booking')
+      .get(id);
+  } catch (error) {
+    console.error('Error fetching order:', error);
+    throw error;
+  }
+}
+export const updateBookingApi = async (id, data) => {
+  try {
+    return await clientApi
+      .service('/booking')
+      .put(id, data);
+  } catch (error) {
+    console.error('Error updating order:', error);
+    throw error;
+  }
+}
+
+
+// API for promotion
+export const createPromotion = async (data) => {
+  try {
+    return await clientApi
+      .service('/promotion')
+      .create(data);
+  } catch (error) {
+    console.error('Error creating promotion:', error);
+    throw error;
+  }
+}
+export const updatePromotion = async (id, data) => {
+  try {
+    return await clientApi
+      .service('/promotion')
+      .put(id, data);
+  } catch (error) {
+    console.error('Error updating promotion:', error);
+    throw error;
+  }
+}
+export const getPromotionById = async (id) => {
+  try {
+    return await clientApi
+      .service('/promotion')
+      .get(id);
+  } catch (error) {
+    console.error('Error fetching promotion:', error);
+    throw error;
+  }
+}
 const getListOrder = async (id) => {
   try {
     return clientApi.service("order").get(id);

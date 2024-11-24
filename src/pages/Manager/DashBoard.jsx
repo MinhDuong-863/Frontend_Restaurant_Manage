@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import clientApi from '../../client-api/rest-client-api';
 import { Card, Row, Col, Statistic, Progress, Table, Select, Space, message } from 'antd';
-import { 
-  BarChart, Bar, LineChart, Line, PieChart, Pie, 
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell 
+import {
+  BarChart, Bar, LineChart, Line, PieChart, Pie,
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell
 } from 'recharts';
-import { 
-  MoneyCollectOutlined, 
-  UserOutlined, 
+import {
+  MoneyCollectOutlined,
+  UserOutlined,
   ShoppingCartOutlined,
   DollarOutlined,
   FileTextOutlined
@@ -33,15 +33,15 @@ const ManagerDashboard = () => {
 
   const tableColumns = [
     { title: 'Món ăn', dataIndex: 'dish', key: 'dish' },
-    { 
-      title: 'Đã bán', 
-      dataIndex: 'sales', 
+    {
+      title: 'Đã bán',
+      dataIndex: 'sales',
       key: 'sales',
       sorter: (a, b) => a.sales - b.sales
     },
-    { 
-      title: 'Doanh thu', 
-      dataIndex: 'revenue', 
+    {
+      title: 'Doanh thu',
+      dataIndex: 'revenue',
       key: 'revenue',
       render: (value) => `VND ${value.toLocaleString()}`,
       sorter: (a, b) => a.revenue - b.revenue
@@ -56,21 +56,21 @@ const ManagerDashboard = () => {
       };
 
       const response = await clientApi.service('/report/revenue').find(params);
-  
+
       if (response.EC === 200) {
         // Handle potential multiple data entries for different time periods
         const revenueDetails = response.DT.length > 0 ? response.DT : [];
-        
+
         // Aggregate data across all returned entries
         const aggregatedData = revenueDetails.reduce((acc, entry) => {
           acc.totalRevenue += entry.totalRevenue;
           acc.totalOrders += entry.totalOrders;
           acc.soldItems.push(...entry.soldItems);
           return acc;
-        }, { 
-          totalRevenue: 0, 
-          totalOrders: 0, 
-          soldItems: [] 
+        }, {
+          totalRevenue: 0,
+          totalOrders: 0,
+          soldItems: []
         });
 
         // Process sold items for top-selling dishes
@@ -88,17 +88,17 @@ const ManagerDashboard = () => {
           }
           return acc;
         }, [])
-        .sort((a, b) => b.sales - a.sales)
-        .slice(0, 5);
+          .sort((a, b) => b.sales - a.sales)
+          .slice(0, 5);
 
         // Calculate menu category data
         const categoryMap = aggregatedData.soldItems.reduce((acc, item) => {
           const categoryName = item.name.split(' ')[0]; // Simple categorization
           if (!acc[categoryName]) {
-            acc[categoryName] = { 
-              name: categoryName, 
-              value: 0, 
-              percentage: 0 
+            acc[categoryName] = {
+              name: categoryName,
+              value: 0,
+              percentage: 0
             };
           }
           acc[categoryName].value += item.quantitySold;
@@ -115,11 +115,11 @@ const ManagerDashboard = () => {
         setTotalOrders(aggregatedData.totalOrders);
         setTopSellingDishes(processedTopSelling);
         setMenuCategoryData(processedCategoryData);
-        
+
         // Prepare revenue data with more flexibility
         const revenueData = revenueDetails.map(entry => ({
-          month: entry._id.month ? 
-            new Date(2024, entry._id.month - 1).toLocaleString('default', { month: 'short' }) : 
+          month: entry._id.month ?
+            new Date(2024, entry._id.month - 1).toLocaleString('default', { month: 'short' }) :
             `${entry._id.year || 'Unknown'}`,
           revenue: entry.totalRevenue,
           orders: entry.totalOrders
@@ -135,7 +135,7 @@ const ManagerDashboard = () => {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     getRevenue();
   }, [filters.year, filters.month]);
@@ -209,34 +209,34 @@ const ManagerDashboard = () => {
               <LineChart data={revenueData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
-                <YAxis 
-                  yAxisId="left" 
+                <YAxis
+                  yAxisId="left"
                   tickFormatter={(value) => new Intl.NumberFormat('vi-VN').format(value)}
                 />
-                <YAxis 
-                  yAxisId="right" 
+                <YAxis
+                  yAxisId="right"
                   orientation="right"
                 />
-                <Tooltip 
-                  formatter={(value, name) => 
-                    name === 'Doanh thu (VND)' 
+                <Tooltip
+                  formatter={(value, name) =>
+                    name === 'Doanh thu (VND)'
                       ? [new Intl.NumberFormat('vi-VN').format(value) + ' VND', name]
                       : [value, name]
                   }
                 />
                 <Legend />
-                <Line 
+                <Line
                   yAxisId="left"
-                  type="monotone" 
-                  dataKey="revenue" 
-                  stroke="#52c41a" 
+                  type="monotone"
+                  dataKey="revenue"
+                  stroke="#52c41a"
                   name="Doanh thu (VND)"
                 />
-                <Line 
+                <Line
                   yAxisId="right"
-                  type="monotone" 
-                  dataKey="orders" 
-                  stroke="#1890ff" 
+                  type="monotone"
+                  dataKey="orders"
+                  stroke="#1890ff"
                   name="Tổng số đơn hàng"
                 />
               </LineChart>
@@ -247,8 +247,8 @@ const ManagerDashboard = () => {
 
       {/* Menu and Performance Details */}
       <Card title="Món ăn bán nhiều nhất">
-        <Table 
-          columns={tableColumns} 
+        <Table
+          columns={tableColumns}
           dataSource={topSellingDishes}
           pagination={false}
         />

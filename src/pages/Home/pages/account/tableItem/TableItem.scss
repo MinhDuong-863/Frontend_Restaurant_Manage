@@ -1,0 +1,131 @@
+
+
+.table-item-container{
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow:  10px 10px 30px #bebebe,
+             -10px -10px 30px #e3e3e3;
+
+    .profile-info-item{
+        display: flex;
+        align-items: center;
+    }
+
+    .profile-info-item-label{
+        font-weight: 600;
+    }
+
+    .status-confirmed{
+        color: #3AA472;
+        background: #defff0;
+        padding: 5px;
+        border: 1px solid #3AA472;
+        border-radius: 5px;
+        margin-left: 10em;
+        font-weight: 600;
+        width: 7em;
+        display: flex;
+        justify-content: center;
+    }
+
+    .status-pending{
+        color: #F39C12;
+        background: #ffe0ae;
+        padding: 5px;
+        border: 1px solid #F39C12;
+        border-radius: 5px;
+        margin-left: 10em;
+        font-weight: 600;
+        width: 7em;
+        display: flex;
+        justify-content: center;
+    }
+
+    .status-canceled{
+        color: red;
+        background: rgb(255, 223, 223);
+        padding: 5px;
+        border: 1px solid red;
+        border-radius: 5px;
+        margin-left: 10em;
+        font-weight: 600;
+        width: 7em;
+        display: flex;
+        justify-content: center;
+    }
+
+    .status-completed{
+        color: blue;
+        background: rgb(237, 237, 255);
+        padding: 5px;
+        border: 1px solid blue;
+        border-radius: 5px;
+        margin-left: 10em;
+        font-weight: 600;
+        width: 7em;
+        display: flex;
+        justify-content: center;
+    }
+
+    .profile-info-item-link{
+        color: #0059ff;
+        text-decoration: none;
+        font-weight: 600;
+        text-decoration: underline;
+        font-style: normal;
+
+        &:hover{
+            cursor: pointer ;
+            font-style: italic;
+        }
+    }
+
+    .btn-cancel{
+        background: rgb(255, 62, 62);
+        color: white;
+        border: none;
+        padding: 5px 20px;
+        border-radius: 5px;
+        font-weight: 600;
+
+        &:hover{
+            background: rgb(255, 89, 89);
+        }
+    }
+
+    .disabled{
+        background: #dcdcdc;
+        color: #a9a9a9;
+        border: none;
+        padding: 5px 20px;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: not-allowed;
+
+        &:hover{
+            background: #dcdcdc;
+        }
+    }
+}
+.food-modal{
+    position: fixed;
+    top: 15%;
+    left: 17%;
+
+    .ant-modal-content {
+        width: 1000px;
+    }
+
+    .ant-modal-header {
+        background-color: #F39C12;
+        padding: 10px;
+        border-radius: 0px;
+        
+        .ant-modal-title {
+            color: white;
+            font-weight: 600;
+            margin: 0;
+        }
+    }
+}

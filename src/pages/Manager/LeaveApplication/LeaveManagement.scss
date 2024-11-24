@@ -1,0 +1,149 @@
+.leave-management {
+    padding: 24px;
+  
+    .leave-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  
+      .leave-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+  
+        h3 {
+          margin: 0;
+        }
+  
+        .add-button {
+          background: #1890ff;
+          
+          &:hover {
+            background: #40a9ff;
+          }
+        }
+      }
+    }
+  
+    .leave-table {
+      .employee-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+  
+        .employee-icon {
+          font-size: 16px;
+          color: #1890ff;
+        }
+  
+        .employee-name {
+          font-weight: 500;
+        }
+  
+        .employee-department {
+          font-size: 12px;
+          color: rgba(0, 0, 0, 0.45);
+        }
+      }
+  
+      .date-range {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+  
+        .date-icon {
+          color: #1890ff;
+        }
+      }
+  
+      .reason-text {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+  
+        .reason-icon {
+          color: #1890ff;
+        }
+      }
+  
+      .action-buttons {
+        .approve-button {
+          background: #52c41a;
+          border-color: #52c41a;
+  
+          &:hover {
+            background: #73d13d;
+            border-color: #73d13d;
+          }
+        }
+  
+        .reject-button {
+          &:hover {
+            background: #ff4d4f;
+            border-color: #ff4d4f;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+  
+  // Modal styles
+  .leave-modal {
+    .ant-modal-content {
+      border-radius: 8px;
+    }
+  
+    .ant-form-item {
+      margin-bottom: 16px;
+    }
+  
+    .date-picker {
+      width: 100%;
+    }
+  
+    .form-actions {
+      margin-bottom: 0;
+      margin-top: 24px;
+      text-align: right;
+    }
+  }
+  
+  // Status badge styles
+  .ant-badge {
+    &-status-processing {
+      background: #1890ff;
+    }
+  
+    &-status-success {
+      background: #52c41a;
+    }
+  
+    &-status-error {
+      background: #ff4d4f;
+    }
+  }
+  
+  // Responsive styles
+  @media (max-width: 768px) {
+    .leave-management {
+      padding: 16px;
+  
+      .leave-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+      }
+  
+      .leave-table {
+        .reason-text {
+          max-width: 200px;
+        }
+      }
+    }
+  }

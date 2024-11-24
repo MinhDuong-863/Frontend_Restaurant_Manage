@@ -1,0 +1,54 @@
+.food-item {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .food-image-container {
+    img {
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover img {
+      transform: scale(1.05);
+    }
+  }
+
+  .btn-book {
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #F39C12 !important;
+      color: white !important;
+    }
+  }
+}
+
+// Media queries
+@media (max-width: 992px) {
+  .food-item {
+    width: calc(50% - 20px) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .food-item {
+    width: 100% !important;
+    
+    .food-image-container {
+      width: 140px !important;
+      height: 140px !important;
+    }
+
+    .food-item-name {
+      font-size: 1.1rem !important;
+    }
+
+    .btn-book {
+      padding: 8px 20px !important;
+      font-size: 1rem;
+    }
+  }
+}

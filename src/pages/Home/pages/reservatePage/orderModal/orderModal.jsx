@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import BookingModal from '../bookingModal/bookingModal';
 import './OrderModal.scss';
 
-const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
+const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods, setFlag = null, flag = false }) => {
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
     const [tempFoods, setTempFoods] = useState([...selectedFoods]);
 
@@ -63,7 +63,10 @@ const OrderModal = ({ isOpen, onClose, selectedFoods, setSelectedFoods }) => {
 
     const handleOrderConfirm = () => {
         setSelectedFoods(tempFoods); // Lưu danh sách món ăn đã chỉnh sửa
-
+        if (setFlag) {
+            console.log('setFlag');
+            setFlag(!flag);
+        }
         onClose(); // Đóng modal
     };
 

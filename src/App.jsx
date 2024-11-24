@@ -22,6 +22,12 @@ import ManageIngredient from './pages/Manager/ManageIngredient.jsx';
 import BookingDetails from './pages/Staff/BookingDetails.jsx';
 import Recruitment from './pages/Manager/Recruitment.jsx';
 import Application from './pages/Manager/Application.jsx';
+import FoodManagement from './pages/Manager/Food/ManageFood.jsx';
+import LeaveManagement from './pages/Manager/LeaveApplication/LeaveApplicationManagement.jsx';
+import ShiftManagement from './pages/Manager/Shift/ShiftManagement.jsx';
+import Account from './pages/Home/pages/account/account.jsx';
+import OrderManager from './pages/Manager/OrderManager.jsx';
+import PromotionManager from './pages/Manager/Promotion/PromotionManager.jsx';
 const App = () => {
   // const [count, setCount] = useState(0)
 
@@ -38,6 +44,7 @@ const App = () => {
           <Route path={PATHS.HOME.HOMEPAGE} element={<HomePages />} />
           <Route path={PATHS.USER.RESERVATION} element={<ReservatePage />} />
           <Route path={PATHS.USER.RECRUITMENT} element={<RecruitmentPage />} />
+          <Route path={PATHS.USER.ACCOUNT} element={<Account />} />
         </Route>
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />
         <Route path={PATHS.ADMIN.DASHBOARD} element={<AdminLayout />} >
@@ -59,12 +66,15 @@ const App = () => {
           <Route index element={<Navigate to={PATHS.MANAGER.DASHBOARD} replace />} />
           <Route path={PATHS.MANAGER.DASHBOARD} element={<ManagerDashboard />} />
           <Route path={PATHS.MANAGER.STAFF} element={<ManageStaff />} />
+          <Route path={PATHS.MANAGER.SHIFT} element={<ShiftManagement />} />
+          <Route path={PATHS.MANAGER.LEAVE_APPLICATION} element={<LeaveManagement />} />
           <Route path={PATHS.MANAGER.INGREDIENT} element={<ManageIngredient />} />
           <Route path={PATHS.MANAGER.RECRUITMENT} element={<Recruitment />} />
           <Route path={PATHS.MANAGER.APPLICATION} element={<Application />} />
+          <Route path={PATHS.MANAGER.ORDERMANAGER} element={<OrderManager />} />
+          <Route path={PATHS.MANAGER.FOOD} element={<FoodManagement />} />
+          <Route path={PATHS.MANAGER.PROMOTION} element={<PromotionManager />} />
         </Route>
-
-
       </Routes>
     </ConfigProvider>
 

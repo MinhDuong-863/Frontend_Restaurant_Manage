@@ -10,15 +10,19 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 import { GoPeople } from "react-icons/go";
-import { FaUserCheck } from "react-icons/fa6";
+import { FaUserCheck, FaWpforms } from "react-icons/fa6";
+import { FaTasks } from "react-icons/fa";
 import { Button, Image, Layout, Menu, message, theme } from 'antd';
 import styles from './ManagerLayout.module.scss'; // Import file SCSS
 import { Outlet, useNavigate } from 'react-router-dom';
 import { PATHS } from '../constant/path';
 import { logout } from '../redux/action/authenSlice';
+import { IoFastFoodOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
 import clientApi from '../client-api/rest-client-api';
 import { removeCurrent, setCurrent } from '../redux/action/webSlice';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList, faMoneyBill1Wave } from '@fortawesome/free-solid-svg-icons';
 
 const { Header, Sider, Content } = Layout;
 
@@ -50,12 +54,12 @@ const items = [
             },
             {
                 key: '2.2',
-                icon: <UserOutlined />,
-                label: 'Bảng chấm công',
+                icon: <FaTasks />,
+                label: 'Phân chia ca làm việc',
             },
             {
                 key: '2.3',
-                icon: <UserOutlined />,
+                icon: <FaWpforms />,
                 label: 'Đơn xin nghỉ',
             }
         ]
@@ -64,6 +68,11 @@ const items = [
         key: '3',
         icon: <UserOutlined />,
         label: 'Quản lý nguyên liệu',
+    },
+    {
+        key: '6',
+        icon: <IoFastFoodOutline />,
+        label: 'Quản lý món ăn',
     },
     {
         key: '4',
@@ -84,6 +93,16 @@ const items = [
     },
     {
         key: '5',
+        icon: <FontAwesomeIcon icon={faList} />,
+        label: 'Quản lý đơn đặt hàng',
+    },
+    {
+        key: '7',
+        icon: <FontAwesomeIcon icon={faMoneyBill1Wave} />,
+        label: 'Quản lý giảm giá',
+    },
+    {
+        key: '8',
         icon: <LogoutOutlined />,
         label: 'Đăng xuất',
     }
@@ -92,13 +111,16 @@ const navigationMap = {
     "1": PATHS.MANAGER.DASHBOARD,
     "2": PATHS.MANAGER.STAFF,
     "2.1": PATHS.MANAGER.STAFF,
-    "2.2": PATHS.MANAGER.STAFF,
-    "2.3": PATHS.MANAGER.STAFF,
+    "2.2": PATHS.MANAGER.SHIFT,
+    "2.3": PATHS.MANAGER.LEAVE_APPLICATION,
     "3": PATHS.MANAGER.INGREDIENT,
     "4": PATHS.MANAGER.RECRUITMENT,
     "4.1": PATHS.MANAGER.RECRUITMENT,
     "4.2": PATHS.MANAGER.APPLICATION,
-    "5": PATHS.HOME.LOGOUT,
+    "5": PATHS.MANAGER.ORDERMANAGER,
+    "6": PATHS.MANAGER.FOOD,
+    "7": PATHS.MANAGER.PROMOTION,
+    "8": PATHS.HOME.LOGOUT,
 }
 const ManagerLayout = () => {
     const dispatch = useDispatch();

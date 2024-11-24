@@ -1,9 +1,9 @@
 import { Pagination, Select } from 'antd'
 import './Recruitment.scss'
-import RecruitmentItem from './recruitmentItem'
-import { POSITIONS, TYPE_OF_RECRUITMENT } from '../../../../constant/values'
+// import { POSITIONS, TYPE_OF_RECRUITMENT } from '../../../../constant/values'
 import { useEffect, useState } from 'react'
 import { getRecruitments } from "../../../../services/userService.jsx";
+import RecruitmentItem from './recruitmentItem/recruitmentItem.jsx';
 
 const RecruitmentPage = () => {
 
@@ -76,7 +76,7 @@ const RecruitmentPage = () => {
                         />
                     </div>
                 </div> */}
-            <div className='recruitment-content mt-3 row'>
+            <div className='recruitment-content mt-3 d-flex flex-wrap' style={{gap: '35px'}}>
                 {loading ? (
                     <p>Đang tải dữ liệu...</p>
                 ) : (
@@ -87,16 +87,16 @@ const RecruitmentPage = () => {
                         />
                     ))
                 )}
-                <div className='row mt-3'>
-                    <Pagination
-                        align="center"
-                        current={currentPage}
-                        pageSize={pageSize}
-                        total={total}
-                        onChange={handlePageChange}
-                    />
-                </div> 
             </div>
+            <div className='row mt-3'>
+                <Pagination
+                    align="center"
+                    current={currentPage}
+                    pageSize={pageSize}
+                    total={total}
+                    onChange={handlePageChange}
+                />
+            </div> 
         </div>
     )
 }

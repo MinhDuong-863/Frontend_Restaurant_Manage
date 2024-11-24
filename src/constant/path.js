@@ -23,6 +23,8 @@ export const PATHS = {
         BASE: "/manager",
         DASHBOARD: "/manager/dashboard",
         STAFF: "/manager/staff",
+        SHIFT: "/manager/shift",
+        LEAVE_APPLICATION: "/manager/leave-application",
         ORDER: "/manager/order",
         FOOD: "/manager/food",
         INGREDIENT: "/manager/ingredient",
@@ -30,10 +32,13 @@ export const PATHS = {
         REPORT: "/manager/report",
         RECRUITMENT: "/manager/recruitment",
         APPLICATION: "/manager/application",
+        ORDERMANAGER: "/manager/ordermanager",
+        PROMOTION: "/manager/promotion",
     },
-    USER:{
+    USER: {
         RESERVATION: "/reservation",
         RECRUITMENT: "/recruitment",
+        ACCOUNT: "/account",
     },
     HOME: {
         HOMEPAGE: "/",

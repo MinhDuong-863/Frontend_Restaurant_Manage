@@ -278,8 +278,6 @@ const ReservatePage = () => {
                     selectedFoods={selectedFoods}
                     setSelectedFoods={setSelectedFoods}
                 />
-
-                
             </div>
         )}
     </>

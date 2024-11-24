@@ -1,5 +1,4 @@
-
-.btn-custome{
+.btn-custome {
     background: #F39C12;
     border: 2px solid #F39C12;
     border-radius: 0 !important;
@@ -7,53 +6,55 @@
     font-weight: 600;
     padding: 5px 30px;
 
-    &:hover{
-        background: #FFA813!important;
+    &:hover {
+        background: #FFA813 !important;
         border: 2px solid #F39C12;
     }
 }
-.btn-cancle{
+
+.btn-cancle {
     padding: 5px 30px;
     background: transparent;
     border: 2px solid gray;
     margin-right: 10px;
     font-weight: 600;
 
-    &:hover{
+    &:hover {
         background: black;
         color: white;
     }
 }
-.ant-modal{
+
+.ant-modal {
     margin-top: -5em;
 
-    .ant-modal-title{
+    .ant-modal-title {
         font-size: 1.5em;
         font-weight: 600;
         color: #F39C12;
         margin-bottom: 10px;
     }
 
-    .ant-btn-primary{
+    .ant-btn-primary {
         background: white;
         border: 1px solid #F39C12;
         border-radius: 0 !important;
         color: #F39C12;
         font-weight: 600;
 
-        &:hover{
-            background: #F39C12!important;
-            color: black!important;
+        &:hover {
+            background: #F39C12 !important;
+            color: black !important;
         }
     }
 
-    .ant-btn-default{
+    .ant-btn-default {
         background: white;
         border: 1px solid gray;
         background: transparent;
         border-radius: 0;
 
-        &:hover{
+        &:hover {
             background: black !important;
             color: white !important;
             border: 1px solid black !important;
@@ -66,10 +67,75 @@
         border-radius: 0 !important;
         color: #F39C12;
         font-weight: 600;
-    
+
         &:hover {
             background: #F39C12 !important;
             color: black !important;
+        }
+    }
+}
+
+.promotion-manager-content {
+    .promotion-content {
+        padding: 10px 20px;
+
+        input {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 2px solid gray;
+            width: 100%;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .list-promotion {
+
+            .promotion-item {
+                padding: 20px 10px;
+                border-radius: 10px;
+                background: rgb(236, 236, 236);
+                box-shadow: 5px 5px 10px #bebebe,
+                    -5px -5px 10px #ffffff;
+
+                p {
+                    margin: 0;
+                }
+
+                .discount-fix {
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: #438EF3;
+                }
+
+                .discount-value {
+                    font-size: 25px;
+                    font-weight: bold;
+                    margin-top: 5px;
+                    color: #438EF3;
+                }
+
+                .discount-percentage {
+                    color: #3AA472
+                }
+
+                .discount-fixed {
+                    color: #438EF3
+                }
+            }
+
+            .with-dashed-border {
+                border-right: 2px dashed #ccc;
+                /* Tạo đường viền nét đứt */
+                height: 100%;
+                /* Đảm bảo đường viền bao phủ toàn chiều cao */
+            }
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 }

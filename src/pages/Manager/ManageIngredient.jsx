@@ -381,7 +381,7 @@ const ManageIngredient = () => {
             <Card 
               hoverable 
               style={{ 
-                background: '#F39C12', 
+                background: 'green', 
                 color: 'white' 
               }}
             >
@@ -397,7 +397,7 @@ const ManageIngredient = () => {
             <Card 
               hoverable 
               style={{ 
-                background: 'linear-gradient(135deg, #ff6b6b 0%, #ff9a9a 100%)', 
+                background: '#DAE15B', 
                 color: 'white' 
               }}
             >
@@ -405,7 +405,7 @@ const ManageIngredient = () => {
                 title={<span style={{color: 'white'}}>Nguyên Liệu Hết Hạn</span>}
                 value={lowStockMaterials}
                 prefix={<AlertOutlined style={{color: 'white'}} />}
-                valueStyle={{ color: lowStockMaterials > 0 ? 'yellow' : 'white' }}
+                valueStyle={{ color: lowStockMaterials > 0 ? 'red' : 'white' }}
               />
             </Card>
           </Col>
