@@ -27,7 +27,7 @@ import LeaveManagement from './pages/Manager/LeaveApplication/LeaveApplicationMa
 import ShiftManagement from './pages/Manager/Shift/ShiftManagement.jsx';
 import Account from './pages/Home/pages/account/account.jsx';
 import OrderManager from './pages/Manager/OrderManager.jsx';
-import PromotionManager from './pages/Manager/PromotionManager.jsx';
+import PromotionManager from './pages/Manager/Promotion/PromotionManager.jsx';
 const App = () => {
   // const [count, setCount] = useState(0)
 

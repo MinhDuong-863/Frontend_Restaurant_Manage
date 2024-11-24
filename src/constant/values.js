@@ -180,3 +180,52 @@ export const STATUS_PAYMENT = [
     label: 'Hoàn tiền',
   }
 ]
+export const STATUS_ORDER = [
+  {
+    key: '',
+    label: 'Tất cả',
+    color: '#000', // Màu đen
+  },
+  {
+    key: 'pending',
+    label: 'Chờ xác nhận',
+    color: '#FFA500', // Màu cam
+  },
+  {
+    key: 'confirmed',
+    label: 'Đã xác nhận',
+    color: '#1890FF', // Màu xanh dương
+  },
+  {
+    key: 'completed',
+    label: 'Hoàn thành',
+    color: '#52C41A', // Màu xanh lá
+  },
+  {
+    key: 'canceled',
+    label: 'Đã hủy',
+    color: '#FF4D4F', // Màu đỏ
+  },
+];
+
+export const PROMOTION_TYPE = [
+  {
+    value: 'percentage',
+    label: 'Giảm theo %',
+  },
+  {
+    value: 'fixed',
+    label: 'Giảm theo số tiền',
+  }
+]
+
+export const STATUS_PROMOTION = [
+  {
+    value: 'active',
+    label: 'Hoạt động',
+  },
+  {
+    value: 'inactive',
+    label: 'Không sử dụng',
+  }
+]

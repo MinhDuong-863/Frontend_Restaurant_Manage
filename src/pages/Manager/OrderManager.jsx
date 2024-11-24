@@ -1,41 +1,58 @@
 import { useEffect, useState } from "react";
-import { getOrderBookApi } from "../../services/apiService";
+import { getOrderBookApi, getBookingById, updateBookingApi } from "../../services/apiService";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { formatDate } from "../../utils/format";
 import "./staff.scss"
-import { Button, Card, Col, Dropdown, Form, Menu, Row, Space, Table, message } from "antd";
+import { Button, Card, Col, Dropdown, Form, Menu, Row, Space, Table, message, Modal, Select } from "antd";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { STATUS_PAYMENT } from "../../constant/values";
+import { STATUS_ORDER, STATUS_PAYMENT } from "../../constant/values";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
+let statusOrderArr = [];
+for (let i = 1; i < STATUS_ORDER.length; i++) {
+    statusOrderArr.push({ value: STATUS_ORDER[i].key, label: STATUS_ORDER[i].label });
+}
+let statusPaymentArr = [];
+for (let i = 1; i < STATUS_PAYMENT.length; i++) {
+    statusPaymentArr.push({ value: STATUS_PAYMENT[i].key, label: STATUS_PAYMENT[i].label });
+}
 const OrderManager = () => {
-    const [orders, setOrders] = useState([]);
-    const [statusPayment, setStatusPayment] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [pagination, setPagination] = useState({
+    let [orders, setOrders] = useState([]);
+    let [showModal, setShowModal] = useState(false);
+    let [statusPayment, setStatusPayment] = useState("");
+    let [loading, setLoading] = useState(false);
+    let [statusOrder, setStatusOrder] = useState("");
+    let [bookingUpdate, setBookingUpdate] = useState({});
+    let [pagination, setPagination] = useState({
         current: 1,
         pageSize: 5, // Số lượng bản ghi trên mỗi trang
         total: 0,    // Tổng số bản ghi (lấy từ API)
     });
-    const [form] = Form.useForm();
-    const getAllBooking = async () => {
+    let [form] = Form.useForm();
+    let getAllBooking = async () => {
         try {
             setLoading(true);
-            const params = {
+            let params = {
                 page: pagination.current,
                 pageSize: pagination.pageSize,
-                status: statusPayment
+                statusPayment: statusPayment,
+                statusOrder: statusOrder,
             };
-            const response = await getOrderBookApi(params);
-            const orderList = response?.DT?.infor || [];
-            const formattedData = orderList.map((order) => ({
+            let response = await getOrderBookApi(params);
+            let orderList = response?.DT?.infor || [];
+            let formattedData = orderList.map((order) => ({
                 id: order.booking?._id,
-                fullName: order?.user?.first_name + " " + order?.user?.last_name,
-                phone: order?.user?.phone_number,
+                customerInfo: {
+                    fullName: order?.user?.first_name + " " + order?.user?.last_name,
+                    phone: order?.user?.phone_number,
+                },
                 date: formatDate(order?.booking?.date) + " - " + order?.booking?.time,
                 total: order?.booking?.total,
                 table: order?.booking?.table?.name + " - " + order?.booking?.table?.type,
                 totalFood: order.booking.order_detail.length,
                 statusPayment: order.booking.payment_status,
+                statusOrder: order.booking.status,
             }));
             setPagination(prevState => ({
                 ...prevState,
@@ -50,39 +67,36 @@ const OrderManager = () => {
     };
     useEffect(() => {
         getAllBooking();
-    }, [pagination.current, pagination.pageSize, statusPayment]);
-    const handleTableChange = (paginationa) => {
-        console.log(paginationa);
+    }, [pagination.current, pagination.pageSize, statusPayment, statusOrder]);
+    let handleTableChange = (paginationa) => {
         setPagination({
             ...pagination,
             current: paginationa.current,
             pageSize: paginationa.pageSize,
         });
     };
-    const tableColumns = [
+    let tableColumns = [
         {
             title: 'Tên khách hàng',
-            dataIndex: 'fullName',
-            key: 'fullName',
-            render: (text) => <strong>{text}</strong>
-        },
-        {
-            title: 'Số điện thoại',
-            dataIndex: 'phone',
-            key: 'phone',
+            dataIndex: 'customerInfo',
+            key: 'customerInfo',
+            render: (record) => (
+                <div>
+                    <div><strong>{record.fullName}</strong></div>
+                    <div style={{ color: 'gray', fontSize: '14px' }}>{record.phone}</div>
+                </div>
+            ),
         },
         {
             title: 'Bàn',
             dataIndex: 'table',
             key: 'table',
-            width: 150,
             render: (text) => <strong>{text}</strong>
         },
         {
             title: 'Thời gian',
             dataIndex: 'date',
             key: 'date',
-            width: 150,
             render: (text) => <strong>{text}</strong>
         },
         {
@@ -93,8 +107,43 @@ const OrderManager = () => {
         {
             title: 'Tổng tiền',
             dataIndex: 'total',
-            key: 'salary',
-            width: 150,
+            key: 'total',
+        },
+        {
+            title: (
+                <div>
+                    Trạng thái{'   '}
+                    <Dropdown
+                        overlay={
+                            <Menu
+                                onClick={(e) => setStatusOrder(e.key)}
+                                items={STATUS_ORDER.map((item) => ({
+                                    key: item.key,
+                                    label: item.label,
+                                }))}
+                            />
+                        }
+                        trigger={['click']}
+                        overlayClassName="dropdownProfile"
+                        placement="bottomRight"
+                    >
+                        <Space>
+                            <FontAwesomeIcon icon={faChevronDown} />
+                        </Space>
+                    </Dropdown>
+                </div>),
+            dataIndex: 'statusOrder',
+            key: 'statusOrder',
+            render: (record) => {
+                let status = STATUS_ORDER.find(item => item.key === record)
+                return (
+                    <div>
+                        <span style={{ color: status.color }}>
+                            {status.label || 'Không xác định'}
+                        </span>
+                    </div>
+                );
+            },
         },
         {
             title: (
@@ -131,7 +180,50 @@ const OrderManager = () => {
                 </div>
             ),
         },
+        {
+            title: '',
+            key: 'action',
+            render: (record) => (
+                <Button
+                    type="primary"
+                    ghost
+                    size="small"
+                    icon={<EditOutlined />}
+                    style={{ marginRight: 8 }}
+                    onClick={() => {
+                        handleUpdateBooking(record.id);
+                    }}
+                >
+                </Button>
+            ),
+        }
     ];
+    let handleUpdateBooking = async (id) => {
+        let response = await getBookingById(id);
+        if (response?.DT[0]?._id) {
+            setBookingUpdate(response.DT[0]);
+            setShowModal(true);
+        } else {
+            message.error(response?.EC || "Không tìm thấy bản ghi")
+        }
+    }
+    let handleUpdate = async () => {
+        form.validateFields().then(async (values) => {
+            console.log(values);
+            let response = await updateBookingApi(bookingUpdate._id, { status: values.status, payment_status: values.payment_status });
+            if (response.EC === 0) {
+                message.success(response?.EM || 'Thành công');
+                setShowModal(false);
+                getAllBooking();
+            } else {
+                message.error(response?.EM || 'Thất bại');
+            }
+        }
+        ).catch((error) => {
+            message.error('Vui lòng chọn trạng thái');
+            console.log(error);
+        });
+    }
     return (
         <div className="order-manager-content">
             <Row>
@@ -157,6 +249,77 @@ const OrderManager = () => {
                     </Card>
                 </Col>
             </Row>
+            <Modal
+                title={"Thông tin đặt bàn"}
+                name="updateBooking"
+                open={showModal}
+                onOk={() => {
+                    handleUpdate();
+                }}
+                onCancel={() => {
+                    setBookingUpdate(null);
+                    setShowModal(false);
+                }}
+            >
+                <Form
+                    form={form}
+                    name="updateBooking"
+                    layout="horizontal"
+                    initialValues={{
+                        status: bookingUpdate?.status,
+                        payment_status: bookingUpdate?.payment_status,
+                    }}
+                >
+                    <Form.Item
+                        name="_id"
+                        label="Mã đặt bàn"
+                    >
+                        {bookingUpdate?._id}
+                    </Form.Item>
+                    <Form.Item
+                        name="table"
+                        label="Bàn"
+                    >
+                        {bookingUpdate?.table?.name + " - " + bookingUpdate?.table?.type}
+                    </Form.Item>
+                    <Form.Item
+                        name="date"
+                        label="Ngày đặt"
+                    >
+                        {formatDate(bookingUpdate?.date)}
+                    </Form.Item>
+                    <Form.Item
+                        name="time"
+                        label="Thời gian"
+                    >
+                        {bookingUpdate?.time}
+                    </Form.Item>
+                    <Form.Item
+                        name="note"
+                        label="Ghi chú"
+                    >
+                        {bookingUpdate?.note}
+                    </Form.Item>
+                    <Form.Item
+                        name="status"
+                        label="Trạng thái đặt bàn"
+                        rules={[{ required: true, message: 'Vui lòng chọn trạng thái!' }]}
+                    >
+                        <Select
+                            placeholder="Chọn trạng thái"
+                            options={statusOrderArr} />
+                    </Form.Item>
+                    <Form.Item
+                        name="payment_status"
+                        label="Trạng thái thanh toán"
+                        rules={[{ required: true, message: 'Vui lòng chọn trạng thái!' }]}
+                    >
+                        <Select
+                            placeholder="Chọn trạng thái"
+                            options={statusPaymentArr} />
+                    </Form.Item>
+                </Form>
+            </Modal>
         </div>
     )
 }

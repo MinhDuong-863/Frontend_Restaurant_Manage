@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { 
+import {
   Card,
-  Select, 
-  Button, 
-  Table, 
-  message, 
+  Select,
+  Button,
+  Table,
+  message,
   Form,
   Typography,
   Space,
@@ -91,7 +91,7 @@ const ShiftManagement = () => {
     <div style={{ padding: '24px' }}>
       <Card>
         <Title level={2} style={{ marginBottom: 24 }}>Phân ca làm việc</Title>
-        
+
         <Form
           form={form}
           layout="vertical"
@@ -99,18 +99,18 @@ const ShiftManagement = () => {
           style={{ marginBottom: 24 }}
         >
           <Row gutter={16}>
-            {/* <Col xs={24} sm={8}>
+            <Col xs={24} sm={8}>
               <Form.Item
-               name="dateShift"
+                name="dateShift"
                 label="Ngày làm việc"
                 rules={[{ required: true, message: 'Vui lòng chọn ngày!' }]}
               >
-                <DatePicker 
-                  style={{ width: '100%' }} 
-                  //format={"DD/MM/YYYY"}
+                <DatePicker
+                  style={{ width: '100%' }}
+                //format={"DD/MM/YYYY"}
                 />
               </Form.Item>
-            </Col> */}
+            </Col>
 
             <Col xs={24} sm={8}>
               <Form.Item
@@ -144,9 +144,9 @@ const ShiftManagement = () => {
 
           <Row justify="end">
             <Col>
-              <Button 
-                type="primary" 
-                htmlType="submit" 
+              <Button
+                type="primary"
+                htmlType="submit"
                 loading={loading}
               >
                 Tạo ca làm việc
