@@ -23,6 +23,8 @@ export const PATHS = {
         BASE: "/manager",
         DASHBOARD: "/manager/dashboard",
         STAFF: "/manager/staff",
+        SHIFT: "/manager/shift",
+        LEAVE_APPLICATION: "/manager/leave-application",
         ORDER: "/manager/order",
         FOOD: "/manager/food",
         INGREDIENT: "/manager/ingredient",
