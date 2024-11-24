@@ -29,6 +29,8 @@ import Account from './pages/Home/pages/account/account.jsx';
 import OrderManager from './pages/Manager/OrderManager.jsx';
 import PromotionManager from './pages/Manager/Promotion/PromotionManager.jsx';
 import MenuPage from './pages/Home/pages/menu/menu.jsx';
+import LeaveManagement from './pages/Manager/LeaveApplication/LeaveApplicationManagement.jsx';
+import ShiftManagement from './pages/Manager/Shift/ShiftManagement.jsx';
 const App = () => {
   // const [count, setCount] = useState(0)
 

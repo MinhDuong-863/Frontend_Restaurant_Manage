@@ -10,7 +10,7 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 import { GoPeople } from "react-icons/go";
-import { FaUserCheck, FaWpforms } from "react-icons/fa6";
+import { FaUserCheck, FaWpforms  } from "react-icons/fa6";
 import { FaTasks } from "react-icons/fa";
 import { Button, Image, Layout, Menu, message, theme } from 'antd';
 import styles from './ManagerLayout.module.scss'; // Import file SCSS
@@ -54,7 +54,7 @@ const items = [
             },
             {
                 key: '2.2',
-                icon: <FaTasks />,
+                icon: <FaTasks  />,
                 label: 'Phân chia ca làm việc',
             },
             {
