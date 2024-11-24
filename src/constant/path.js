@@ -33,6 +33,7 @@ export const PATHS = {
         RECRUITMENT: "/manager/recruitment",
         APPLICATION: "/manager/application",
         ORDERMANAGER: "/manager/ordermanager",
+        PROMOTION: "/manager/promotion",
     },
     USER: {
         RESERVATION: "/reservation",

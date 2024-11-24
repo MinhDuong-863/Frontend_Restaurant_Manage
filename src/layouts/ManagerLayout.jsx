@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import clientApi from '../client-api/rest-client-api';
 import { removeCurrent, setCurrent } from '../redux/action/webSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faList } from '@fortawesome/free-solid-svg-icons';
+import { faList, faMoneyBill1Wave } from '@fortawesome/free-solid-svg-icons';
 
 const { Header, Sider, Content } = Layout;
 
@@ -98,6 +98,11 @@ const items = [
     },
     {
         key: '6',
+        icon: <FontAwesomeIcon icon={faMoneyBill1Wave} />,
+        label: 'Quản lý giảm giá',
+    },
+    {
+        key: '7',
         icon: <LogoutOutlined />,
         label: 'Đăng xuất',
     }
@@ -114,6 +119,9 @@ const navigationMap = {
     "4.2": PATHS.MANAGER.APPLICATION,
     "5": PATHS.HOME.LOGOUT,
     "6": PATHS.MANAGER.FOOD
+    "5": PATHS.MANAGER.ORDERMANAGER,
+    "6": PATHS.MANAGER.PROMOTION,
+    "7": PATHS.HOME.LOGOUT,
 }
 const ManagerLayout = () => {
     const dispatch = useDispatch();

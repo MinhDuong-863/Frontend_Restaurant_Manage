@@ -27,6 +27,7 @@ import LeaveManagement from './pages/Manager/LeaveApplication/LeaveApplicationMa
 import ShiftManagement from './pages/Manager/Shift/ShiftManagement.jsx';
 import Account from './pages/Home/pages/account/account.jsx';
 import OrderManager from './pages/Manager/OrderManager.jsx';
+import PromotionManager from './pages/Manager/PromotionManager.jsx';
 const App = () => {
   // const [count, setCount] = useState(0)
 
@@ -72,9 +73,8 @@ const App = () => {
           <Route path={PATHS.MANAGER.APPLICATION} element={<Application />} />
           <Route path={PATHS.MANAGER.ORDERMANAGER} element={<OrderManager />} />
           <Route path={PATHS.MANAGER.FOOD} element={<FoodManagement />} />
+          <Route path={PATHS.MANAGER.PROMOTION} element={<PromotionManager />} />
         </Route>
-
-
       </Routes>
     </ConfigProvider>
 
