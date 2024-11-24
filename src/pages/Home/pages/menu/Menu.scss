@@ -1,0 +1,20 @@
+.menu-container {
+    padding: 5rem;
+    padding: 5em;
+    background-color: #D7D7D7;
+    min-height: 100vh;  
+  
+    .menu-content {
+
+      margin-top: 2em;
+
+      .menu-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+  
+  
+    }
+  }
