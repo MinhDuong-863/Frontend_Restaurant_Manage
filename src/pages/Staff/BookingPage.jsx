@@ -1,5 +1,5 @@
-import { Button, Flex, Form, Input, List, message, Typography, Pagination, Spin, Divider } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { Button, Flex, Form, Input, List, message, Typography, Pagination, Spin, Divider, Space, Card } from "antd";
+import { InboxOutlined, SearchOutlined } from "@ant-design/icons";
 import { searchBooking, serveBooking } from "../../services/apiService";
 import React, { useEffect, useState } from "react";
 import styles from "./BookingPage.module.scss";
@@ -32,7 +32,9 @@ const BookingPage = () => {
         search({ ...values, page: currentPage, limit: pageSize })
     }
 
-
+    useEffect(() => {
+        fetchData(1, pageSize)
+    }, [])
 
     const fetchData = async (page, limit) => {
         setLoading(true);
@@ -61,20 +63,18 @@ const BookingPage = () => {
             }
         })
     }
+    const checkPhone = (e) => {
+        if (e.target.value.length === 0) {
+            fetchData(1, pageSize)
+        }
+    }
     return (
         <Flex vertical >
             <Flex justify="space-between" align="center">
                 <Text className={styles["title"]}>Danh sách đặt trước</Text>
                 <Form form={form} size="large" onFinish={onSubmit} layout="inline">
-                    <Form.Item name="phone_number" rules={
-                        [
-                            {
-                                required: true,
-                                message: "Vui lòng nhập số điện thoại khách hàng"
-                            }
-                        ]
-                    }>
-                        <Input placeholder="Nhập số điện thoại!" />
+                    <Form.Item name="phone_number">
+                        <Input onChange={checkPhone} placeholder="Nhập số điện thoại!" />
                     </Form.Item>
                     <Form.Item>
                         <Button className={styles["btn-find"]} htmlType=" submit"> <SearchOutlined />Tìm kiếm</Button>
@@ -86,28 +86,36 @@ const BookingPage = () => {
                     <Spin tip="Loading..." />
                 ) : (
                     <List
+                        locale={{ emptyText: <Space size="large"><Text type="secondary"><Flex vertical align="center" justify="center"><InboxOutlined style={{ fontSize: 40 }} /> Không có đặt trước hôm nay</Flex></Text></Space> }}
+                        className={styles["list"]}
                         dataSource={ListBooking}
+                        footer={<div>Tổng cộng : {total}</div>}
+                        // bordered
                         renderItem={(item) => (
                             <List.Item key={item?.booking?._id}>
-                                <List.Item.Meta
-                                    title={<>{item?.booking?.time}
-                                        <Divider type="vertical" />
-                                        {new Date(item.booking.date).toLocaleDateString("vi-VN")}</>}
-                                    description={<>
-                                        {item?.booking?.table?.name}
-                                        <Divider type="vertical" />
-                                        {item?.booking?.table?.type}
-                                        <Divider type="vertical" />
-                                        {item?.booking?.note}
-                                    </>}
-                                />
-                                <Button onClick={() => handleServe(item)}>Phục vụ</Button>
+                                <Card className={styles["card"]} size="default">
+                                    <Flex align="center">
+                                        <List.Item.Meta
+                                            title={<>{item?.booking?.time}
+                                                <Divider type="vertical" />
+                                                {new Date(item.booking.date).toLocaleDateString("vi-VN")}</>}
+                                            description={<>
+                                                {item?.booking?.table?.name}
+                                                <Divider type="vertical" />
+                                                {item?.booking?.table?.type}
+                                                <Divider type="vertical" />
+                                                {item?.booking?.note}
+                                            </>}
+                                        />
+                                        <Button size="large" onClick={() => handleServe(item)}>Phục vụ</Button>
+                                    </Flex>
+                                </Card>
                             </List.Item>
                         )}
                     />
                 )}
                 <Pagination
-                    align="center"
+                    align="end"
                     current={currentPage}
                     pageSize={pageSize}
                     total={total}

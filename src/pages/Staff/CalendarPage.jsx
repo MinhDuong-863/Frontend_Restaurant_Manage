@@ -95,7 +95,7 @@ const CalendarPage = () => {
             <Flex justify="space-between" align="center">
                 <Text className="title" level={2}>Lịch làm việc</Text>
                 <Flex gap={8}>
-                    <Button className="btn-check-in-out" onClick={handleOff} size="large" type="primary">Xin nghỉ phép</Button>
+                    <Button onClick={handleOff} size="large" type="default">Xin nghỉ phép</Button>
                     <Button className="btn-check-in-out" onClick={handleCheckIn} size="large" type="primary">Chấm công vào</Button>
                     <Button className="btn-check-in-out" onClick={handleCheckOut} size="large" type="primary">Chấm công ra</Button>
                 </Flex>
