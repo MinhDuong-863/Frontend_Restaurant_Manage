@@ -82,7 +82,7 @@ const Promotion = ({ isOpen, onClose }) => {
                                     <div className="promotion-item row">
                                         <div className="col-3 with-dashed-border d-flex flex-column justify-content-center">
                                             <p className={`text-center discount-fix ${promotion.type === "percentage" ? "discount-percentage" : "discount-fixed"}`}>
-                                                {promotion.type === "percentage" ? "Giảm thỉ lệ" : "Giảm trực tiếp"}
+                                                {promotion.type === "percentage" ? "Giảm tỉ lệ" : "Giảm trực tiếp"}
                                             </p>
                                             <p
                                                 className={`text-center discount-value ${promotion.type === "percentage" ? "discount-percentage" : ""}`}
@@ -98,6 +98,7 @@ const Promotion = ({ isOpen, onClose }) => {
                                             <p className="discount-text"><strong className="me-2">Số lượng: </strong>{promotion.quantity}</p>
                                             <p className="discount-text"><strong className="me-2">Ngày bắt đầu: </strong>{formatDate2(promotion.startDate)} - <strong> Ngày kết thúc:</strong> {formatDate2(promotion.endDate)}</p>
                                             <p className="discount-text"><strong className="me-2">Mô tả:</strong> {promotion.description} </p>
+                                            <p className="discount-text"><strong className="me-2">Điều kiện:</strong>Hóa đơn giá trị trên {formatCurrency(promotion.condition)} </p>
                                         </div>
                                     </div>
                                 </div>

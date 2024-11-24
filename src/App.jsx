@@ -28,6 +28,7 @@ import ShiftManagement from './pages/Manager/Shift/ShiftManagement.jsx';
 import Account from './pages/Home/pages/account/account.jsx';
 import OrderManager from './pages/Manager/OrderManager.jsx';
 import PromotionManager from './pages/Manager/Promotion/PromotionManager.jsx';
+import MenuPage from './pages/Home/pages/menu/menu.jsx';
 const App = () => {
   // const [count, setCount] = useState(0)
 
@@ -44,6 +45,7 @@ const App = () => {
           <Route path={PATHS.HOME.HOMEPAGE} element={<HomePages />} />
           <Route path={PATHS.USER.RESERVATION} element={<ReservatePage />} />
           <Route path={PATHS.USER.RECRUITMENT} element={<RecruitmentPage />} />
+          <Route path={PATHS.USER.MENU} element={<MenuPage />} />
           <Route path={PATHS.USER.ACCOUNT} element={<Account />} />
         </Route>
         <Route path={PATHS.HOME.LOGIN} element={<Login />} />

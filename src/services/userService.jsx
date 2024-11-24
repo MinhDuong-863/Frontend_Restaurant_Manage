@@ -1,4 +1,5 @@
 import clientApi from "../client-api/rest-client-api.js";
+import axios from "axios";
 
 export const getRecruitments = async (page, limit, search) => {
     try {
@@ -141,5 +142,23 @@ export const register = async (data) => {
     } catch (error) {
         console.error('Error in register:', error);
         throw error;
+    }
+}
+
+export const depositOrder = async (data) => {
+    try {
+        const token = localStorage.getItem('token');
+        return axios({
+            method: 'post',
+            url: "http://localhost:3000/api/deposit",
+            data: data,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // Thêm token vào header
+            }
+        });
+    } catch (error) {
+      console.error('Error deleting application:', error);
+      throw error;
     }
 }

@@ -106,7 +106,6 @@ const BookingDetails = () => {
 
   }
   const handlePayment = () => {
-
     payment({
       id: item.booking._id, // id của đơn đặt trước
       total: totalPrice // số tiền
@@ -115,6 +114,7 @@ const BookingDetails = () => {
       window.open(response.data.DT.payUrl, '_blank');
     })
   }
+  
   return (
     <div className={styles["page"]}>
       <Flex vertical gap={20}>

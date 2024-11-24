@@ -1,1 +1,0 @@
-page của manager
