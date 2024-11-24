@@ -119,10 +119,9 @@ const StaffLayout = () => {
                     src="https://res.cloudinary.com/dup39fo44/image/upload/v1732023125/image/qp96r8yjyefqhm4zah3g.png"
                 /></div>
                 <Menu
-                    selectedKeys={useSelector(state => state.web)}
+                    selectedKeys={useSelector(state => state.web?.current)}
                     theme="light"
                     mode="inline"
-                    defaultSelectedKeys={['1']}
                     onClick={(e) => {
                         dispatch(setCurrent(e.key))
                         setIndex(e.key);
@@ -150,7 +149,7 @@ const StaffLayout = () => {
                 <Content
                     style={{
                         background: colorBgContainer,
-                        borderRadius: borderRadiusLG,
+                        borderRadius: "#fcf8f2",
                     }}
                     className={styles['custom-content']}>
                     <div><Outlet /></div>

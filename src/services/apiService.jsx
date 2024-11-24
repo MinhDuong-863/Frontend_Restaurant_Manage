@@ -223,6 +223,24 @@ const payment = async (data) => {
     throw error;
   }
 }
+const leaveApplication = async (data) => {
+  try {
+    return clientApi.service("leave-applications").create(data);
+  } catch (error) {
+    console.error('Error deleting application:', error);
+    throw error;
+  }
+}
+const getPromotion = async (params) => {
+  try {
+    return await clientApi
+      .service('/promotion')
+      .find(params);
+  } catch (error) {
+    console.error('Error fetching promotion:', error);
+    throw error;
+  }
+}
 export {
   createUser,
   getAllStaffApi,
@@ -234,5 +252,7 @@ export {
   serveBooking,
   addOrderDetail,
   getListOrder,
-  payment
+  payment,
+  leaveApplication,
+  getPromotion
 };
