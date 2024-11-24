@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setInformation } from "../../redux/action/authenSlice.jsx";
 import UploadImage from "../../components/UploadImage.jsx";
 import { deleteImageFromCloudinaryByLink } from "../../utils/cloudinary.jsx";
-import { position } from "../../constant/constant.js";
+import { POSITION } from "../../constant/constant.js";
 import { info } from "sass";
 const { Title, Text } = Typography;
 const InformationPage = () => {
@@ -65,7 +65,7 @@ const InformationPage = () => {
                             label="Vai trò"
                         >
                             <Text style={{ fontWeight: 800 }}>
-                                {position[inforUser.role]}
+                                {POSITION[inforUser.role]}
                             </Text>
                         </Form.Item>
                     </Col>
@@ -75,7 +75,7 @@ const InformationPage = () => {
                             label="Chức vụ"
                         >
                             <Text style={{ fontWeight: 800 }}>
-                                {position[inforStaff.position]}
+                                {POSITION[inforStaff.position]}
                             </Text>
                         </Form.Item>
                     </Col>

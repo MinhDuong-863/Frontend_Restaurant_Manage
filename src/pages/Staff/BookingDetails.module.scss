@@ -6,7 +6,7 @@
 
     .header-1 {
         padding-left: 1em;
-        font-size   : 1.25em;
+        font-size   : 1.25rem !important;
         font-weight : 600;
     }
 
@@ -25,4 +25,11 @@
         }
 
     }
+}
+
+.card {
+    width        : 100%;
+    border-radius: 10px;
+    box-shadow   : 7px 7px 12px #ebebeb,
+        -7px -7px 12px #ffffff;
 }
