@@ -35,7 +35,7 @@ const items = [
     {
         key: '1',
         icon: <DashboardOutlined />,
-        label: 'thông tin cá nhân',
+        label: 'Thông tin cá nhân',
     },
     {
         key: '2',

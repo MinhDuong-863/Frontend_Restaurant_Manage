@@ -1,11 +1,11 @@
-import { Modal, Pagination } from "antd"
+import { Divider, Flex, Modal, Pagination } from "antd"
 import PropTypes from 'prop-types';
 import './Promotion.scss'
 import { useEffect, useState } from "react";
 import { getValidPromotion } from "../../../../../services/userService";
 import { formatCurrency, formatDate2 } from "../../../../../utils/format";
 
-const Promotion = ({ isOpen, onClose }) => {
+const Promotion = ({ isOpen, onClose, setFieldValue = null }) => {
 
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState('');
@@ -24,6 +24,9 @@ const Promotion = ({ isOpen, onClose }) => {
     };
 
     useEffect(() => {
+        console.log("Promotion modal is open: ", promotions);
+    }, [promotions]);
+    useEffect(() => {
         if (isOpen) {
             fetchPromotions();
         }
@@ -39,6 +42,12 @@ const Promotion = ({ isOpen, onClose }) => {
         } catch (error) {
             console.error('Error fetching foods:', error);
             setLoading(false);
+        }
+    };
+    const handleSelect = (promotion) => {
+        if (setFieldValue) {
+            setFieldValue(promotion); // Truyền trực tiếp giá trị hoặc đối tượng
+            onClose(); // Đóng modal
         }
     };
 
@@ -78,8 +87,8 @@ const Promotion = ({ isOpen, onClose }) => {
                     ) : (
                         promotions.map((promotion) => (
                             <>
-                                <div className="list-promotion mt-3">
-                                    <div className="promotion-item row">
+                                <div className="list-promotion mt-3" >
+                                    <div className="promotion-item row" onClick={() => handleSelect(promotion)}>
                                         <div className="col-3 with-dashed-border d-flex flex-column justify-content-center">
                                             <p className={`text-center discount-fix ${promotion.type === "percentage" ? "discount-percentage" : "discount-fixed"}`}>
                                                 {promotion.type === "percentage" ? "Giảm tỉ lệ" : "Giảm trực tiếp"}
@@ -95,7 +104,7 @@ const Promotion = ({ isOpen, onClose }) => {
                                         </div>
                                         <div className="col-9 d-flex flex-column justify-content-center">
                                             <p className="discount-code"><strong className="me-2">Mã giảm giá:</strong> {promotion.code}</p>
-                                            <p className="discount-text"><strong className="me-2">Số lượng: </strong>{promotion.quantity}</p>
+                                            <Flex align="center"><p className="discount-text"><strong className="me-2">Số lượng: </strong>{promotion.quantity}</p> <Divider type="vertical" /> <p className="discount-text"><strong className="me-2">Điều kiện: </strong>{promotion.condition}</p></Flex>
                                             <p className="discount-text"><strong className="me-2">Ngày bắt đầu: </strong>{formatDate2(promotion.startDate)} - <strong> Ngày kết thúc:</strong> {formatDate2(promotion.endDate)}</p>
                                             <p className="discount-text"><strong className="me-2">Mô tả:</strong> {promotion.description} </p>
                                             <p className="discount-text"><strong className="me-2">Điều kiện:</strong>Hóa đơn giá trị trên {formatCurrency(promotion.condition)} </p>

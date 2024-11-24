@@ -29,16 +29,25 @@ import Account from './pages/Home/pages/account/account.jsx';
 import OrderManager from './pages/Manager/OrderManager.jsx';
 import PromotionManager from './pages/Manager/Promotion/PromotionManager.jsx';
 import MenuPage from './pages/Home/pages/menu/menu.jsx';
+import dayjs from "dayjs";
+import "dayjs/locale/vi"; // Import locale tiếng Việt
+import locale from "antd/lib/locale/vi_VN"; // Locale của Ant Design
+
+// Cài đặt locale cho dayjs
+dayjs.locale("vi");
 const App = () => {
   // const [count, setCount] = useState(0)
 
   return (
-    <ConfigProvider theme={
+    <ConfigProvider locale={locale} theme={
       {
         token: {
           fontFamily: "'Montserrat', sans-serif",
         },
         components: {
+          Divider: {
+            colorSplit: '#F39C12', // Màu của đường gạch ngang
+          },
           Input: {
             activeBorderColor: '#EBEBEB', // Màu viền khi Input được focus
             hoverBorderColor: '#EBEBEB', // Màu viền khi hover
