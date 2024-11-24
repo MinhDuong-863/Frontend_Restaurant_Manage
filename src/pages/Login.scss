@@ -21,7 +21,7 @@
             color      : white;
             font-family: 'Courier New', Courier, monospace;
             font-weight: 900 !important;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); 
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
         }
 
         .form-container {
@@ -29,7 +29,8 @@
             padding      : 1rem;
             width        : 50%;
             border-radius: 10px;
-            box-shadow   : 4px 4px 10px rgba(255, 255, 255, 0.693);
+            box-shadow   : 7px 7px 9px #bc790e,
+                -7px -7px 9px #f09912;
 
             .title {
                 text-align : center;
@@ -51,7 +52,7 @@
 
             .forgot-password {
                 margin-top: 10px;
-                color     : #1890ff;
+                color     : #000000;
             }
 
             .divider {
