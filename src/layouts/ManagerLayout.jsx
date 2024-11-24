@@ -21,6 +21,8 @@ import { IoFastFoodOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
 import clientApi from '../client-api/rest-client-api';
 import { removeCurrent, setCurrent } from '../redux/action/webSlice';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList } from '@fortawesome/free-solid-svg-icons';
 
 const { Header, Sider, Content } = Layout;
 
@@ -91,6 +93,11 @@ const items = [
     },
     {
         key: '5',
+        icon: <FontAwesomeIcon icon={faList} />,
+        label: 'Quản lý đơn đặt hàng',
+    },
+    {
+        key: '6',
         icon: <LogoutOutlined />,
         label: 'Đăng xuất',
     }

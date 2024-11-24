@@ -207,6 +207,24 @@ export const deleteApplicationApi = async (recruitmentId) => {
     throw error;
   }
 }
+
+///  API for order book
+export const getOrderBookApi = async (params = {}) => {
+  try {
+    return await clientApi
+      .service('/booking')
+      .find({
+        page: params.page || 1,
+        limit: params.pageSize || 10,
+        search: params.search || '',
+        status: params.status || ''
+      });
+  } catch (error) {
+    console.error('Error fetching order:', error);
+    throw error;
+  }
+}
+
 const getListOrder = async (id) => {
   try {
     return clientApi.service("order").get(id);

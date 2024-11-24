@@ -43,9 +43,7 @@ const Application = (props) => {
             }));
             setPagination(prevState => ({
                 ...prevState,
-                current: response?.DT?.page,
                 total: response?.DT?.total || 0,
-                pageSize: response?.DT?.limit || 10,
             }));
             setApplications(formattedData);
         } catch (error) {
