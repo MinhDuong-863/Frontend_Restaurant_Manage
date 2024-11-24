@@ -84,7 +84,15 @@ const TableItem = ({table, onCancel}) => {
                                 : 'status-completed'
                             }`}
                         >
-                            {table.status}
+                            {
+                            table.status === 'pending'
+                                ? 'Chờ xác nhận'
+                                : table.status === 'confirmed'
+                                ? 'Đã xác nhận'
+                                : table.status === 'canceled'
+                                ? 'Đã hủy'
+                                : 'Đã hoàn thành'
+                            }
                         </span>
                         <div className='profile-info-item'>
                             <button 

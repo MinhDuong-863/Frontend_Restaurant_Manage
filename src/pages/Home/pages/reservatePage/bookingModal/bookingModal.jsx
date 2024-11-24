@@ -28,6 +28,16 @@ const BookingModal = ({ isOpen, onClose, onFoodSelect }) => {
     setPageSize(pageSize);
   };
 
+  // const handlePayment = () => {
+  //   payment({
+  //     id: item.booking._id, // id của đơn đặt trước
+  //     total: totalPrice // số tiền
+  //   }).then((response) => {
+  //     console.log(response);
+  //     window.open(response.data.DT.payUrl, '_blank');
+  //   })
+  // }
+
   const fetchFoods = async () => {
     try {
       setLoading(true);
