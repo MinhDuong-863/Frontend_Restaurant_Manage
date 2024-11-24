@@ -1,4 +1,4 @@
-import { DatePicker, Form, Input, message, Modal, Pagination } from 'antd';
+import { Avatar, DatePicker, Flex, Form, Input, message, Modal, Pagination } from 'antd';
 import './Account.scss'
 import { useEffect, useState } from 'react';
 import TableItem from './tableItem/tableItem';
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUser, getBookings, updateBooking } from '../../../../services/userService';
 import { setInformation } from '../../../../redux/action/authenSlice';
 import Promotion from './promotionModal/promotion';
+import UploadImage from '../../../../components/UploadImage';
 
 const Account = () => {
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const Account = () => {
     const [isOpen, setIsOpen] = useState(false);
     
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
+    const [pageSize, setPageSize] = useState(6);
     const [total, setTotal] = useState(0);
 
     const [isPromotionModalOpen, setIsPromotionModalOpen] = useState(false);
@@ -102,83 +103,82 @@ const Account = () => {
 
     return (
         <div className='account-container'>
-            <div className='account-header text-center'>
-                <p>Thông tin cá nhân</p>
-            </div>
-            <div className='profile-container row'>
-                <div className='col-1'/>
-                <div className='profile-image text-center col-3'>
-                    <img src={inforUser.avatar} alt="avatar" />
+            <div className='account-content'>
+                <div className='account-header text-center'>
+                    <p>Thông tin cá nhân</p>
                 </div>
-                <div className='profile-info mt-3 col-4'>
-                    <div className='profile-info-item '>
-                        <span className='profile-info-item-label'>Họ và tên:</span>
-                        <span className='profile-info-item-value ms-3'>
-                            {inforUser.last_name + ' ' + inforUser.first_name}
-                        </span>
+                <div className='profile-container row'>
+                    <div className='col-1'/>
+                    <div className='profile-image text-center col-3'>
+                        <Avatar src={inforUser.avatar} alt="avatar" style={{height: '18em', width: '18em'}}/>
                     </div>
-                    <div className='profile-info-item mt-3'>
-                        <span className='profile-info-item-label'>Số điện thoại:</span>
-                        <span className='profile-info-item-value ms-3'>{inforUser.phone_number}</span>
+                    <div className='profile-info mt-3 col-4'>
+                        <div className='profile-info-item '>
+                            <span className='profile-info-item-label'>Họ và tên:</span>
+                            <span className='profile-info-item-value ms-3'>
+                                {inforUser.last_name + ' ' + inforUser.first_name}
+                            </span>
+                        </div>
+                        <div className='profile-info-item mt-3'>
+                            <span className='profile-info-item-label'>Số điện thoại:</span>
+                            <span className='profile-info-item-value ms-3'>{inforUser.phone_number}</span>
+                        </div>
+                        <div className='profile-info-item mt-3'>
+                            <span className='profile-info-item-label'>Email:</span>
+                            <span className='profile-info-item-value ms-3'>{inforUser.email}</span>
+                        </div>
+                        <div className='profile-info-item mt-3'>
+                            <span className='profile-info-item-label'>Địa chỉ:</span>
+                            <span className='profile-info-item-value ms-3'>{inforUser.address}</span>
+                        </div>
                     </div>
-                    <div className='profile-info-item mt-3'>
-                        <span className='profile-info-item-label'>Email:</span>
-                        <span className='profile-info-item-value ms-3'>{inforUser.email}</span>
-                    </div>
-                    <div className='profile-info-item mt-3'>
-                        <span className='profile-info-item-label'>Địa chỉ:</span>
-                        <span className='profile-info-item-value ms-3'>{inforUser.address}</span>
-                    </div>
-                </div>
-                <div className='profile-info mt-3 col-4'>
-                    <div className='profile-info-item'>
-                        <span className='profile-info-item-label'>Điểm của bạn:</span>
-                        <span className='profile-info-item-value ms-3'>{inforUser.point}</span>
-                    </div>
-                    <div className='profile-info-item mt-3'>
-                        <button className='btn-promotion' onClick={() => setIsPromotionModalOpen(true)}>Danh sách khuyến mại</button>
-                    </div>
-                    <div className='profile-info-item mt-3'>
-                        <button className='btn-update' onClick={() => setIsOpen(true)}>
-                            Chỉnh sửa thông tin
-                        </button>
+                    <div className='profile-info mt-3 col-4'>
+                        <div className='profile-info-item mt-3'>
+                            <button className='btn-promotion' onClick={() => setIsPromotionModalOpen(true)}>Danh sách khuyến mại</button>
+                        </div>
+                        <div className='profile-info-item mt-3'>
+                            <button className='btn-update' onClick={() => setIsOpen(true)}>
+                                Chỉnh sửa thông tin
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className='account-header text-center'>
-                <p>Danh sách bàn đã đặt</p>
-            </div>
-            <div className='table-list-container'>
-                <div className='filter-container row justify-content-center'>  
-                    <div className='col-2 text-end' style={{
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'end'
-                    }}>
-                        <p>Tìm kiếm theo ngày đặt:</p>
+                <div className='account-header text-center'>
+                    <p>Danh sách bàn đã đặt</p>
+                </div>
+                <div className='table-list-container'>
+                    <div className='filter-container row justify-content-center'>  
+                        <div className='col-2 text-end' style={{
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'end'
+                        }}>
+                            <p>Tìm kiếm theo ngày đặt:</p>
+                        </div>
+                        <div className='col-2'>
+                            <DatePicker
+                                value={selectedDate} 
+                                onChange={onDateChange}
+                                placeholder='Chọn ngày đặt'
+                                style={{width: '100%', height: '3em'}}
+                            />
+                        </div>
                     </div>
-                    <div className='col-2'>
-                        <DatePicker
-                            value={selectedDate} 
-                            onChange={onDateChange}
-                            style={{width: '100%', height: '3em'}}
+                    <div className='table-list-content mt-3 row'>
+                        {bookingList && bookingList.map((table, index) => (
+                            <TableItem key={index} table={table} onCancel={() => handleCancel(table._id)}/>
+                        ))}
+                    </div>
+                    <div className='row mt-3'>
+                        <Pagination
+                            align="end"
+                            current={currentPage}
+                            pageSize={pageSize}
+                            total={total}
+                            onChange={handlePageChange}
                         />
-                    </div>
+                    </div> 
                 </div>
-                <div className='table-list-content mt-3 row'>
-                    {bookingList && bookingList.map((table, index) => (
-                        <TableItem key={index} table={table} onCancel={() => handleCancel(table._id)}/>
-                    ))}
-                </div>
-                <div className='row mt-3'>
-                    <Pagination
-                        align="center"
-                        current={currentPage}
-                        pageSize={pageSize}
-                        total={total}
-                        onChange={handlePageChange}
-                    />
-                </div> 
             </div>
             <Modal
                 title="Chỉnh sửa thông tin cá nhân"
@@ -190,6 +190,11 @@ const Account = () => {
                 cancelText="Hủy"
             >
                 <Form form={form} layout="vertical" initialValues={inforUser}>
+                    <Flex justify="center">
+                        <Form.Item name="avatar">
+                            <UploadImage src={inforUser?.avatar} setSrc={(url) => { form.setFieldsValue({ avatar: url }) }} />
+                        </Form.Item>
+                    </Flex>
                     <div style={{ display: "flex", gap: "1rem" }}>
                         <Form.Item
                             label="Họ và tên đệm"

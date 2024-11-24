@@ -1,14 +1,10 @@
-import { Pagination, Select } from 'antd'
+import { Pagination } from 'antd'
 import './Recruitment.scss'
-// import { POSITIONS, TYPE_OF_RECRUITMENT } from '../../../../constant/values'
 import { useEffect, useState } from 'react'
 import { getRecruitments } from "../../../../services/userService.jsx";
 import RecruitmentItem from './recruitmentItem/recruitmentItem.jsx';
 
 const RecruitmentPage = () => {
-
-    const [selectedType, setSelectedType] = useState(null)
-    const [selectedPosition, setSelectedPosition] = useState(null)
     const [loading, setLoading] = useState(false);
     const [recruitments, setRecruitments] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -29,15 +25,7 @@ const RecruitmentPage = () => {
 
     useEffect(() => {
         fetchRecruitments();
-    }, [selectedType, selectedPosition, currentPage, pageSize]);  // Theo dõi sự thay đổi của currentPage và pageSize
-
-    // const onTypeChange = (value) => {
-    //     setSelectedType(value)
-    // }
-
-    // const onPositionChange = (value) => {
-    //     setSelectedPosition(value)
-    // }
+    }, [currentPage, pageSize]); 
 
     const handlePageChange = (page, pageSize) => {
         setCurrentPage(page);  
@@ -52,30 +40,6 @@ const RecruitmentPage = () => {
                     Hãy gia nhập đội ngũ của nhà hàng chúng tôi, nơi tinh hoa ẩm thực và dịch vụ đẳng cấp hòa quyện, để cùng tạo nên những trải nghiệm tuyệt vời cho thực khách!    
                 </p>
             </div>
-                {/* <div className='recruitment-action row'>
-                    <div className='col-2'>
-                        <Select
-                            showSearch
-                            placeholder="Chọn vị trí"
-                            optionFilterProp="label"
-                            onChange={onPositionChange}
-                            value={selectedPosition}
-                            options={POSITIONS}
-                            style={{width: '100%', height: '3em'}}
-                        />
-                    </div>
-                    <div className='col-3'>
-                        <Select
-                            showSearch
-                            placeholder="Chọn loại công việc"
-                            optionFilterProp="label"
-                            onChange={onTypeChange}
-                            value={selectedType}
-                            options={TYPE_OF_RECRUITMENT}
-                            style={{width: '100%', height: '3em'}}
-                        />
-                    </div>
-                </div> */}
             <div className='recruitment-content mt-3 d-flex flex-wrap' style={{gap: '35px'}}>
                 {loading ? (
                     <p>Đang tải dữ liệu...</p>

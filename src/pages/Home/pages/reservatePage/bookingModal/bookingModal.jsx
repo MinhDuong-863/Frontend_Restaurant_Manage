@@ -7,7 +7,7 @@ import './BookingModal.scss';
 import { TYPE_OF_FOOD } from '../../../../../constant/values';
 
 const BookingModal = ({ isOpen, onClose, onFoodSelect }) => {
-  const [selectedFoodType, setSelectedFoodType] = useState(null);
+  const [selectedFoodType, setSelectedFoodType] = useState('');
   const [loading, setLoading] = useState(false);
   const [foods, setFoods] = useState([]);
   const [search, setSearch] = useState('');
@@ -27,16 +27,6 @@ const BookingModal = ({ isOpen, onClose, onFoodSelect }) => {
     setCurrentPage(page);
     setPageSize(pageSize);
   };
-
-  // const handlePayment = () => {
-  //   payment({
-  //     id: item.booking._id, // id của đơn đặt trước
-  //     total: totalPrice // số tiền
-  //   }).then((response) => {
-  //     console.log(response);
-  //     window.open(response.data.DT.payUrl, '_blank');
-  //   })
-  // }
 
   const fetchFoods = async () => {
     try {
@@ -93,6 +83,7 @@ const BookingModal = ({ isOpen, onClose, onFoodSelect }) => {
               placeholder="Chọn loại món ăn"
               optionFilterProp="label"
               onChange={onFoodTypeChange}
+              value={selectedFoodType}
               options={TYPE_OF_FOOD}
               style={{ width: '100%', height: '3em' }}
             />

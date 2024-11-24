@@ -42,36 +42,43 @@ const UserHeader = () => {
                         alt="Logo"
                     />
                 </div>
-                <div className='col-1'></div>
-                <div className='col-1'></div>
-                <div className='col-1 header-item d-flex justify-content-center'>
-                    <NavLink to="/" className="header-link" activeClassName="active">
-                        Trang chủ
-                    </NavLink>
+                <div className='col-8 d-flex justify-content-center align-items-center'>
+                    <div className='col-1'/>
+                    <div className='col-10 d-flex justify-content-center align-items-center'>
+                        <div className='col-2 header-item d-flex justify-content-center'>
+                            <NavLink to="/" className="header-link" activeClassName="active">
+                                Trang chủ
+                            </NavLink>
+                        </div>
+                        <div className='col-2 header-item d-flex justify-content-center' style={{padding: '0'}}>
+                            <NavLink to="/menu" className="header-link" activeClassName="active">
+                                Món ăn
+                            </NavLink>
+                        </div>
+                        <div className='col-2 header-item d-flex justify-content-center' style={{padding: '0'}}>
+                            <NavLink to="/recruitment" className="header-link" activeClassName="active">
+                                Tuyển dụng
+                            </NavLink>
+                        </div>
+                        <div className='col-2 header-item d-flex justify-content-center' style={{padding: '0'}}>
+                            <button 
+                                onClick={handleAccountClick} 
+                                className="button-header-link"
+                            >
+                                Tài khoản
+                            </button>
+                        </div>
+                        <div className='col-2 header-item d-flex justify-content-center' style={{padding: '0'}}>
+                            <button 
+                                onClick={handleAuthAction} 
+                                className="button-header-link"
+                            >
+                                {isLoggedIn ? 'Đăng xuất' : 'Đăng nhập'}
+                            </button>
+                        </div>
+                    </div>
+                    <div className='col-1'/>
                 </div>
-                <div className='col-1 header-item d-flex justify-content-center' style={{padding: '0'}}>
-                    <NavLink to="/recruitment" className="header-link" activeClassName="active">
-                        Tuyển dụng
-                    </NavLink>
-                </div>
-                <div className='col-1 header-item d-flex justify-content-center' style={{padding: '0'}}>
-                    <button 
-                        onClick={handleAccountClick} 
-                        className="button-header-link"
-                    >
-                        Tài khoản
-                    </button>
-                </div>
-                <div className='col-1 header-item d-flex justify-content-center' style={{padding: '0'}}>
-                    <button 
-                        onClick={handleAuthAction} 
-                        className="button-header-link"
-                    >
-                        {isLoggedIn ? 'Đăng xuất' : 'Đăng nhập'}
-                    </button>
-                </div>
-                <div className='col-1'></div>
-                <div className='col-1'></div>
                 <div className='col-2 d-flex justify-content-center align-items-center'>
                     <button 
                         className='reservation-button' 
