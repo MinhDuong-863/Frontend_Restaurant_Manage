@@ -59,16 +59,7 @@ const InformationPage = () => {
                     </Form.Item>
                 </Flex>
                 <Row gutter={16}>
-                    <Col span={8}>
-                        <Form.Item
-                            layout="horizontal"
-                            label="Vai trò"
-                        >
-                            <Text style={{ fontWeight: 800 }}>
-                                {POSITION[inforUser.role]}
-                            </Text>
-                        </Form.Item>
-                    </Col>
+
                     <Col span={8}>
                         <Form.Item
                             layout="horizontal"
@@ -150,7 +141,6 @@ const InformationPage = () => {
                 </Flex>
             </Form>
         </Card >
-
     );
 }
 export default InformationPage;

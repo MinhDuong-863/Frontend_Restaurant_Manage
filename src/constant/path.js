@@ -16,6 +16,7 @@ export const PATHS = {
         OFF: "/staff/off",
         TABLE: "/staff/table",
         BOOKING: "/staff/booking",
+        DETAIL: "/staff/booking/details"
         // FOOD: "/staff/food",
         // CATEGORY: "/staff/category",
     },

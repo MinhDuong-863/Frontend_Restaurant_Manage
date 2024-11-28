@@ -68,7 +68,7 @@ const App = () => {
             colorPrimaryBorder: '#ff5722', // Màu viền của Button chính
           },
           Calendar: {
-            controlItemBgActive: '#FCF8F2',
+            controlItemBgActive: '#f2ba13',
             colorPrimary: "#7d4e14"
           },
           Menu: {
@@ -105,7 +105,7 @@ const App = () => {
           <Route path={PATHS.STAFF.OFF} element={<LeaveApplication />} />
           <Route path={PATHS.STAFF.TABLE} element={<TablePage />} />
           <Route path={PATHS.STAFF.BOOKING} element={<BookingPage />} />
-          <Route path="/staff/booking/details" element={<BookingDetails />} />
+          <Route path={PATHS.STAFF.DETAIL} element={<BookingDetails />} />
 
 
         </Route>

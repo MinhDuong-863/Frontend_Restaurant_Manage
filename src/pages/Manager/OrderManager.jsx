@@ -40,6 +40,7 @@ const OrderManager = () => {
                 statusOrder: statusOrder,
             };
             let response = await getOrderBookApi(params);
+            console.log(response);
             let orderList = response?.DT?.infor || [];
             let formattedData = orderList.map((order) => ({
                 id: order.booking?._id,
