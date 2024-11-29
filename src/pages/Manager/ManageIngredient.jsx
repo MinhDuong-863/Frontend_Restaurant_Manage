@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { CiImport, CiExport } from "react-icons/ci";
 import { getAllIngredientApi } from '../../services/apiService';
 import clientApi from '../../client-api/rest-client-api';
-import { 
-  Layout, 
-  Row, 
-  Col, 
-  Card, 
-  Statistic, 
-  Modal, 
-  Form, 
-  Input, 
-  Button, 
+import {
+  Layout,
+  Row,
+  Col,
+  Card,
+  Statistic,
+  Modal,
+  Form,
+  Input,
+  Button,
   Select,
   Table,
   Tag,
@@ -19,9 +19,9 @@ import {
   Upload,
   Tabs
 } from 'antd';
-import { 
-  DatabaseOutlined, 
-  StockOutlined, 
+import {
+  DatabaseOutlined,
+  StockOutlined,
   AlertOutlined,
   PlusOutlined,
   DownloadOutlined,
@@ -37,10 +37,10 @@ const { Option } = Select;
 
 const ManageIngredient = () => {
   const [materials, setMaterials] = useState([]);
-  const [expiredMaterials , setExpiredMaterials] = useState([]);
+  const [expiredMaterials, setExpiredMaterials] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalIngredients, setTotalIngredients] = useState(0);
-  const [operationType, setOperationType] = useState(null); 
+  const [operationType, setOperationType] = useState(null);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 5, // Số lượng bản ghi trên mỗi trang
@@ -56,11 +56,11 @@ const ManageIngredient = () => {
   const [lowStockMaterials, setLowStockMaterials] = useState(0);
 
 
-  const handleDeleteMaterial= async (record) => {
-    try{
+  const handleDeleteMaterial = async (record) => {
+    try {
       console.log('record', record);
       const response = await clientApi.service('/ingredients').delete(record.id);
-  
+
       if (response.EC === 0) {
         message.success(`Xóa ${record.name} thành công`);
         getAllIngredient();
@@ -75,7 +75,7 @@ const ManageIngredient = () => {
   const handleAddMaterial = async () => {
     try {
       const values = await form.validateFields();
-      
+
       const newIngredientData = {
         name: values.name,
         unit: values.unit,
@@ -84,11 +84,11 @@ const ManageIngredient = () => {
       };
 
       const response = await clientApi.service('/ingredients').create(newIngredientData);
-      if (response.EC===0){
+      if (response.EC === 0) {
         message.success(`Thêm ${values.name} thành công`);
         setIsModalVisible(false);
         getAllIngredient();
-      } 
+      }
     } catch (error) {
       console.error('Error adding material:', error);
       message.error('Vui lòng kiểm tra lại thông tin');
@@ -103,7 +103,7 @@ const ManageIngredient = () => {
       };
       const response = await getAllIngredientApi(params);
       const ingredientList = response?.DT?.docs || [];
-      
+
       setTotalIngredients(response.DT.totalDocs);
       const formattedData = ingredientList.map((ingredient) => ({
         id: ingredient._id,
@@ -114,14 +114,14 @@ const ManageIngredient = () => {
         description: ingredient.description,
         status: ingredient.status === 'active' ? 'Đủ' : 'Thấp',
       }));
-  
+
       setPagination(prevState => ({
         ...prevState,
         current: response?.DT?.page,
         total: response?.DT?.totalDocs || 0,
         pageSize: response?.DT?.limit || 10,
       }));
-  
+
       setMaterials(formattedData);
     } catch (error) {
       message.error('Failed to load ingredient data');
@@ -133,28 +133,28 @@ const ManageIngredient = () => {
     getAllIngredient(pagination.current, pagination.pageSize);
   }, [pagination.current, pagination.pageSize]);
 
-  const getExpiredMaterials =async () => {
-    try{
+  const getExpiredMaterials = async () => {
+    try {
       setLoading(true);
-      const response= await clientApi.service('/ingredients/expired').find({
+      const response = await clientApi.service('/ingredients/expired').find({
         page: 1,
         limit: 5
       });
-      const expiredList=response?.DT?.data || [];
+      const expiredList = response?.DT?.data || [];
       console.log('expired ingredients', expiredList);
       setLowStockMaterials(response.DT.totalItems);
-      const formattedData=expiredList.map((expired)=>{
-        return{
-          ingredientName:   expired.ingredientName,
-          expirationDate:   formatDate(expired.expirationDate),
-          quantity:         expired.quantity,
-          supplier:         expired.supplier
+      const formattedData = expiredList.map((expired) => {
+        return {
+          ingredientName: expired.ingredientName,
+          expirationDate: formatDate(expired.expirationDate),
+          quantity: expired.quantity,
+          supplier: expired.supplier
         }
       });
       setExpiredMaterials(formattedData);
-    }catch(error){
+    } catch (error) {
       message.error('Đã có lỗi xảy ra');
-    }finally{
+    } finally {
       setLoading(false);
     }
   }
@@ -169,14 +169,14 @@ const ManageIngredient = () => {
       pageSize: pagination.pageSize
     });
   };
- 
+
   const handleImportMaterial = async () => {
-    try{
+    try {
       const values = await form.validateFields();
-    
+
       const importData = {
         ingredient_id: currentMaterial.id,
-        quantity: values.quantity,
+        quantity: + values.quantity,
         supplier: values.supplier,
         price: values.price,
         expiration_date: values.expiration_date,
@@ -201,12 +201,12 @@ const ManageIngredient = () => {
     }
   };
   const handleExportMaterial = async () => {
-    try{
+    try {
       const values = await form.validateFields();
-    
+
       const importData = {
         ingredient_id: currentMaterial.id,
-        quantity: values.quantity,
+        quantity: + values.quantity,
         type: 'export'
       };
       const response = await clientApi.service('/update-ingredients').put(currentMaterial.id, importData);
@@ -246,11 +246,11 @@ const ManageIngredient = () => {
       key: 'inventory',
       render: (record) => (
         <div>
-         <div>
-        <span style={{ color: record.inventory < 10 ? 'red' : 'green' }}>
-            {record.inventory}
-        </span>
-    </div>
+          <div>
+            <span style={{ color: record.inventory < 10 ? 'red' : 'green' }}>
+              {record.inventory}
+            </span>
+          </div>
         </div>
       ),
       width: 120,
@@ -275,10 +275,10 @@ const ManageIngredient = () => {
       width: 150,
       render: (record) => (
         <div>
-          <Button 
+          <Button
             size="small"
             icon={<CiImport />}
-            style={{ marginRight: 8 }} 
+            style={{ marginRight: 8 }}
             onClick={() => {
               setOperationType('import');
               setCurrentMaterial(record);
@@ -286,10 +286,10 @@ const ManageIngredient = () => {
               setIsImportExportModalVisible(true);
             }}
           />
-          <Button 
+          <Button
             size="small"
             icon={<CiExport />}
-            style={{ marginRight: 8 }} 
+            style={{ marginRight: 8 }}
             onClick={() => {
               setOperationType('export');
               setCurrentMaterial(record);
@@ -297,10 +297,10 @@ const ManageIngredient = () => {
               setIsImportExportModalVisible(true);
             }}
           />
-          <Button 
-            type="default" 
+          <Button
+            type="default"
             size="small"
-            style={{ marginRight: 8 }} 
+            style={{ marginRight: 8 }}
             danger
             icon={<DeleteOutlined />}
             onClick={() => {
@@ -312,7 +312,7 @@ const ManageIngredient = () => {
       )
     }
   ];
-  const expiredTableColumns= [
+  const expiredTableColumns = [
     {
       title: 'Tên Nguyên Liệu',
       dataIndex: 'ingredientName',
@@ -347,13 +347,13 @@ const ManageIngredient = () => {
   ];
   const handleUpdateMaterial = () => {
     form.validateFields().then(values => {
-      const updatedMaterials = materials.map(material => 
-        material.id === currentMaterial?.id 
+      const updatedMaterials = materials.map(material =>
+        material.id === currentMaterial?.id
           ? {
-              ...material, 
-              ...values,
-              status: (values.quantity / values.total) * 100 < 20 ? 'Thấp' : 'Đủ'
-            } 
+            ...material,
+            ...values,
+            status: (values.quantity / values.total) * 100 < 20 ? 'Thấp' : 'Đủ'
+          }
           : material
       );
 
@@ -365,61 +365,61 @@ const ManageIngredient = () => {
     });
   };
   return (
-    <Layout style={{ 
+    <Layout style={{
       background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
       minHeight: '100vh',
       padding: '24px'
     }}>
-      <div style={{ 
-        maxWidth: '1400px', 
-        margin: '0 auto', 
-        width: '100%' 
+      <div style={{
+        maxWidth: '1400px',
+        margin: '0 auto',
+        width: '100%'
       }}>
         <Row gutter={[16, 16]}>
           {/* Thống kê */}
           <Col xs={24} sm={12} lg={8}>
-            <Card 
-              hoverable 
-              style={{ 
-                background: 'green', 
-                color: 'white' 
+            <Card
+              hoverable
+              style={{
+                background: 'green',
+                color: 'white'
               }}
             >
               <Statistic
-                title={<span style={{color: 'white'}}>Tổng Số Nguyên Liệu</span>}
+                title={<span style={{ color: 'white' }}>Tổng Số Nguyên Liệu</span>}
                 value={totalIngredients}
-                prefix={<DatabaseOutlined style={{color: 'white'}} />}
-                valueStyle={{color: 'white'}}
+                prefix={<DatabaseOutlined style={{ color: 'white' }} />}
+                valueStyle={{ color: 'white' }}
               />
             </Card>
           </Col>
           <Col xs={24} sm={12} lg={8}>
-            <Card 
-              hoverable 
-              style={{ 
-                background: '#DAE15B', 
-                color: 'white' 
+            <Card
+              hoverable
+              style={{
+                background: '#DAE15B',
+                color: 'white'
               }}
             >
               <Statistic
-                title={<span style={{color: 'white'}}>Nguyên Liệu Hết Hạn</span>}
+                title={<span style={{ color: 'white' }}>Nguyên Liệu Hết Hạn</span>}
                 value={lowStockMaterials}
-                prefix={<AlertOutlined style={{color: 'white'}} />}
+                prefix={<AlertOutlined style={{ color: 'white' }} />}
                 valueStyle={{ color: lowStockMaterials > 0 ? 'red' : 'white' }}
               />
             </Card>
           </Col>
-         
+
 
           {/* Bảng chi tiết */}
-          
+
 
           <Col span={24}>
             <Card>
               <Tabs defaultActiveKey="1">
                 <TabPane tab="Tất Cả Nguyên Liệu" key="1">
                   <div style={{ marginBottom: 16 }}>
-                    <Button 
+                    <Button
                       type="primary"
                       className='btn-custome'
                       icon={<PlusOutlined />}
@@ -432,26 +432,26 @@ const ManageIngredient = () => {
                       Thêm Nguyên Liệu
                     </Button>
                   </div>
-                  <Table 
-                    columns={tableColumns} 
-                    dataSource={materials} 
+                  <Table
+                    columns={tableColumns}
+                    dataSource={materials}
                     rowKey="id"
                     pagination={pagination}
                     loading={loading}
                     onChange={handleTableChange}
                   />
                 </TabPane>
-                <TabPane 
+                <TabPane
                   tab={
                     <span>
                       <WarningOutlined style={{ color: '#ff4d4f' }} />
                       Nguyên Liệu Hết Hạn ({expiredMaterials.length})
                     </span>
-                  } 
+                  }
                   key="2"
                 >
-                  <Table 
-                    columns={expiredTableColumns} 
+                  <Table
+                    columns={expiredTableColumns}
                     dataSource={expiredMaterials}
                     rowKey="id"
                     pagination={{
@@ -478,8 +478,8 @@ const ManageIngredient = () => {
         >
           <Form form={form} layout="vertical" preserve={false}>
             {!currentMaterial && (
-              <Form.Item 
-                name="name" 
+              <Form.Item
+                name="name"
                 label="Tên Nguyên Liệu"
                 rules={[{ required: true, message: 'Nhập tên nguyên liệu' }]}
               >
@@ -504,8 +504,8 @@ const ManageIngredient = () => {
               <Input.TextArea placeholder="Nhập mô tả" />
             </Form.Item>
 
-            <Form.Item 
-              name="type" 
+            <Form.Item
+              name="type"
               label="Nhóm Nguyên Liệu"
               rules={[{ required: true, message: 'Chọn nhóm nguyên liệu' }]}
             >
@@ -518,56 +518,56 @@ const ManageIngredient = () => {
             </Form.Item>
           </Form>
         </Modal>
-          <Modal
-            title={operationType === 'import' ? 'Nhập Nguyên Liệu' : 'Xuất Nguyên Liệu'}
-            visible={isImportExportModalVisible}
-            onOk={() => {
-              operationType === 'import' ? handleImportMaterial() : handleExportMaterial();
-            }}
-            onCancel={() => setIsImportExportModalVisible(false)}
-            okText="Cập nhật"
-            cancelText="Hủy"
+        <Modal
+          title={operationType === 'import' ? 'Nhập Nguyên Liệu' : 'Xuất Nguyên Liệu'}
+          visible={isImportExportModalVisible}
+          onOk={() => {
+            operationType === 'import' ? handleImportMaterial() : handleExportMaterial();
+          }}
+          onCancel={() => setIsImportExportModalVisible(false)}
+          okText="Cập nhật"
+          cancelText="Hủy"
+        >
+          <Form
+            form={form}
+            layout="vertical"
+            initialValues={currentMaterial || {}}
           >
-            <Form
-              form={form}
-              layout="vertical"
-              initialValues={currentMaterial || {}}
+            <Form.Item
+              name="quantity"
+              label="Số Lượng"
+              rules={[{ required: true, message: 'Vui lòng nhập số lượng!' }]}
             >
-              <Form.Item
-                name="quantity"
-                label="Số Lượng"
-                rules={[{ required: true, message: 'Vui lòng nhập số lượng!' }]}
-              >
-                <Input type="number" min={1} />
-              </Form.Item>
-             
-              {operationType === 'import' && (
-                <>
-                    <Form.Item
-                    name="supplier"
-                    label="Nhà Cung Cấp"
-                    rules={[{ required: true, message: 'Vui lòng nhập nhà cung cấp!' }]}
-                  >
-                    <Input />
-                  </Form.Item>
-                  <Form.Item
-                    name="price"
-                    label="Giá Nhập"
-                    rules={[{ required: true, message: 'Vui lòng nhập giá nhập!' }]}
-                  >
-                    <Input type="number" min={0} />
-                  </Form.Item>
-                  <Form.Item
-                    name="expiration_date"
-                    label="Ngày Hết Hạn"
-                    rules={[{ required: true, message: 'Vui lòng chọn ngày hết hạn!' }]}
-                  >
-                    <Input type="date" />
-                  </Form.Item>
-                </>
-              )}
-            </Form>
-          </Modal>
+              <Input type="number" min={1} />
+            </Form.Item>
+
+            {operationType === 'import' && (
+              <>
+                <Form.Item
+                  name="supplier"
+                  label="Nhà Cung Cấp"
+                  rules={[{ required: true, message: 'Vui lòng nhập nhà cung cấp!' }]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  name="price"
+                  label="Giá Nhập"
+                  rules={[{ required: true, message: 'Vui lòng nhập giá nhập!' }]}
+                >
+                  <Input type="number" min={0} />
+                </Form.Item>
+                <Form.Item
+                  name="expiration_date"
+                  label="Ngày Hết Hạn"
+                  rules={[{ required: true, message: 'Vui lòng chọn ngày hết hạn!' }]}
+                >
+                  <Input type="date" />
+                </Form.Item>
+              </>
+            )}
+          </Form>
+        </Modal>
 
       </div>
     </Layout>
