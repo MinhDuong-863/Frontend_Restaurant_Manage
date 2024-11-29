@@ -139,8 +139,8 @@ const OrderManager = () => {
                 let status = STATUS_ORDER.find(item => item.key === record)
                 return (
                     <div>
-                        <span style={{ color: status.color }}>
-                            {status.label || 'Không xác định'}
+                        <span style={{ color: status?.color }}>
+                            {status?.label || 'Không xác định'}
                         </span>
                     </div>
                 );
