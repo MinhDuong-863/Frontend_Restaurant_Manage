@@ -1,0 +1,52 @@
+
+
+.recruitment-item{
+    padding: 20px 20px;
+    background: white;
+    border-radius: 10px;
+    width: 32%;
+    box-shadow:  5px 5px 10px #bebebe,
+             -5px -5px 10px #e3e3e3;
+
+    h2{
+        margin-bottom: 0.5em;
+        text-align: center;
+        background: #F39C12;
+        padding: 2px 0;
+        color: white;
+        font-size: 25px;
+    }
+
+    p{
+        margin-bottom: 0.7em;
+        width: fit-content;
+    }
+
+    .highlight{
+        color: #F39C12;
+        font-weight: 600;
+    }
+
+    .btn-detail{
+        padding: 5px 20px;
+        background: transparent;
+        border: 2px solid gray;
+
+        &:hover{
+            background: black;
+            color: white;
+        }
+    }
+
+    .btn-apply{
+        padding: 5px 10px;
+        background: transparent;
+        border: 2px solid #F7D000;
+        color: #d8b803;
+
+        &:hover{
+            background: #F7D000;
+            color: black;
+        }
+    }
+}

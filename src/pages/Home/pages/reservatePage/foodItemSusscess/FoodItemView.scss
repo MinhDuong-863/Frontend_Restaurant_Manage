@@ -1,0 +1,53 @@
+.food-item-view {
+    border: 1px solid gray;
+    border-radius: 10px;
+    width: 100%;
+
+    .Item-row {
+        width: 100%;
+        display: flex;
+        align-items: center;
+
+        td {
+            padding: 12px;
+            vertical-align: middle;
+            font-size: 16px;
+            
+            &.food-info {
+                flex: 3; // Tăng flex từ 2 lên 3
+                display: flex;
+                align-items: center;
+
+                div {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px; // Tăng khoảng cách
+                    width: 100%; // Chiếm toàn bộ chiều rộng
+
+                    img {
+                        border-radius: 5px;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        flex-shrink: 0; // Ngăn hình co lại
+                    }
+
+                    span {
+                        font-weight: 500;
+                        color: #333;
+                        flex-grow: 1; // Cho phép chữ mở rộng
+                        white-space: nowrap; // Ngăn chữ xuống dòng
+                        overflow: hidden; // Ẩn nội dung thừa
+                        text-overflow: ellipsis; // Hiển thị "..." nếu quá dài
+                    }
+                }
+            }
+
+            &:nth-child(2), 
+            &:nth-child(3), 
+            &:nth-child(4) {
+                flex: 1;
+                text-align: right;
+                color: #666;
+            }
+        }
+    }
+}

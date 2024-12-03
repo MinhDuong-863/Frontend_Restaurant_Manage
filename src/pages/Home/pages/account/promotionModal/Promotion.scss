@@ -1,0 +1,64 @@
+.promotion-modal{
+    
+    .promotion-content{
+        padding: 10px 20px;
+
+        input {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 2px solid gray;
+            width: 100%;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .list-promotion{
+
+            .promotion-item{
+                padding: 20px 10px;
+                border-radius: 10px;
+                height: 150px;
+                background: rgb(236, 236, 236);
+                box-shadow:  5px 5px 10px #bebebe,
+                            -5px -5px 10px #ffffff;
+
+                p {
+                    margin: 0;
+                }
+
+                .discount-fix{
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: #438EF3;
+                }
+
+                .discount-value{
+                    font-size: 25px;
+                    font-weight: bold;
+                    margin-top: 5px;
+                    color: #438EF3;
+                }
+
+                .discount-percentage{
+                    color: #3AA472
+                }
+
+                .discount-fixed{
+                    color: #438EF3
+                }
+            }
+
+            .with-dashed-border {
+                border-right: 2px dashed #ccc; /* Tạo đường viền nét đứt */
+                height: 100%; /* Đảm bảo đường viền bao phủ toàn chiều cao */
+            }
+
+            img{
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+.admin-staff-container{
+    font-family: 'Monserat', sans-serif;
+
+    .staff-table{
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 4px 4px 8px #e6eaeb, -4px -4px 8px #e6eaeb;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 8px;
+        text-align: center;
+    }
+    th {
+        background-color: #f4f4f4;
+    }
+}

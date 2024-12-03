@@ -1,0 +1,118 @@
+.events {
+  margin    : 0;
+  padding   : 0;
+  list-style: none;
+
+  .ant-badge-status {
+    width        : 100%;
+    overflow     : hidden;
+    font-size    : 12px;
+    white-space  : nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.notes-month {
+  font-size : 28px;
+  text-align: center;
+
+  section {
+    font-size: 28px;
+  }
+}
+
+.title {
+  font-size: 3em;
+}
+
+.btn-check-in-out {
+  background   : #F39C12;
+  border       : 2px solid #F39C12;
+  border-radius: 2 !important;
+  color        : black;
+  padding      : 5px 10px;
+
+  &:hover {
+    background: #FFA813 !important;
+    border    : 2px solid #F39C12 !important;
+    color     : white !important;
+  }
+
+
+}
+.shift-page {
+  .staff-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    
+    .staff-card {
+      flex: 0 0 calc(33.333% - 16px);
+      min-width: 200px;
+      margin: 0 !important;
+      
+      @media (max-width: 1200px) {
+        flex: 0 0 calc(50% - 16px);
+      }
+      
+      @media (max-width: 768px) {
+        flex: 0 0 100%;
+      }
+
+      .staff-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        
+        .text-content {
+          flex: 1;
+          min-width: 0;
+
+          .staff-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            max-width: 150px; // Giới hạn chiều rộng
+            
+            &:hover {
+              color: #1890ff; // Màu khi hover (có thể thay đổi)
+            }
+          }
+
+          .staff-email {
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            max-width: 150px; // Giới hạn chiều rộng
+            
+            &:hover {
+              color: #1890ff; // Màu khi hover (có thể thay đổi)
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .shift-card {
+    margin-bottom: 16px;
+    
+    .ant-card-head {
+      padding: 0 16px;
+      min-height: 40px;
+      
+      .ant-card-head-title {
+        padding: 8px 0;
+      }
+    }
+    
+    .ant-card-body {
+      padding: 16px;
+    }
+  }
+}

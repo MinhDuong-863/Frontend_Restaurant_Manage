@@ -1,0 +1,76 @@
+.user-header{
+    padding: 10px 50px;
+    background: transparent;
+    position: fixed;
+    left: 0; 
+    right: 0;
+    z-index: 1000;
+
+    .user-header-content{
+        background-color: white;
+        height: 5em;
+        border-radius: 10px;
+        padding: 0 20px;
+        box-shadow:  3px 3px 6px #bebebe,
+             -3px -3px 6px #e3e3e3;
+
+        img {
+            width: 70%;
+            margin-top: -10px;
+        }
+
+        .reservation-button{
+            background-color: #F39C12;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            width: 60%;
+            height: 60%;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: #192F33;
+            transition: all 0.4s ease;
+
+            &:hover{
+                background-color: #FFA813;
+                height: 61%;
+                width: 62%;
+            }
+        }
+
+        .header-link{
+            font-weight: 600;
+            color: black;
+            text-decoration: none;
+
+            &:hover{
+                color: #F39C12;
+                cursor: pointer;
+                font-size: 15px;
+                transition: all 0.1s ease;
+                font-weight: 700;
+            }
+        }
+
+        .header-link.active {
+            font-weight: bold; /* Thêm hiệu ứng cho link đang active */
+            color: #F39C12; /* Ví dụ thay đổi màu khi link active */
+        }
+
+        .button-header-link{
+            border: none;
+            background-color: white;
+            font-weight: 600;
+
+            &:hover{
+                color: #F39C12;
+                cursor: pointer;
+                font-size: 15px;
+                transition: all 0.1s ease;
+                font-weight: 700;
+            }
+        }
+    }
+}
